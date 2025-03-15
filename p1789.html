@@ -1,0 +1,379 @@
+<html>
+
+<head>
+  <meta name="description" content="Proposal for C++ Standard">
+  <meta name="keywords" content="C++,cplusplus,wg21">
+  <meta name="author" content="Alisdair Meredith">
+
+  <title>Library Support for Expansion Statements</title>
+
+  <style type="text/css">
+    ins {background-color:#A0FFA0}
+    del {background-color:#FFA0A0}
+    p {text-align:justify}
+    li {text-align:justify}
+    blockquote.note
+    {
+      background-color:#E0E0E0;
+      padding-left: 15px;
+      padding-right: 15px;
+      padding-top: 1px;
+      padding-bottom: 1px;
+    }
+  </style>
+</head>
+
+<body>
+<table>
+<tr>
+  <td align="left">Doc. no.</td>
+  <td align="left">P1789R0</td>
+</tr>
+<tr>
+  <td align="left">Date:</td>
+  <td align="left">2019-06-17</td>
+</tr>
+<tr>
+  <td align="left">Project:</td>
+  <td align="left">Programming Language C++</td>
+</tr>
+<tr>
+  <td align="left">Audience:</td>
+  <td align="left">Library Evolution Working Group</td>
+</tr>
+<tr>
+  <td align="left">Reply to:</td>
+  <td align="left">Alisdair Meredith &lt;<a href="mailto:ameredith1@bloomberg.net">ameredith1@bloomberg.net</a>&gt;</td>
+</tr>
+</table>
+
+<h1>Library Support for Expansion Statements</h1>
+
+<h2>Table of Contents</h2>
+<ol>
+<li><a href="#rev.hist">Revision History</a></li>
+  <ul>
+  <li><a href="#rev.0">Revision 0</a></li>
+  </ul>
+<li><a href="#1.0">1 Introduction</a></li>
+<li><a href="#2.0">2 Stating the problem</a></li>
+  <ul>
+  <li><a href="#2.1">Implementing <tt>std::tuple::swap</tt></a></li>
+  </ul>
+<li><a href="#3.0">3 Propose Solution</a></li>
+<li><a href="#4.0">4 Sample Implementation</a></li>
+<li><a href="#5.0">5 Formal Wording</a></li>
+<li><a href="#6.0">6 Acknowledgements</a></li>
+<li><a href="#7.0">7 References</a></li>
+</ol>
+
+
+<h2><a name="rev.hist">Revision History</a></h2>
+
+<h3><a name="rev.0">Revision 0</a></h3>
+<p>
+Original version of the paper for the 2019 pre-Cologne mailing.
+</p>
+
+
+<h2><a name="1.0">1 Introduction</a></h2>
+<p>
+Expansion statements add compile-time iteration to C++20, but there are no
+compile-time sequences of integer that support this feature, for inuitive
+<tt>for</tt> loop indexing from the runtime world.  There is an easy fix
+with a simple enhancement the library template <tt>integer_sequence</tt>
+to support the structured binding API.
+</p>
+
+
+<h2><a name="2.0">2 Stating the problem</a></h2>
+<p>
+Expansion statements are a new language feature for C++20, approved
+by EWG in Kona, and due to land in Cologne, 2019.  See
+<a href="http://wg21.link/p1306">P1306R1 Expansion statement</a>
+for details.  They allow for iteration over parameter packs.
+However, my very first attempt at an example of using an expansion
+statement came up short, due to the omission of a tiny piece of
+supporting library infrastructure.
+</p>
+
+<ol>
+<h3><a name="2.1"><li>Implementing <tt>std::tuple::swap</tt></li></a></h3>
+<p>
+It is realtively straightforward to implement <tt>tuple::swap</tt> using a fold
+expression over the comma operator, but also somewhat of a hack.  This is the
+kind of code we would like to be able to write more cleanly using an expansion
+statement.
+</p>
+
+<pre><blockquote>
+template &lt;class... TYPES&gt;
+constexpr
+void tuple&lt;TYPES...&gt;::swap(tuple&amp; other)
+   noexcept((is_nothrow_swappable_v&lt;TYPES&gt; and ...))
+{
+   auto impl = [&amp;, this]&lt;size_t...INDEX&gt;(index_sequence&lt;INDEX...&gt;) {
+      ((void)swap(get&lt;INDEX&gt;(*this), get&lt;INDEX&gt;(other)), ...);
+   };
+
+   impl(index_sequence_for&lt;TYPES...&gt;{});
+}
+</pre></blockquote>
+
+<p>
+Note the intenral use of a lambda expression, purely to get at the parameter
+pack to fold.  Also note that we must cast the call to <tt>swap</tt> to
+<tt>void</tt> in case users provide an ADL-discoverable <tt>swap</tt> function
+that returns a user defined type, that in turn provides an overload for the
+comma operator.  Finally, I took the liberty of not replicating the exception
+specification on the lambda expression, but is that relying too heavily on
+compilers to optimize away the (unneeded) catch-and-abort logic?
+</p>
+
+<p>
+We can eliminate the fold expression and worrying about the crazy corner cases
+in ADL-<tt>swap</tt> like so:
+</p>
+
+<pre><blockquote>
+template &lt;class... TYPES&gt;
+constexpr
+void tuple&lt;TYPES...&gt;::swap(tuple&amp; other)
+   noexcept((is_nothrow_swappable_v&lt;TYPES&gt; and ...))
+{
+   auto impl = [&amp;, this]&lt;size_t...INDEX&gt;(index_sequence&lt;INDEX...&gt;) {
+      for...(size_t N : INDEX...) { swap(get&lt;N&gt;(*this), get&lt;N&gt;(other)); }
+   };
+
+   impl(index_sequence_for&lt;TYPES...&gt;{});
+}
+</pre></blockquote>
+
+<p>
+However, there is no easy way to eliminate the lamba expression, as we cannot
+iterate over an <tt>integer_sequence</tt> using just the facilities provided in
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1306r1">P1306R1</a>.
+</p>
+
+</ol>
+
+<h2><a name="3.0">3 Propose Solution</a></h2>
+<p>
+We propose that the simplest way to resolve the concerns is to add the missing
+pieces that would enable use of <tt>integer_sequence</tt> in a structured binding.
+That is sufficient to support use in expansion statements, and is general enough to
+be a feature in its own right.  With such support, the <tt>tuple::swap</tt> example
+simplifies to:
+</p>
+
+<pre><blockquote>
+template &lt;class... TYPES&gt;
+constexpr
+void tuple&lt;TYPES...&gt;::swap(tuple&amp; other)
+   noexcept((is_nothrow_swappable_v&lt;TYPES&gt; and ...))
+{
+   for...(size_t N : index_sequence_for&lt;TYPES...&gt;{}) {
+      swap(get&lt;N&gt;(*this), get&lt;N&gt;(other));
+   }
+}
+</pre></blockquote>
+
+
+<h3><a name="3.1">Make <tt>integer_sequence</tt> Support Structured Bindings</a></h3>
+<p>
+<tt>integer_sequence</tt> is missing three things in order to support use
+in structured bindings:
+</p>
+<ul>
+  <li>A partial specialization for <tt>tuple_size</tt></li>
+  <li>A partial specialization for <tt>tuple_elememt</tt></li>
+  <li>Overloads of <tt>get&lt;INDEX&gt;()</tt></li>
+</ul>
+
+<p>
+The first two bullets are fairly straightforward to implement.  For the
+<tt>get</tt> function, we propose a single overload taking an
+<tt>integer_sequence</tt> by value, as it is an immutable empty type,
+and likewise returning its result by value.
+</p>
+
+
+
+<h2><a name="4.0">4 Simple Implementation</a></h2>
+
+<blockquote><pre>
+template&lt;class T, T... VALUES&gt;
+struct tuple_size&lt;integer_sequence&lt;T, VALUES...&gt;&gt;
+     : integral_constant&lt;size_t, sizeof...(VALUES)&gt;
+{ };
+
+template&lt;size_t I, class T, T... VALUES&gt;
+   requires I < sizeof...(VALUES)
+struct tuple_element&lt;I, integer_sequence&lt;T, VALUES...&gt;&gt; {
+  using type = T;
+};
+
+
+template&lt;size_t I, class T, T... VALUES&gt;
+constexpr T get(integer_sequence&lt;T, VALUES...&gt;) noexcept {
+   constexpr T index[]{VALUES...};
+   return index[I];
+}
+</pre></blockquote>
+
+</blockquote>
+
+
+<!---
+<h2><a name="4.0">4 Other Directions</a></h2>
+<p>
+Document any variations in design that were considered and rejected,
+along with a rationale for the rejection.
+</p>
+
+<ol>
+
+<h3><a name="4.1"><li>Function to return an <tt>std::array</tt></li></a></h3>
+<p>
+Document any variations in design that were considered and rejected,
+along with a rationale for the rejection.
+</p>
+
+
+<h3><a name="4.2"><li>Ranges</li></a></h3>
+<p>
+Document any variations in design that were considered and rejected,
+along with a rationale for the rejection.
+</p>
+
+
+<h3><a name="4.3"><li>New Type</li></a></h3>
+<p>
+Document any variations in design that were considered and rejected,
+along with a rationale for the rejection.
+</p>
+
+
+<h3><a name="4.4"><li>Direct Support For Parallel Iteration</li></a></h3>
+<p>
+Document any variations in design that were considered and rejected,
+along with a rationale for the rejection.
+</p>
+
+
+<h3><a name="4.5"><li>Zip</li></a></h3>
+<p>
+Document any variations in design that were considered and rejected,
+along with a rationale for the rejection.
+</p>
+</ol>
+<-->
+
+<h2><a name="5.0">5 Formal Wording</a></h2>
+<p>
+Make the following changes to the specified working paper:
+</p>
+
+<blockquote>
+
+<h4>20.2.1 Header <tt>&lt;utility&gt;</tt> synopsis [utility.syn]</h4>
+<ol>
+
+<li>
+The header <utility> contains some basic function and class templates that are used throughout the rest of
+the library.
+</li>
+
+</ol>
+
+<blockquote><pre>
+#include &lt;initializer_list&gt; // <i>see 17.10.1</i>
+
+namespace std {
+  // <i>20.2.2, swap</i>
+  ...
+
+  // <i>20.3, Compile-time integer sequences</i>
+  template&lt;class T, T...&gt;
+    struct integer_sequence;
+  template&lt;size_t... I&gt;
+    using index_sequence = integer_sequence&lt;size_t, I...&gt;;
+
+  template&lt;class T, T N&gt;
+    using make_integer_sequence = integer_sequence&lt;T, <i>see below</i>&gt;;
+
+  template&lt;size_t N&gt;
+    using make_index_sequence = make_integer_sequence&lt;size_t, N&gt;;
+
+  template&lt;class... T&gt;
+    using index_sequence_for = make_index_sequence&lt;sizeof...(T)&gt;;
+
+  <ins>// forward declaration for structured binding support</ins>
+  <ins>template&lt;class T&gt; struct tuple_size;</ins>
+  <ins>template&lt;size_t I, class T&gt; struct tuple_element;</ins>
+
+  <ins>// <i>structured binding support for integer_sequence</i></ins>
+  <ins>template&lt;class T, T...&gt; struct tuple_size&lt;integer_sequence&lt;T, T...&gt;&gt;;</ins>
+  <ins>template&lt;size_t I, class T, T...&gt; struct tuple_element&lt;I, integer_sequence&lt;T, T...&gt;&gt;;</ins>
+
+  <ins>template&lt;size_t I, class T, T...&gt;</ins>
+  <ins>constexpr T get(integer_sequence&lt;T, T...&gt;) noexcept;</ins>
+
+  // <i>20.4, class template pair</i>
+  template&lt;class T1, class T2&gt;
+    struct pair;
+
+  ...
+
+  // 20.4.4, tuple-like access to pair
+  <del>template&lt;class T&gt; struct tuple_size;</del>
+  <del>template&lt;size_t I, class T&gt; struct tuple_element;</del>
+
+  template&lt;class T1, class T2&gt; struct tuple_size&lt;pair&lt;T1, T2&gt;&gt;;
+  template&lt;size_t I, class T1, class T2&gt; struct tuple_element&lt;I, pair&lt;T1, T2&gt;&gt;;
+
+}
+</pre></blockquote>
+
+<h4><ins>20.3.4 Structured Binding Support [intseq.binding]</ins></h4>
+<blockquote><pre>
+<ins>template&lt;class T, T...&gt;</ins>
+  <ins>struct tuple_size&lt;integer_sequence&lt;T, T...&gt;&gt;: integral_constant&lt;size_t, N&gt; { };</ins>
+
+<ins>template&lt;size_t I, class T, T...&gt;</ins>
+  <ins>struct tuple_element&lt;I, integer_sequence&lt;T, T...&gt;&gt;::type</ins>
+</pre></blockquote>
+
+<ol>
+<li><ins><i>Mandates:</i> <tt>I &lt; N</tt> is <tt>true</tt>.</ins></li>
+<li><ins><i>Value:</i> The type <tt>T</tt>.</ins></li>
+
+
+<blockquote><pre>
+<ins>template&lt;size_t I, class T, T...&gt;</ins>
+<ins>constexpr T get(integer_sequence&lt;T, T...&gt;) noexcept;</ins>
+</pre></blockquote>
+
+<li><ins><i>Mandates:</i> <tt>I &lt; N</tt> is <tt>true</tt>.</ins></li>
+<li><ins><i>Returns:</i> The <tt>I</tt><sup>th</sup> member of the parameter pack <tt>T...</tt>.</ins></li>
+</ol>
+
+</blockquote>
+
+
+<h2><a name="6.0">6 Acknowledgements</h2>
+<p>
+Thanks to Vittorio Romeo and Daveed Vandevoorde for their insights into the contents of this paper.
+</p>
+
+
+<h2><a name="7.0">7 References</h2>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1306r1">P1306R1</a>
+    Expansion statements,
+    Andrew Sutton, Sam Goodrick, Daveed Vandevoorde
+</li>
+</ul>
+
+
+</body>
+</html>
