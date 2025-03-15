@@ -60,11 +60,11 @@
   <ul>
   <li><a href="#2.1">Implementing <tt>std::tuple::swap</tt></a></li>
   </ul>
-<li><a href="#3.0">3 Propose Solution</a></li>
-<li><a href="#4.0">4 Sample Implementation</a></li>
-<li><a href="#5.0">5 Formal Wording</a></li>
-<li><a href="#6.0">6 Acknowledgements</a></li>
-<li><a href="#7.0">7 References</a></li>
+  <li><a href="#3.0">3 Propose Solution</a></li>
+  <li><a href="#4.0">4 Sample Implementation</a></li>
+  <li><a href="#5.0">5 Formal Wording</a></li>
+  <li><a href="#6.0">6 Acknowledgements</a></li>
+  <li><a href="#7.0">7 References</a></li>
 </ol>
 
 
@@ -90,7 +90,7 @@ to support the structured binding API.
 <p>
 Expansion statements are a new language feature for C++20, approved
 by EWG in Kona, and due to land in Cologne, 2019.  See
-<a href="http://wg21.link/p1306">P1306R1 Expansion statement</a>
+<a href="https://wg21.link/p1306r3">P1306R3 Expansion statement</a>
 for details.  They allow for iteration over parameter packs.
 However, my very first attempt at an example of using an expansion
 statement came up short, due to the omission of a tiny piece of
@@ -142,7 +142,9 @@ void tuple&lt;TYPES...&gt;::swap(tuple&amp; other)
    noexcept((is_nothrow_swappable_v&lt;TYPES&gt; and ...))
 {
    auto impl = [&amp;, this]&lt;size_t...INDEX&gt;(index_sequence&lt;INDEX...&gt;) {
-      for...(size_t N : INDEX...) { swap(get&lt;N&gt;(*this), get&lt;N&gt;(other)); }
+      template for(constexpr size_t N : INDEX...) {
+        swap(get&lt;N&gt;(*this), get&lt;N&gt;(other));
+      }
    };
 
    impl(index_sequence_for&lt;TYPES...&gt;{});
@@ -152,7 +154,7 @@ void tuple&lt;TYPES...&gt;::swap(tuple&amp; other)
 <p>
 However, there is no easy way to eliminate the lambda expression, as we cannot
 iterate over an <tt>integer_sequence</tt> using just the facilities provided in
-<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1306r1">P1306R1</a>.
+<a href="https://wg21.link/p1306r3">P1306R3</a>.
 </p>
 
 </ol>
@@ -172,7 +174,7 @@ constexpr
 void tuple&lt;TYPES...&gt;::swap(tuple&amp; other)
    noexcept((is_nothrow_swappable_v&lt;TYPES&gt; and ...))
 {
-   for...(size_t N : index_sequence_for&lt;TYPES...&gt;{}) {
+   template for(constexpr size_t N : index_sequence_for&lt;TYPES...&gt;{}) {
       swap(get&lt;N&gt;(*this), get&lt;N&gt;(other));
    }
 }
@@ -208,7 +210,7 @@ struct tuple_size&lt;integer_sequence&lt;T, VALUES...&gt;&gt;
 { };
 
 template&lt;size_t I, class T, T... VALUES&gt;
-   requires I < sizeof...(VALUES)
+   requires I &lt; sizeof...(VALUES)
 struct tuple_element&lt;I, integer_sequence&lt;T, VALUES...&gt;&gt; {
   using type = T;
 };
@@ -368,7 +370,7 @@ Thanks to Vittorio Romeo and Daveed Vandevoorde for their insights into the cont
 
 
 <h2><a name="7.0">7 References</h2>
-<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1306r1">P1306R1</a>
+<li><a href="https://wg21.link/p1306r3">P1306R3</a>
     Expansion statements,
     Andrew Sutton, Sam Goodrick, Daveed Vandevoorde
 </li>
