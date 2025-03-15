@@ -79,7 +79,7 @@ Original version of the paper for the 2019 pre-Cologne mailing.
 <h2><a name="1.0">1 Introduction</a></h2>
 <p>
 Expansion statements add compile-time iteration to C++20, but there are no
-compile-time sequences of integer that support this feature, for inuitive
+compile-time sequences of integers that support this feature, for intuitive
 <tt>for</tt> loop indexing from the runtime world.  There is an easy fix
 with a simple enhancement the library template <tt>integer_sequence</tt>
 to support the structured binding API.
@@ -100,7 +100,7 @@ supporting library infrastructure.
 <ol>
 <h3><a name="2.1"><li>Implementing <tt>std::tuple::swap</tt></li></a></h3>
 <p>
-It is realtively straightforward to implement <tt>tuple::swap</tt> using a fold
+It is relatively straightforward to implement <tt>tuple::swap</tt> using a fold
 expression over the comma operator, but also somewhat of a hack.  This is the
 kind of code we would like to be able to write more cleanly using an expansion
 statement.
@@ -121,7 +121,7 @@ void tuple&lt;TYPES...&gt;::swap(tuple&amp; other)
 </pre></blockquote>
 
 <p>
-Note the intenral use of a lambda expression, purely to get at the parameter
+Note the internal use of a lambda expression, purely to get at the parameter
 pack to fold.  Also note that we must cast the call to <tt>swap</tt> to
 <tt>void</tt> in case users provide an ADL-discoverable <tt>swap</tt> function
 that returns a user defined type, that in turn provides an overload for the
@@ -150,7 +150,7 @@ void tuple&lt;TYPES...&gt;::swap(tuple&amp; other)
 </pre></blockquote>
 
 <p>
-However, there is no easy way to eliminate the lamba expression, as we cannot
+However, there is no easy way to eliminate the lambda expression, as we cannot
 iterate over an <tt>integer_sequence</tt> using just the facilities provided in
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1306r1">P1306R1</a>.
 </p>
