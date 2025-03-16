@@ -53,6 +53,7 @@
 <ol>
 <li><a href="#rev.hist">Revision History</a></li>
   <ul>
+  <li><a href="#rev.1">Revision 1</a></li>
   <li><a href="#rev.0">Revision 0</a></li>
   </ul>
 <li><a href="#1.0">1 Introduction</a></li>
@@ -60,15 +61,23 @@
   <ul>
   <li><a href="#2.1">Implementing <tt>std::tuple::swap</tt></a></li>
   </ul>
-  <li><a href="#3.0">3 Propose Solution</a></li>
-  <li><a href="#4.0">4 Sample Implementation</a></li>
-  <li><a href="#5.0">5 Formal Wording</a></li>
-  <li><a href="#6.0">6 Acknowledgements</a></li>
-  <li><a href="#7.0">7 References</a></li>
+<li><a href="#3.0">3 Propose Solution</a></li>
+<li><a href="#4.0">4 Use in structured bindings</a></li>
+<li><a href="#5.0">5 Sample Implementation</a></li>
+<li><a href="#6.0">6 Formal Wording</a></li>
+<li><a href="#7.0">7 Acknowledgements</a></li>
+<li><a href="#8.0">8 References</a></li>
 </ol>
 
 
 <h2><a name="rev.hist">Revision History</a></h2>
+
+<h3><a name="rev.1">Revision 1</a></h3>
+<p>
+Added section on use in structured bindings.
+Updated code examples to use the new expansion statement syntax from
+<a href="https://wg21.link/P1306R2">P1306R2</a>.
+</p>
 
 <h3><a name="rev.0">Revision 0</a></h3>
 <p>
@@ -142,7 +151,7 @@ void tuple&lt;TYPES...&gt;::swap(tuple&amp; other)
    noexcept((is_nothrow_swappable_v&lt;TYPES&gt; and ...))
 {
    auto impl = [&amp;, this]&lt;size_t...INDEX&gt;(index_sequence&lt;INDEX...&gt;) {
-      template for(constexpr size_t N : INDEX...) {
+      template for(constexpr size_t N : {INDEX...}) {
         swap(get&lt;N&gt;(*this), get&lt;N&gt;(other));
       }
    };
@@ -199,9 +208,70 @@ The first two bullets are fairly straightforward to implement.  For the
 and likewise returning its result by value.
 </p>
 
+<h2><a name="4.0">4 Use in structured bindings</a></h2>
+<p>
+Supporting decomposition of <tt>integer_sequence</tt>s interacts well with the proposed changes of 
+<a href="https://wg21.link/P1061R10">P1061R10 Structured Bindings can introduce a Pack</a> and
+<a href="https://wg21.link/P2686R5">P2686R5 constexpr structured bindings</a>.
+</p>
 
+<p>In a lot of existing code the following pattern is used to introduce a sequence of integers 
+as a pack of constants.</p>
+<blockquote>
+<pre>
+[]&lt;std::size_t... Idx&gt;(std::index_sequence&lt;Idx...&gt;) {
+  // ...
+} (std::make_index_sequence&lt;Count&gt;());
+</pre>
+</blockquote>
 
-<h2><a name="4.0">4 Simple Implementation</a></h2>
+<p>
+Not only is this rather verbose, it introduces a new function scope. This can be avoided by
+introducing the pack of integers <tt>Idx</tt> through a structured binding instead.
+</p>
+
+<blockquote>
+<pre>
+constexpr auto [...Idx] = std::make_index_sequence&lt;Count&gt;();
+</pre>
+</blockquote>
+
+<p>
+As <a href="https://wg21.link/P1306R3">P1306R3</a> mentions, introducing a new function scope
+can be problematic. For instance, reflections of function parameters
+(<a href="https://wg21.link/P3096R5">P3096R5</a>) can only be spliced within their corresponding
+function body. Expansion statements alleviate this issue, but are not usable whenever we want to
+fold over a pack of reflections or expand them into an argument list.
+</p>
+
+<p>
+For instance, consider the following invalid example.
+</p>
+<blockquote>
+<pre>
+void foo(int x, char c) {
+   [:expand(parameters_of(^^foo)):]
+   &gt;&gt; []&lt;auto... Parameters&gt;(){
+      bar([:Parameters:]...); // oops
+   }
+}
+</pre>
+</blockquote>
+
+<p>
+By using the features introduced in <a href="https://wg21.link/P1061R10">P1061R10</a> and
+<a href="https://wg21.link/P2686R5">P2686R5</a> introducing a new function scope can be avoided as follows.
+</p>
+
+<blockquote>
+<pre>
+void foo(int x, char c) {
+   constexpr auto [...Idx] = std::make_index_sequence&lt;parameters_of(^^foo).size()&gt;();
+   bar([:parameters_of(^^foo)[Idx]:]...);
+}
+</pre>
+</blockquote>
+<h2><a name="5.0">5 Sample Implementation</a></h2>
 
 <blockquote><pre>
 template&lt;class T, T... VALUES&gt;
@@ -271,7 +341,7 @@ along with a rationale for the rejection.
 </ol>
 <-->
 
-<h2><a name="5.0">5 Formal Wording</a></h2>
+<h2><a name="6.0">6 Formal Wording</a></h2>
 <p>
 Make the following changes to the specified working paper:
 </p>
@@ -363,16 +433,28 @@ namespace std {
 </blockquote>
 
 
-<h2><a name="6.0">6 Acknowledgements</h2>
+<h2><a name="7.0">7 Acknowledgements</h2>
 <p>
 Thanks to Vittorio Romeo and Daveed Vandevoorde for their insights into the contents of this paper.
 </p>
 
 
-<h2><a name="7.0">7 References</h2>
+<h2><a name="8.0">8 References</h2>
 <li><a href="https://wg21.link/p1306r3">P1306R3</a>
     Expansion statements,
     Andrew Sutton, Sam Goodrick, Daveed Vandevoorde
+</li>
+<li><a href="https://wg21.link/P1061R10">P1061R10</a>
+    Structured Bindings can introduce a Pack,
+    Barry Revzin, Jonathan Wakely
+</li>
+<li><a href="https://wg21.link/P2686R5">P2686R5</a>
+    constexpr structured binding and references to constexpr variables,
+    Corentin Jabot, Brian Bi
+</li>
+<li><a href="https://wg21.link/P3096R5">P3096R5</a>
+    Function Parameter Reflection in Reflection for C++26,
+    Adam Lach, Walter Genovese
 </li>
 </ul>
 
