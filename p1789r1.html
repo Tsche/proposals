@@ -27,11 +27,11 @@
 <table>
 <tr>
   <td align="left">Doc. no.</td>
-  <td align="left">P1789R0</td>
+  <td align="left">D1789R1</td>
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2019-06-17</td>
+  <td align="left">2025-03-17</td>
 </tr>
 <tr>
   <td align="left">Project:</td>
@@ -73,11 +73,15 @@
 <h2><a name="rev.hist">Revision History</a></h2>
 
 <h3><a name="rev.1">Revision 1</a></h3>
-<p>
-Added section on use in structured bindings.
-Updated code examples to use the new expansion statement syntax from
-<a href="https://wg21.link/P1306R2">P1306R2</a>.
-</p>
+<ul>
+<li>
+  Added section on use in structured bindings.
+</li>
+<li>
+  Updated code examples to use the new expansion statement syntax from
+  <a href="https://wg21.link/P1306R2">P1306R2</a>.
+</li>
+</ul>
 
 <h3><a name="rev.0">Revision 0</a></h3>
 <p>
@@ -87,7 +91,7 @@ Original version of the paper for the 2019 pre-Cologne mailing.
 
 <h2><a name="1.0">1 Introduction</a></h2>
 <p>
-Expansion statements add compile-time iteration to C++20, but there are no
+Expansion statements will add compile-time iteration to C++26, but there are no
 compile-time sequences of integers that support this feature, for intuitive
 <tt>for</tt> loop indexing from the runtime world.  There is an easy fix
 with a simple enhancement the library template <tt>integer_sequence</tt>
@@ -97,11 +101,19 @@ to support the structured binding API.
 
 <h2><a name="2.0">2 Stating the problem</a></h2>
 <p>
-Expansion statements are a new language feature for C++20, approved
-by EWG in Kona, and due to land in Cologne, 2019.  See
+Expansion statements are a new language feature originally intended for C++20,
+but despite feature approval by EWG they failed to land in time due to design
+and implementability concerns raised during the Core wording review.
+Those concerns have now been addresses and 
 <a href="https://wg21.link/p1306r3">P1306R3 Expansion statement</a>
-for details.  They allow for iteration over parameter packs.
-However, my very first attempt at an example of using an expansion
+was once again approved by EWG for adoption, now targeting C++26.
+
+Expansion statements allow for iteration over a variety of compile-time
+sequences such as parameter packs and (<code>constexpr</code>)
+<code>constexpr</code>s of reflections --- see
+<a href="https://wg21.link/p2996">P2996</a> for examples of reflection.
+
+However, our very first attempt at an example of using an expansion
 statement came up short, due to the omission of a tiny piece of
 supporting library infrastructure.
 </p>
@@ -170,6 +182,10 @@ iterate over an <tt>integer_sequence</tt> using just the facilities provided in
 
 <h2><a name="3.0">3 Propose Solution</a></h2>
 <p>
+The heart of the problem is that expansion statements are an excellent tool to
+iterate over a single sequence, but do not provide an index to support iterating
+over two sequences in parallel.
+
 We propose that the simplest way to resolve the concerns is to add the missing
 pieces that would enable use of <tt>integer_sequence</tt> in a structured binding.
 That is sufficient to support use in expansion statements, and is general enough to
@@ -271,6 +287,7 @@ void foo(int x, char c) {
 }
 </pre>
 </blockquote>
+
 <h2><a name="5.0">5 Sample Implementation</a></h2>
 
 <blockquote><pre>
