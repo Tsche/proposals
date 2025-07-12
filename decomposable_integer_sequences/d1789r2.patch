@@ -1,0 +1,15 @@
+--- p1789r1.md	2025-06-20 12:50:40.989173845 +0200
++++ d1789r2.md	2025-06-20 15:29:11.353857702 +0200
+@@ -438,6 +438,12 @@
+ _Returns:_ `Values...[I]`.
+ :::
+ 
++### 17.3.2 [version.syn] Header <version> synopsis                              {-}
++Bump feature test macro to current year and month at the time of adoption.
++
++```
++#define __cpp_lib_integer_sequence  @[201304L]{.rm}@ @[20XXXXL]{.add}@ // freestanding, also in <utility>
++```
+ 
+ \newpage
+ # Acknowledgements                                                              {#ack}
