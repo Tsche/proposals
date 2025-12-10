@@ -99,6 +99,8 @@ Alternative | Primary
 \newpage
 # Acknowledgements                                                              {#ack}
 
+Thanks to Michael Park for the pandoc-based framework used to transform this
+document's source from Markdown.
 
 ---
 references:
