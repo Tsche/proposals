@@ -33,22 +33,22 @@ address this, @N3145 introduced a carve-out to allow `$` anywhere in identifiers
 implementation extension.
 
 @N3145 mentions that during discussion it was noted that allowing `$` in identifiers 
-is a massive syntactic land-grab. However, due to the popularity of this extension it 
+is a massive syntactic land-grab. However, due to the popularity of this extension, it 
 seems unrealistic that we can ever use `$` for anything that would conflict with $identifiers.
 
 # Why not allow it unconditionally?                                             {#allow}
 
-GCC notes in its documentation
+GCC notes in its documentation:
 
 > However, dollar signs in identifiers are not supported on a few target machines, 
 > typically because the target assembler does not allow them. 
 (@GCC)
 
-Examples for such targets are @RS6000 (because of the AIX assembler), @AVR and @MMIX.
+Examples of such targets are @RS6000 (because of the AIX assembler), @AVR, and @MMIX.
 
-In theory we could mandate `$` to be valid in identifiers and ask compilers to work
+In theory, we could mandate `$` to be valid in identifiers and ask compilers to work
 around such problematic assemblers in some way or another. However, the purpose of 
-this paper is to align the standard with the implementation reality and C23.
+this paper is to align the standard with implementation reality and C23.
 
 # Motivation                                                                    {#motivation}
 
@@ -81,7 +81,7 @@ actually allow such implementations to support dollars in identifiers directly.
 
 ## Macros                                                                       {#macros}
 
-Another somewhat common use is in macro identifiers. Github search finds more
+Another somewhat common use is in macro identifiers. GitHub search finds more
 than 5600 uses in code recognized as C++ (@GHSEARCH)
 
 For example consider
@@ -147,18 +147,18 @@ $inline(never) int bar(int, char) {
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
 
 
-As noted earlier, using $ in any identifiers that survive until the assembler takes over
-can be problematic with some targets. Since macros are long gone at this point,
+As noted earlier, using `$` in any identifiers that survive until the assembler takes over
+can be problematic with some targets. Since macros are long gone at that point,
 using dollars in macros is relatively safe.
 
-If used only for macros consistently, this has the benefit of making them 
-visually stand out. Not only does this reduce chances of name collisions,
+If used consistently only for macros, this has the benefit of making them 
+visually stand out. Not only does this reduce the chances of name collisions,
 it also helps when surveying code - after all, macros come with sharp edges. 
 
 \newpage
 # Wording                                                                       {#wording}
 
-Make the following changes to the C++ Working Draft.  All wording is relative
+Make the following changes to the C++ Working Draft. All wording is relative
 to [@N5032], the latest draft at the time of writing.
 
 ### [lex.name]{.sref} Identifiers                                     {-}
@@ -252,7 +252,7 @@ references:
     URL: https://github.com/gcc-mirror/gcc/blob/master/gcc/config/mmix/mmix.h#L792
 
   - id: GHSEARCH
-    citation-label: Github code search
+    citation-label: GitHub code search
     URL: https://github.com/search?q=%22%23define+%24%22+language%3AC%2B%2B+&type=code
 
   - id: N3145
