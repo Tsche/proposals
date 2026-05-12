@@ -1,0 +1,254 @@
+\: cowel 0.8.1
+\cowel_include("../../ext/libwg21.cow")
+
+\wg21_head(
+  title = {Removing Digraphs}
+){
+\dl{
+  \dt{Document number:} \dd{\docnum{Dxxxx}}
+  \dt{Date:}            \dd{\tt{2026-05-10}}
+  \dt{Audience:}        \dd{SG22} \dd{EWG}
+  \dt{Project:}         \dd{ISO/IEC 14882 Programming Languages — C++, ISO/IEC JTC1/SC22/WG21}
+  \dt{Reply-to:}        \dd{Matthias Wippich <\mail{mfwippich@gmail.com}>}
+}
+\hr
+}
+
+\Babstract{
+This paper proposes removal of digraphs from the C++ language.
+}
+
+\h2(listed=false){Revision history}
+
+\h3{R0 May 2026}
+
+Original version of the paper.
+
+\h2{Introduction}
+
+Digraphs are a complicated solution to a very old problem, that cause more problems
+than they solve in a modern environment. Digraphs also severely limit the design space of C++,
+although as we have seen with @P2996 we are already fine with special-casing our way out
+of this pickle.
+
+This however introduces an interesting problem:
+If you need to use a source encoding that requires use of digraphs, you **cannot use all of C++26** 
+directly.
+
+Since we are most likely going to continue seeing similar problems, this paper proposes to remove digraphs from the language entirely.
+
+\h2{Design Space}
+
+As mentioned before, digraphs severely limit the design space of C++. This isn't an entirely 
+new insight, in fact we've ran into issues because of digraphs already and will most likely
+continue to run into new issues because of digraphs.
+
+This leads to a fragmented language - some parts you can write if you need to use digraphs, 
+some you don't. At the same time we're accumulating workarounds (like @CWG1104), which lead 
+to an excessively complex language.
+
+\h3{Splicers}
+
+Splicers from @P2996 were accepted for C++26 with the proposed syntax \tcode{[: expr :]}. However,
+we are not allowed to use digraphs to spell this as \tcode{<:: expr ::>}.
+
+While that seems to be in direct contradiction of the guarantees we're given in [[lex.digraph]/2](https://eel.is/c++draft/lex.digraph#2):
+> In all respects of the language, each alternative token behaves the same, respectively, as its primary token, except for its spelling.
+
+it actually isn't. The tokens \tcode{[:} and \tcode{:]} are distinct preprocessing tokens rather than being 
+composed from \tcode{[} and \tcode{:} (or \tcode{:} and \tcode{]} respectively). Therefore it doesn't matter whether \tcode{<:} is a valid
+alternative spelling for \tcode{[} - the splicer syntax does not contain \tcode{[} tokens.
+
+Unfortunately that doesn't exactly help if your source encoding does not have angle brackets. In such
+cases you cannot use this language feature directly - you'd have to find some workaround (such as 
+inventing some arbitrary replacement sequence that is expanded to \tcode{[:} after transcoding).
+
+\h2{Interpolated string literals}
+The design problems stemming from digraphs do not end there. In some of the recent discussions
+around string interpolation (@P3412, @P3951) some interesting code was brought up. Consider the following:
+
+\codeblock(cpp){
+t"foo \{ bar %> baz"
+}
+
+In an interpolated string literal, the interpolated expression field is wrapped in curly braces. To parse
+an interpolated string literal you must therefore switch between regular string literal parsing and expression parsing as soon
+as you see a field introducer (\tcode{\{}). 
+
+However, once you parse the interpolated expression things get a little strange. \tcode{%>} is an alternative spelling of \tcode{\}}. We haven't yet
+returned back to literal parsing, so this would yield the correct token. So, should we be able to signify the end of the interpolation field with \tcode{%>}?
+
+Since allowing anything but literal \tcode{\}} to terminate a interpolation field seems extremely surprising and will most likely not match user expectations, we
+are noce again looking to disallow digraphs in this context.
+
+Unfortunately that also means that we are once again looking to introduce a feature that you cannot directly use 
+if your source encoding requires the use of the corresponding digraphs.
+
+\h2{Compatibility}
+In C++14 we removed support for trigraphs. Since this has been quite a while back now, it is fair
+to assume that mitigations for users that required use of trigraphs but wanted to target anything
+beyond C++11 are in place. 
+
+While the situation around digraphs is arguably different and might require extra preprocessing to work
+with source encodings that do not have angle brackets or curly braces, mitigations will likely look
+similar to the ones required for trigraphs.
+
+\h2{Wording}
+
+Make the following changes to the C++ Working Draft.  All wording is relative
+to \ref(N5032), the latest draft at the time of writing.
+\cowel_html_element(h2){Lexical conventions  \stable_ref{lex}}
+\cowel_html_element(h3){Preprocessing tokens \stable_ref{lex.pptoken}}
+Modify paragraph 5 as indicated
+
+\Bdiff{
+5
+If the input stream has been parsed into preprocessing tokens up to a given character:
+
+5.1
+    If the next character begins a sequence of characters that could be the prefix and initial double quote of a raw string literal, such as `R"`, the next preprocessing token shall be a raw string literal.
+    Between the initial and final double quote characters of the raw string, any transformations performed in phase 2 (line splicing) are reverted; this reversion is applied before any \grammarterm{d-char}, \grammarterm{r-char}, or delimiting parenthesis is identified.
+    The raw string literal is defined as the shortest sequence of characters that matches the raw-string pattern
+
+    \grammarterm{encoding-prefix}\sub{opt} \tcode{R} \grammarterm{raw-string}
+
+\del{
+5.2
+    Otherwise, if the next three characters are \tcode{<::} and the subsequent character is neither \tcode{:} nor \tcode{>}, the \tcode{<} is treated as a preprocessing token by itself and not as the first character of the alternative token `<:`.
+}
+
+5.3
+    Otherwise, if the next three characters are \tcode{[::} and the subsequent character is not \tcode{:}\del{, or if the next three characters are \tcode{:>},} the \tcode{[} is treated as a preprocessing token by itself and not as the first character of the preprocessing token \tcode{[:}.
+
+\del{
+  \note{
+    The tokens \tcode{[:} and \tcode{:]} cannot be composed from digraphs.
+  }
+}
+
+5.4
+    Otherwise, the next preprocessing token is the longest sequence of [...]
+}
+
+\cowel_html_element(h3){Operators and punctuators \stable_ref{lex.operators}}
+Modify as indicated.
+
+\Bdiff{
+1
+The lexical representation of C++ programs includes a number of preprocessing tokens that are used in the syntax of the preprocessor or are converted into tokens for operators and punctuators:
+
+
+\dt{preprocessing-op-or-punc:}
+\dd{preprocessing-operator}
+\dd{operator-or-punctuator}
+
+\dt{preprocessing-operator:}
+\dd{one of}
+\dd{
+\table(style="border: none; --border: none;"){
+\tr{\td{\tcode{#}} \td{\tcode{##}} \td{\del{\tcode{%:}}} \td{\del{\tcode{%:%:}}}}
+}
+}
+
+\dt{operator-or-punctuator:}
+\dd{one of}
+\dd{\table(style="border: none; --border: none;"){
+\tr{\td{\tcode{\{}}         \td{\tcode{\}}}         \td{\tcode{[}}          \td{\tcode{]}}          \td{\tcode{(}}        \td{\tcode{)}}       \td{\tcode{[:}}      \td{\tcode{:]}}}
+\tr{\td{\del{\tcode{<%}}}   \td{\del{\tcode{%>}}}   \td{\del{\tcode{<:}}}   \td{\del{\tcode{:>}}}   \td{\tcode{;}}        \td{\tcode{:}}       \td{\tcode{...}}}
+\tr{\td{\tcode{?}}          \td{\tcode{::}}         \td{\tcode{.}}          \td{\tcode{.*}}         \td{\tcode{->}}       \td{\tcode{->*}}     \td{\tcode{^^}}      \td{\tcode{~}}}
+\tr{\td{\tcode{!}}          \td{\tcode{+}}          \td{\tcode{-}}          \td{\tcode{*}}          \td{\tcode{/}}        \td{\tcode{%}}       \td{\tcode{^}}       \td{\tcode{&}}    \td{\tcode{|}}  }
+\tr{\td{\tcode{=}}          \td{\tcode{+=}}         \td{\tcode{-=}}         \td{\tcode{*=}}         \td{\tcode{/=}}       \td{\tcode{%=}}      \td{\tcode{^=}}      \td{\tcode{&=}}   \td{\tcode{|=}} }
+\tr{\td{\tcode{==}}         \td{\tcode{!=}}         \td{\tcode{<}}          \td{\tcode{>}}          \td{\tcode{<=}}       \td{\tcode{>=}}      \td{\tcode{<=>}}     \td{\tcode{&&}}   \td{\tcode{||}} }
+\tr{\td{\tcode{<<}}         \td{\tcode{>>}}         \td{\tcode{<<=}}        \td{\tcode{>>=}}        \td{\tcode{++}}       \td{\tcode{--}}      \td{\tcode{,}}}
+\tr{\td{\tcode{and}}        \td{\tcode{or}}         \td{\tcode{xor}}        \td{\tcode{not}}        \td{\tcode{bitand}}   \td{\tcode{bitor}}   \td{\tcode{compl}}}
+\tr{\td{\tcode{and_eq}}     \td{\tcode{or_eq}}      \td{\tcode{xor_eq}}     \td{\tcode{not_eq}}}
+}}
+
+
+Each \grammarterm{operator-or-punctuator} is converted to a single token in translation phase 6 (\eelis{lex.phases}).
+}
+
+
+\cowel_html_element(h3){Alternative tokens \stable_ref{lex.\del{digraph}\ins{alt}}}
+Rename to [lex.alt] and update all references accordingly.
+
+\Bdiff{
+1 Alternative token representations are provided for some operators\del{ and punctuators}.
+
+2 In all respects of the language, each alternative token behaves the same, respectively, as its primary token, except for its spelling.
+
+\del{
+\note{
+  The “stringized” values (\eelis{cpp.stringize}) of \tcode{[} and \tcode{<:} are different, maintaining the source spelling.
+}
+}
+
+The set of alternative tokens is defined in Table 3.
+}
+
+Modify Table 3
+\Bdiff{
+\table{
+\tr{\td{\del{Alternative}}  \td{\del{Primary}}    \td{Alternative} \td{Primary} \td{Alternative} \td{Primary}}
+
+\tr{\td{\del{\tcode{<%}}}   \td{\del{\tcode{\{}}} \td{\tcode{and}}        \td{\tcode{&&}}    \td{\tcode{and_eq}}    \td{\tcode{&=}}}
+\tr{\td{\del{\tcode{%>}}}   \td{\del{\tcode{\}}}} \td{\tcode{bitor}}      \td{\tcode{|}}     \td{\tcode{or_eq}}     \td{\tcode{|=}}}
+\tr{\td{\del{\tcode{<:}}}   \td{\del{\tcode{[}}}  \td{\tcode{or}}         \td{\tcode{||}}    \td{\tcode{xor_eq}}    \td{\tcode{^=}}}
+\tr{\td{\del{\tcode{:>}}}   \td{\del{\tcode{]}}}  \td{\tcode{xor}}        \td{\tcode{^}}     \td{\tcode{not}}       \td{\tcode{!}}}
+\tr{\td{\del{\tcode{%:}}}   \td{\del{\tcode{#}}}  \td{\tcode{compl}}      \td{\tcode{~}}     \td{\tcode{not_eq}}    \td{\tcode{!=}}}
+\tr{\td{\del{\tcode{%:%:}}} \td{\del{\tcode{##}}} \td{\tcode{bitand}}     \td{\tcode{&}}}
+}
+}
+
+Remove footnote 10
+\Bdiff{
+\del{
+\footnote{
+These include “digraphs” and additional reserved words.
+The term “digraph” (token consisting of two characters) is not perfectly descriptive, since one of the alternative preprocessing-tokens is %:%: and of course several primary tokens contain two characters.
+Nonetheless, those alternative tokens that aren't lexical keywords are colloquially known as “digraphs”.
+}
+}
+}
+
+\cowel_html_element(h2){Preprocessing directives  \stable_ref{cpp}}
+\cowel_html_element(h3){Argument substitution \stable_ref{cpp.subst}}
+Modify Example 1 as indicated.
+\Bdiff{
+\example{
+\codeblock(cpp){
+  #define LPAREN() (
+#define G(Q) 42
+#define F(R, X, ...)  __VA_OPT__(G R X) )
+int x = F(LPAREN(), 0, \del{<:}\ins{[}-);    // replaced by int x = 42;
+}
+}
+}
+\cowel_html_element(h2){Annex C (informative) \stable_ref{diff}}
+\cowel_html_element(h3){C++ and ISO C++ 2026 \stable_ref{diff.cpp26}}
+\cowel_html_element(h3){\eelis{lex} lexical conventions \stable_ref{diff.cpp26.lex}}
+Add new entry
+\Bdiff{
+\ins{
+\p{\ins{\b{Affected subclause:} \eelis{lex.digraph}}}
+\p{\ins{\b{Change:} Removal of digraph support as a required feature.}}
+\p{\ins{\b{Rationale:} Resolves fragmentation of the language, opens up design space and simplifies the language.}}
+\p{\ins{\b{Effect on original feature:} Valid C++ 2026 code that uses the punctuation digraphs \tcode{<%}, \tcode{%>}, \tcode{<:} and \tcode{:>} may not be valid or have different semantics in this revision of C++. Implementations may choose to translate digraphs as specified in C++2026 if they appear outside of a raw string literal, as part of the implementation-defined mapping from input source file characters to the translation character set.}}
+}
+}
+
+\h2{Acknowledgements}
+Thanks to Jan Schultke for the markup language and document generator used for this paper.
+
+
+\hr
+\h2{References}
+\bib(
+  id = "N5032",
+  title = "Working Draft Programming Languages — C++",
+  date = "2025-12-15",
+  author = "Thomas Köppe",
+  link = "https://wg21.link/n5032",
+  long_link = "https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/n5032.pdf",
+)\
+\make_bib
