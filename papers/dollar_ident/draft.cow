@@ -5,7 +5,7 @@
   title = {\tcode{$identifiers}}
 ){
 \dl{
-  \dt{Document number:} \dd{\docnum{P4234}}
+  \dt{Document number:} \dd{\docnum{Dxxxx}}
   \dt{Date:}            \dd{\tt{2026-05-12}}
   \dt{Audience:}        \dd{SG22} \dd{EWG}
   \dt{Project:}         \dd{ISO/IEC 14882 Programming Languages — C++, ISO/IEC JTC1/SC22/WG21}
