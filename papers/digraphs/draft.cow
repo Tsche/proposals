@@ -28,11 +28,11 @@ Original version of the paper.
 
 Digraphs are a complicated solution to a very old problem, that cause more problems
 than they solve in a modern environment. Digraphs also severely limit the design space of C++,
-although as we have seen with @P2996 we are already fine with special-casing our way out
+although as we have seen with \ref(P2996) we are already fine with special-casing our way out
 of this pickle.
 
 This however introduces an interesting problem:
-If you need to use a source encoding that requires use of digraphs, you **cannot use all of C++26** 
+If you need to use a source encoding that requires use of digraphs, you \b{cannot use all of C++26} 
 directly.
 
 Since we are most likely going to continue seeing similar problems, this paper proposes to remove digraphs from the language entirely.
@@ -44,12 +44,12 @@ new insight, in fact we've ran into issues because of digraphs already and will 
 continue to run into new issues because of digraphs.
 
 This leads to a fragmented language - some parts you can write if you need to use digraphs, 
-some you don't. At the same time we're accumulating workarounds (like @CWG1104), which lead 
+some you don't. At the same time we're accumulating workarounds (like \ref(CWG1104)), which lead 
 to an excessively complex language.
 
 \h3{Splicers}
 
-Splicers from @P2996 were accepted for C++26 with the proposed syntax \tcode{[: expr :]}. However,
+Splicers from \ref(P2996) were accepted for C++26 with the proposed syntax \tcode{[: expr :]}. However,
 we are not allowed to use digraphs to spell this as \tcode{<:: expr ::>}.
 
 While that seems to be in direct contradiction of the guarantees we're given in [[lex.digraph]/2](https://eel.is/c++draft/lex.digraph#2):
@@ -65,7 +65,7 @@ inventing some arbitrary replacement sequence that is expanded to \tcode{[:} aft
 
 \h2{Interpolated string literals}
 The design problems stemming from digraphs do not end there. In some of the recent discussions
-around string interpolation (@P3412, @P3951) some interesting code was brought up. Consider the following:
+around string interpolation (\ref(P3412), \ref(P3951)) some interesting code was brought up. Consider the following:
 
 \codeblock(cpp){
 t"foo \{ bar %> baz"
@@ -250,5 +250,26 @@ Thanks to Jan Schultke for the markup language and document generator used for t
   author = "Thomas Köppe",
   link = "https://wg21.link/n5032",
   long_link = "https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/n5032.pdf",
+)\
+\bib(
+  id = "CWG1104",
+  title = "Global-scope template arguments vs the <: digraph",
+  date = "2010-08-02",
+  link = "https://cplusplus.github.io/CWG/issues/1104.html"
+)\
+\bib(
+  id = "P2996",
+  title = "Reflection for C++26",
+  link = "https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p2996r13.html",
+)\
+\bib(
+  id = "P3412",
+  title = "String interpolation",
+  link = "https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p3412r3.pdf",
+)\
+\bib(
+  id = "P3951",
+  title = "String Interpolation with Template Strings",
+  link = "https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2026/p3951r1.html",
 )\
 \make_bib
