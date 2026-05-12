@@ -5,7 +5,7 @@
   title = {Removing Digraphs}
 ){
 \dl{
-  \dt{Document number:} \dd{\docnum{Dxxxx}}
+  \dt{Document number:} \dd{\docnum{P4235}}
   \dt{Date:}            \dd{\tt{2026-05-10}}
   \dt{Audience:}        \dd{SG22} \dd{EWG}
   \dt{Project:}         \dd{ISO/IEC 14882 Programming Languages — C++, ISO/IEC JTC1/SC22/WG21}
@@ -26,27 +26,16 @@ Original version of the paper.
 
 \h2{Introduction}
 
-Digraphs are a complicated solution to a very old problem, that cause more problems
+Digraphs are a complicated solution to a very old problem, which cause more problems
 than they solve in a modern environment. Digraphs also severely limit the design space of C++,
 although as we have seen with \ref(P2996) we are already fine with special-casing our way out
 of this pickle.
 
-This however introduces an interesting problem:
-If you need to use a source encoding that requires use of digraphs, you \b{cannot use all of C++26} 
-directly.
+This however leads to a rather unfortunate situation. If you need to use a source encoding that requires use of digraphs, you \b{cannot use all of C++26} directly, resulting in a fragmented and needlessly complex language. Some parts you can use if you require certain digraphs, some you don't.
 
-Since we are most likely going to continue seeing similar problems, this paper proposes to remove digraphs from the language entirely.
+Since we are most likely going to continue seeing similar problems, this paper proposes to remove the digraphs \tcode{<%}, \tcode{%>}, \tcode{<:}, \tcode{:>}, \tcode{%:} and \tcode{%:%:} from the language entirely. This does not affect the alternative keyword tokens (\tcode{and}, \tcode{or}, etc.).
 
 \h2{Design Space}
-
-As mentioned before, digraphs severely limit the design space of C++. This isn't an entirely 
-new insight, in fact we've ran into issues because of digraphs already and will most likely
-continue to run into new issues because of digraphs.
-
-This leads to a fragmented language - some parts you can write if you need to use digraphs, 
-some you don't. At the same time we're accumulating workarounds (like \ref(CWG1104)), which lead 
-to an excessively complex language.
-
 \h3{Splicers}
 
 Splicers from \ref(P2996) were accepted for C++26 with the proposed syntax \tcode{[: expr :]}. However,
@@ -61,9 +50,9 @@ it actually isn't. The tokens \tcode{[:} and \tcode{:]} are distinct preprocessi
 composed from \tcode{[} and \tcode{:} (or \tcode{:} and \tcode{]} respectively). Therefore it doesn't matter whether \tcode{<:} is a valid
 alternative spelling for \tcode{[} - the splicer syntax does not contain \tcode{[} tokens.
 
-Unfortunately that doesn't exactly help if your source encoding does not have angle brackets. In such
+Unfortunately that doesn't exactly help if your source encoding does not have square brackets. In such
 cases you cannot use this language feature directly - you'd have to find some workaround (such as 
-inventing some arbitrary replacement sequence that is expanded to \tcode{[:} after transcoding).
+inventing some arbitrary replacement sequence that is expanded to \tcode{[:} during or after transcoding).
 
 \h2{Interpolated string literals}
 The design problems stemming from digraphs do not end there. In some of the recent discussions
@@ -81,30 +70,27 @@ However, once you parse the interpolated expression things get a little strange.
 returned back to literal parsing, so this would yield the correct token. So, should we be able to signify the end of the interpolation field with \tcode{%>}?
 
 Since allowing anything but literal \tcode{\}} to terminate a interpolation field seems extremely surprising and will most likely not match user expectations, we
-are noce again looking to disallow digraphs in this context.
-
-Unfortunately that also means that we are once again looking to introduce a feature that you cannot directly use 
-if your source encoding requires the use of the corresponding digraphs.
+are once again looking to disallow digraphs in this context.
 
 \h2{History}
-Digraphs are a very rarely used C++ feature. GCC goes as far as calling it "obscure" in their \ref("https://www.gnu.org/software/c-intro-and-ref/manual/html_node/Digraphs.html"){documentation}:
+Digraphs are a very rarely used C++ feature. The \ref("https://www.gnu.org/software/c-intro-and-ref/manual/html_node/Digraphs.html"){GCC documentation} notes:
 \Bquote{
 Apparently in the 1990s some computer systems had trouble inputting these characters, or trouble displaying them. These digraphs almost never appear in C programs nowadays, but we mention them for completeness. 
 }
 
-What the GCC documentation refers to here is systems that require the source encoding to be something that does not have the characters \tcode{<}, \tcode{>}, \tcode{[}, \tcode{]}, \tcode{\{} or \tcode{\}}. In such cases, the corresponding digraphs are required to write those characters in source code.
+What this refers to is systems that require the source encoding to be something that does not have the characters \tcode{#}, \tcode{[}, \tcode{]}, \tcode{\{} or \tcode{\}}. In such cases, the corresponding digraphs are required to write those characters in source code.
 
 Such encodings are rather uncommon nowadays, but they do exist. 
 
-Historically digraphs were introduced because of \ref("ISO 646"), which includes several national variants that do not have the angle brackets or curly braces. For example, the \ref("ISO-IR-021") (also known as DIN 66003) variant used in Germany replaces \tcode{[} with \tcode{Ä}, \tcode{]} with \tcode{Ü}, \tcode{\{} with \tcode{ä} and \tcode{\}} with \tcode{ü}.
+Historically digraphs were introduced because of \ref("ISO 646"), which includes several national variants that do not have square brackets or curly braces. For example, the \ref("ISO-IR-021") (also known as DIN 66003) variant used in Germany replaces \tcode{[} with \tcode{Ä}, \tcode{]} with \tcode{Ü}, \tcode{\{} with \tcode{ä} and \tcode{\}} with \tcode{ü}.
 
-Interestingly, \ref("ISO-IR-027") even lacks \tcode{:}, making two of the digraphs unusable. While it's based on ISO 646, it is not a true variant however.
+Interestingly, \ref("ISO-IR-027") even lacks \tcode{:}, making two of the digraphs unusable. While it is explicitly based on ISO 646, ISO-IR-027 is not a true variant - some of the added letters are mapped to code points which are invariant in ISO 646. This shows that even for its original purpose, digraphs are more of a band-aid than a real solution.
 
 So, how did we get here?
 \table{
 \tr{\td{1970s} \td{Several ISO 646 variants are introduced, some of which lack punctuators}}
 \tr{\td{1989}  \td{C89 introduces trigraphs as a workaround}}
-\tr{\td{1995}  \td{C95 introduces digraphs as a less invasive alternative (ie. \tcode{<:} instead of \tcode{??(})}}
+\tr{\td{1995}  \td{C95 introduces digraphs as a less invasive alternative (i.e. \tcode{<:} instead of \tcode{??(})}}
 \tr{\td{1998}  \td{C++98 adopts digraphs from C95}}
 \tr{\td{2011}  \td{\ref(CWG1104) adopted for C++11 to disambiguate qualified template arguments from digraphs}}
 \tr{\td{2017}  \td{Trigraphs removed from C++17 (\ref(N4086))}}
@@ -128,18 +114,32 @@ Note how this list is missing "actual production code that uses digraphs for any
 
 For the other digraphs the situation is similar. \tcode{%:%:} yields \ref("https://github.com/search?q=%25%3A%25%3A+NOT+is%3Afork+language%3AC%2B%2B&type=code&p=1"){216 results}, most of which are false positives and/or lexer code. \tcode{%:if} yields \ref("https://github.com/search?q=%25%3Aif+NOT+is%3Afork+language%3AC%2B%2B&type=code"){22 results}, all of which are university assignments, inconsistent or false positives. 
 
-For the digraphs \tcode{<:}, \tcode{:>}, \tcode{<%} and \tcode{%>} a code search yields almost exclusively false positives, usually because they appear in string literals or comments. Furthermore, \tcode{<:} yields especially bad results due to qualified template arguments being spelled as \tcode{templ<::arg>} (without space after <).
+For the digraphs \tcode{<:}, \tcode{:>}, \tcode{<%} and \tcode{%>} a code search yields \b{a lot} more results, but they seem to be almost exclusively false positives - usually because they appear in string literals or comments. Furthermore, \tcode{<:} yields especially bad results due to qualified template arguments being spelled as \tcode{templ<::arg>} (without space after <).
 
 \h2{Compatibility}
-In C++14 we removed support for trigraphs. Since this has been quite a while back now, it is fair
-to assume that mitigations for users that required use of trigraphs but wanted to target anything
-beyond C++11 are in place. 
+In C++17 we removed support for trigraphs. Since this has been quite a while back now, it is fair
+to assume that mitigations for users that require use of trigraphs but want to target anything
+beyond C++17 are in place.
 
-While the situation around digraphs is arguably different and might require extra preprocessing to work
-with source encodings that do not have angle brackets or curly braces, mitigations will likely look
-similar to the ones required for trigraphs.
+While more complex approaches (such as filesystem-level transcoding) are possible, at the time of writing
+almost all compilers still support trigraphs as an extension. For instance:
+\ul{
+\li{GCC has \ref("https://gcc.gnu.org/onlinedocs/gcc/Preprocessor-Options.html#index-trigraphs"){\tcode{-trigraphs}}}
+\li{Clang has \ref("https://clang.llvm.org/docs/ClangCommandLineReference.html#cmdoption-clang-ftrigraphs"){\tcode{-ftrigraphs}}}
+\li{MSVC has \ref("https://learn.microsoft.com/en-us/cpp/build/reference/zc-trigraphs-trigraphs-substitution?view=msvc-170"){\tcode{/Zc:trigraphs}}}
+\li{EDG has \ref("https://edg.com/docs/edg_cpp.pdf"){\tcode{--trigraphs}}}
+}
 
-TODO COMPILER OPTIONS trigraph + digraph (clang, edg, supposedly msvc)
+
+While the situation around digraphs is arguably a little different and might require extra preprocessing to use of all of C++'s language features, mitigations will likely look similar to the ones required for trigraphs.
+
+Some compilers already support disabling digraph support altogether. For instance:
+\ul{
+\li{Clang has \ref("https://clang.llvm.org/docs/ClangCommandLineReference.html#cmdoption-clang-fdigraphs"){\tcode{-fno-digraphs}}}
+\li{EDG has \ref("https://edg.com/docs/edg_cpp.pdf"){\tcode{--no_alternative_tokens}} (which also disables the alternative operators \tcode{and}, \tcode{or} etc.)}
+\li{MSVC's documentation of compiler warning \ref("https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-1-c4628?view=msvc-170"){C4628} and \ref("https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warning-level-4-c4629?view=msvc-170"){C4629} suggests using digraphs is not supported with \tcode{/Ze} and will cause a warning with \tcode{/Za}, however \ref("https://compiler-explorer.com/z/P43W48EKW"){Compiler Explorer} does not verify that}
+}
+
 
 \h2{Wording}
 
@@ -278,16 +278,15 @@ int x = F(LPAREN(), 0, \del{<:}\ins{[}-);    // replaced by int x = 42;
 Add new entry
 \Bdiff{
 \ins{
-\p{\ins{\b{Affected subclause:} \eelis{lex.digraph}}}
+\p{\ins{\b{Affected subclause:} \eelis{lex.alt}}}
 \p{\ins{\b{Change:} Removal of digraph support as a required feature.}}
 \p{\ins{\b{Rationale:} Resolves fragmentation of the language, opens up design space and simplifies the language.}}
-\p{\ins{\b{Effect on original feature:} Valid C++ 2026 code that uses the punctuation digraphs \tcode{<%}, \tcode{%>}, \tcode{<:} and \tcode{:>} may not be valid or have different semantics in this revision of C++. Implementations may choose to translate digraphs as specified in C++2026 if they appear outside of a raw string literal, as part of the implementation-defined mapping from input source file characters to the translation character set.}}
+\p{\ins{\b{Effect on original feature:} Valid C++ 2026 code that uses the digraphs \tcode{<%}, \tcode{%>}, \tcode{<:}, \tcode{:>}, \tcode{%:} and \tcode{%:%:} may not be valid or have different semantics in this revision of C++. Implementations may choose to translate digraphs as specified in C++2026 if they appear outside of a raw string literal, as part of the implementation-defined mapping from input source file characters to the translation character set.}}
 }
 }
 
 \h2{Acknowledgements}
-Thanks to Jan Schultke for the markup language and document generator used for this paper.
-
+Thanks to Jan Schultke for the markup language and document generator used for this paper and thanks to all the awesome people who gave feedback on this proposal.
 
 \hr
 \h2{References}
@@ -337,7 +336,7 @@ Thanks to Jan Schultke for the markup language and document generator used for t
 )\
 \bib(
   id = "N4086",
-  title = "Removing trigrapahs??!",
+  title = "Removing trigraphs??!",
   link = "https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4086.html"
 )
 \make_bib
