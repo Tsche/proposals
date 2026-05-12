@@ -52,8 +52,10 @@ to an excessively complex language.
 Splicers from \ref(P2996) were accepted for C++26 with the proposed syntax \tcode{[: expr :]}. However,
 we are not allowed to use digraphs to spell this as \tcode{<:: expr ::>}.
 
-While that seems to be in direct contradiction of the guarantees we're given in [[lex.digraph]/2](https://eel.is/c++draft/lex.digraph#2):
-> In all respects of the language, each alternative token behaves the same, respectively, as its primary token, except for its spelling.
+While that seems to be in direct contradiction of the guarantees we're given in \eelis{lex.digraph#2}
+\Bquote{
+In all respects of the language, each alternative token behaves the same, respectively, as its primary token, except for its spelling.
+}
 
 it actually isn't. The tokens \tcode{[:} and \tcode{:]} are distinct preprocessing tokens rather than being 
 composed from \tcode{[} and \tcode{:} (or \tcode{:} and \tcode{]} respectively). Therefore it doesn't matter whether \tcode{<:} is a valid
@@ -84,6 +86,50 @@ are noce again looking to disallow digraphs in this context.
 Unfortunately that also means that we are once again looking to introduce a feature that you cannot directly use 
 if your source encoding requires the use of the corresponding digraphs.
 
+\h2{History}
+Digraphs are a very rarely used C++ feature. GCC goes as far as calling it "obscure" in their \ref("https://www.gnu.org/software/c-intro-and-ref/manual/html_node/Digraphs.html"){documentation}:
+\Bquote{
+Apparently in the 1990s some computer systems had trouble inputting these characters, or trouble displaying them. These digraphs almost never appear in C programs nowadays, but we mention them for completeness. 
+}
+
+What the GCC documentation refers to here is systems that require the source encoding to be something that does not have the characters \tcode{<}, \tcode{>}, \tcode{[}, \tcode{]}, \tcode{\{} or \tcode{\}}. In such cases, the corresponding digraphs are required to write those characters in source code.
+
+Such encodings are rather uncommon nowadays, but they do exist. 
+
+Historically digraphs were introduced because of \ref("ISO 646"), which includes several national variants that do not have the angle brackets or curly braces. For example, the \ref("ISO-IR-021") (also known as DIN 66003) variant used in Germany replaces \tcode{[} with \tcode{Ä}, \tcode{]} with \tcode{Ü}, \tcode{\{} with \tcode{ä} and \tcode{\}} with \tcode{ü}.
+
+Interestingly, \ref("ISO-IR-027") even lacks \tcode{:}, making two of the digraphs unusable. While it's based on ISO 646, it is not a true variant however.
+
+So, how did we get here?
+\table{
+\tr{\td{1970s} \td{Several ISO 646 variants are introduced, some of which lack punctuators}}
+\tr{\td{1989}  \td{C89 introduces trigraphs as a workaround}}
+\tr{\td{1995}  \td{C95 introduces digraphs as a less invasive alternative (ie. \tcode{<:} instead of \tcode{??(})}}
+\tr{\td{1998}  \td{C++98 adopts digraphs from C95}}
+\tr{\td{2011}  \td{\ref(CWG1104) adopted for C++11 to disambiguate qualified template arguments from digraphs}}
+\tr{\td{2017}  \td{Trigraphs removed from C++17 (\ref(N4086))}}
+}
+
+\h2{Usage Analysis}
+This raises an obvious question: Are people still using digraphs? Are they targeting somewhat modern C++ versions?
+
+A GitHub code search can unfortunately not answer this question for us, since a lot of use might be in code that isn't publicly available. However, it helps getting a rough idea of the situation and how people use digraphs.
+
+Surprisingly, we can actually find quite a lot of code that uses digraphs. For example \tcode{%:include} is included in \ref("https://github.com/search?q=%25%3Ainclude+NOT+is%3Afork+language%3AC%2B%2B&type=code&l=C%2B%2B"){850 files}!
+
+However, if you take a closer look at those results, you'll quickly notice that aside from a bunch of false positives most of them fall into one of three categories:
+\ol{
+\li{Compiler test code and other lexer test code}
+\li{Demo code, examples and student assignments}
+\li{Inconsistent use of digraphs and the tokens they replace, likely for obfuscation purposes}
+}
+
+Note how this list is missing "actual production code that uses digraphs for anything other than tests".
+
+For the other digraphs the situation is similar. \tcode{%:%:} yields \ref("https://github.com/search?q=%25%3A%25%3A+NOT+is%3Afork+language%3AC%2B%2B&type=code&p=1"){216 results}, most of which are false positives and/or lexer code. \tcode{%:if} yields \ref("https://github.com/search?q=%25%3Aif+NOT+is%3Afork+language%3AC%2B%2B&type=code"){22 results}, all of which are university assignments, inconsistent or false positives. 
+
+For the digraphs \tcode{<:}, \tcode{:>}, \tcode{<%} and \tcode{%>} a code search yields almost exclusively false positives, usually because they appear in string literals or comments. Furthermore, \tcode{<:} yields especially bad results due to qualified template arguments being spelled as \tcode{templ<::arg>} (without space after <).
+
 \h2{Compatibility}
 In C++14 we removed support for trigraphs. Since this has been quite a while back now, it is fair
 to assume that mitigations for users that required use of trigraphs but wanted to target anything
@@ -92,6 +138,8 @@ beyond C++11 are in place.
 While the situation around digraphs is arguably different and might require extra preprocessing to work
 with source encodings that do not have angle brackets or curly braces, mitigations will likely look
 similar to the ones required for trigraphs.
+
+TODO COMPILER OPTIONS trigraph + digraph (clang, edg, supposedly msvc)
 
 \h2{Wording}
 
@@ -272,4 +320,24 @@ Thanks to Jan Schultke for the markup language and document generator used for t
   title = "String Interpolation with Template Strings",
   link = "https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2026/p3951r1.html",
 )\
+\bib(
+  id = "ISO 646",
+  title = "Wikipedia: ISO/IEC 646",
+  link = "https://en.wikipedia.org/wiki/ISO/IEC_646"
+)\
+\bib(
+  id = "ISO-IR-021",
+  title = "ISO 646-DE regional variant",
+  link = "https://itscj.ipsj.or.jp/ir/021.pdf"
+)\
+\bib(
+  id = "ISO-IR-027",
+  title = "Latin-GR mixed",
+  link = "https://itscj.ipsj.or.jp/ir/027.pdf"
+)\
+\bib(
+  id = "N4086",
+  title = "Removing trigrapahs??!",
+  link = "https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4086.html"
+)
 \make_bib
