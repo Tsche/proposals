@@ -6,10 +6,11 @@
 ){
 \dl{
   \dt{Document number:} \dd{\docnum{Dxxxx}}
-  \dt{Date:}            \dd{\tt{2026-04-26}}
+  \dt{Date:}            \dd{\tt{2026-05-12}}
   \dt{Audience:}        \dd{SG22} \dd{EWG}
   \dt{Project:}         \dd{ISO/IEC 14882 Programming Languages — C++, ISO/IEC JTC1/SC22/WG21}
   \dt{Reply-to:}        \dd{Matthias Wippich <\mail{mfwippich@gmail.com}>}
+  \dt{Co-authors:}      \dd{Murat Can Çağrı <\mail{cancagri.dev@gmail.com}>}
 }
 \hr
 }
@@ -176,6 +177,26 @@ struct Particles : struct_of_arrays<Particle, N> {
 
 While this is arguably a naming issue (that could and probably should be \tcode{get_position} instead), these sorts of problems can generally be avoided by uglifying identifiers in generated code. Conditionally allowing dollars gives users a few more options to make those generated names more unique and less likely to collide with user code.
 
+\h3{Stricter Domains}
+In some domains, such as defense, aerospace, avionics, and other safety or mission-critical systems, conformance to the C++ International Standard may be a contractual requirement. \sup{\ref("JSFAVRules"){[1]}} \sup{\ref("MISRACPP2023"){[2]}} \sup{\ref("AUTOSARCPP14"){[3]}}
+For example, the requirements for the \ref(TRITON) project, as specified in NATO IFB-CO-13859-TRITON (Unclassified), state:
+
+\Bquote{
+    5.5.6 TRITON software will be developed with any variations from the languages or specifications given below as "Preferred Languages":
+
+    C++ [ISO/IEC 14882]
+
+
+    [T1-R1791]
+    TRITON shall comply with the standards and language specifications given in the Description as the Preferred Languages. Any variations from the languages or specifications shall be agreed with the Purchaser
+}
+
+In such environments, using a compiler extension is not merely an engineering portability concern. It can become a compliance issue. Deviations from the contracted obligations may need to be recorded in project coding guidelines, reviewed by QA, justified to the customer or main contractor, and in some cases handled through contract amendments or formal deviation processes. In such stricter domains, the bureaucracy and paperwork required for such changes can easily take months. 
+
+Making the use of $ in identifiers conditionally-supported would not make such identifiers portable, nor would it require every implementation to accept them. However, it would change the status of the construct from an unstandardized implementation extension into a construct explicitly recognized by the C++ Standard, when supported by the implementation.
+
+This distinction is useful for stricter environments. A project could specify that it uses C++ as defined by ISO/IEC 14882, together with the conditionally-supported use of $ in identifiers on implementations that document support for it. This is easier to audit, easier to encode in project guidelines, and easier to justify than relying on undocumented or folklore implementation behavior.
+
 \h2{Wording}
 
 Make the following changes to the C++ Working Draft. All wording is relative
@@ -267,5 +288,28 @@ Thanks to Jan Schultke for the markup language and document generator used for t
   id = "P2996",
   title = "Reflection for C++26",
   link = "https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p2996r13.html",
+)\
+\bib(
+  id = "TRITON",
+  title = " NATO TRITON IFB-CO-13859-TRITON",
+  link = "https://www.gdaee.mil.gr/wp-content/uploads/2021/09/5_2.pdf",
+)\
+\bib(
+  id = "JSFAVRules",
+  author = "Bjarne Stroustrup",
+  title = "Joint Strike Fighter Air Vehicle C++ Coding Standards for the System Development and Demonstration Program",
+  link = "https://www.stroustrup.com/JSF-AV-rules.pdf",
+)\
+\bib(
+  id = "MISRACPP2023",
+  author = "The MISRA Consortium",
+  title = "MISRA C++:2023: Guidelines for the use of C++17 in critical systems",
+  link = "https://misra.org.uk/product/misra-cpp2023/",
+)\
+\bib(
+  id = "AUTOSARCPP14",
+  author = "AUTOSAR",
+  title = "Guidelines for the use of the C++14 language in critical and safety-related systems",
+  link = "https://www.autosar.org/fileadmin/standards/R17-03_R1.1.0/AP/AUTOSAR_RS_CPP14Guidelines.pdf",
 )\
 \make_bib
