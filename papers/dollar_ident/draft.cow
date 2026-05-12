@@ -47,11 +47,11 @@ In theory, we could mandate $ to be valid in identifiers and ask compilers to wo
 
 \h2{Motivation}
 
-Aside from aligning with C, there are a few more motivating uses.
+Aside from aligning with C and implementation reality, there are a few more motivating uses.
 
 \h3{Linker and toolchain symbol conventions}
 
-Some embedded toolchains expose $ containing identifiers through linker-defined symbols and custom linker conventions.
+Some embedded toolchains expose identifiers containing \tcode{$} through linker-defined symbols and custom linker conventions.
 
 One such example is armlink from the \ref("https://developer.arm.com/documentation/dui0803/f/Accessing-and-Managing-Symbols-with-armlink/Linker-defined-symbols"){ARM MDK toolchain}:
 
@@ -301,7 +301,7 @@ Thanks to Jan Schultke for the markup language and document generator used for t
 )\
 \bib(
   id = "TRITON",
-  title = " NATO TRITON IFB-CO-13859-TRITON",
+  title = "NATO TRITON IFB-CO-13859-TRITON",
   link = "https://www.gdaee.mil.gr/wp-content/uploads/2021/09/5_2.pdf",
 )\
 \bib(
