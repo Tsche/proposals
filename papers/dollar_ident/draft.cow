@@ -19,6 +19,8 @@
 This paper proposes making "$" in identifiers conditionally-supported to align with C23.
 }
 
+\make_contents
+
 \h2(listed=false){Revision history}
 
 \h3{R0 April 2026}
@@ -27,13 +29,24 @@ Original version of the paper.
 
 \h2{Introduction}
 
-One of the most popular extensions to C++ is allowing $ in identifiers. For example, this is supported by \ref("https://learn.microsoft.com/en-us/cpp/cpp/identifiers-cpp?view=msvc-170#:~:text=The%20dollar%20sign%20%24%20is%20a%20valid%20identifier%20character%20in%20the%20Microsoft%20C%2B%2B%20compiler%20%28MSVC%29%2E"){MSVC}, \ref("https://gcc.gnu.org/onlinedocs/gcc/Dollar-Signs.html"){GCC}, Clang, EDG (might need opt-in), icx and nvc++ (see \ref("https://compiler-explorer.com/z/bxKEMx54o"){Compiler Explorer}).
+One of the oldest and most widely supported extensions to C++ is allowing \tcode{$} in identifiers. This feature's origins predate both standard C++ and standard C. As GCC notes in its \ref("https://gcc.gnu.org/onlinedocs/gcc/Dollar-Signs.html"){documentation}:
+\Bquote{
+  In GNU C, you may normally use dollar signs in identifier names. This is because many traditional C implementations allow such identifiers. 
+}
+Amongst many other compilers this is supported by \ref("https://learn.microsoft.com/en-us/cpp/cpp/identifiers-cpp?view=msvc-170#:~:text=The%20dollar%20sign%20%24%20is%20a%20valid%20identifier%20character%20in%20the%20Microsoft%20C%2B%2B%20compiler%20%28MSVC%29%2E"){MSVC}, \ref("https://gcc.gnu.org/onlinedocs/gcc/Dollar-Signs.html"){GCC} (going back to at least \ref("https://godbolt.org/z/Gf53hv7s5"){GCC 1.27}!), Clang, EDG (might need opt-in), icx and nvc++ (see \ref("https://compiler-explorer.com/z/bxKEMx54o"){Compiler Explorer}).
+\br
 
-In recent years, C has made quite a few changes to what they consider an identifier. The original rules allowed any implementation-defined characters, the revised ones did not. To address this, \ref("WG14 N3145") introduced a carve-out to allow $ anywhere in identifiers as an implementation extension.
+In recent years, C has made quite a few changes to what they consider an identifier. The original rules allowed any implementation-defined characters, the revised ones did not. To address this, \ref("WG14 N3145") introduced a carve-out to allow \tcode{$} anywhere in identifiers as an implementation extension.
 
-\ref("WG14 N3145") mentions that during discussion it was noted that allowing $ in identifiers is a massive syntactic land-grab. However, due to the popularity of this extension, it seems unrealistic that we can ever use $ for anything that would conflict with $identifiers.
+In C++ however, the situation is different. The C++ standard does not acknowledge \tcode{$} in identifiers at all. As a result, the use of \tcode{$} in identifiers pedantically renders your code ill-formed. In practice, however, almost all implementations support it as a non-standard extension.
 
-\h2{Why not allow it unconditionally?}
+\h2{Proposed change}
+
+To align with C and implementation reality, this paper proposes making the use of \tcode{$} in identifiers conditionally-supported. This would not make \tcode{$} identifiers portable, but it would at least make them explicitly recognized by the standard when supported by the implementation.
+
+\ref("WG14 N3145") mentions that during discussion it was noted that allowing \tcode{$} in identifiers is a massive syntactic land-grab. However, due to the popularity of this extension, it seems unrealistic that we can ever use \tcode{$} for anything that would conflict with \tcode{$identifiers}.
+
+\h3{Why not allow it unconditionally?}
 
 GCC notes in its \ref("https://gcc.gnu.org/onlinedocs/gcc/Dollar-Signs.html"){documentation}:
 
@@ -43,20 +56,20 @@ However, dollar signs in identifiers are not supported on a few target machines,
 
 Examples of such targets are \ref("https://github.com/gcc-mirror/gcc/blob/master/gcc/config/rs6000/xcoff.h#L57"){RS/6000}, \ref("https://github.com/gcc-mirror/gcc/blob/master/gcc/config/avr/avr.h#L480"){AVR}, and \ref("https://github.com/gcc-mirror/gcc/blob/master/gcc/config/mmix/mmix.h#L792"){MMIX}.
 
-In theory, we could mandate $ to be valid in identifiers and ask compilers to work around such problematic targets in some way or another. However, that's a rather big ask -  it seems more sensible to instead align the C++ standard with implementation reality and C23.
+In theory, we could mandate \tcode{$} to be valid in identifiers and ask compilers to work around such problematic targets in some way or another. However, that's a rather big ask -  it seems more sensible to instead align the C++ standard with implementation reality and C23.
 
 \h2{Motivation}
 
 Aside from aligning with C and implementation reality, there are a few more motivating uses.
 
 \h3{Linker and toolchain symbol conventions}
-
+\h4{Linker conventions}
 Some embedded toolchains expose identifiers containing \tcode{$} through linker-defined symbols and custom linker conventions.
 
 One such example is armlink from the \ref("https://developer.arm.com/documentation/dui0803/f/Accessing-and-Managing-Symbols-with-armlink/Linker-defined-symbols"){ARM MDK toolchain}:
 
 \Bquote{
-Symbols that contain the character sequence $$, and all other external names containing the sequence $$, are names reserved by ARM.
+Symbols that contain the character sequence \tcode{$$}, and all other external names containing the sequence \tcode{$$}, are names reserved by ARM.
 }
 
 Unfortunately the examples given in armlink's documentation are not valid C++.
@@ -87,7 +100,7 @@ However, it seems much cleaner and overall less error-prone (did you notice the 
 
 Likewise, if you target RISC-V you may have come across \tcode{__global_pointer$} before. The same argument as before applies, however it will still result in a reserved identifier due to the double underscore.
 
-
+\h4{Symbol patching}
 Furthermore, armlink supports \tcode{$Sub$$} and \tcode{$Super$$} symbol patterns for \ref("https://developer.arm.com/documentation/dui0803/f/Accessing-and-Managing-Symbols-with-armlink/Use-of--Super---and--Sub---to-patch-symbol-definitions"){patching existing definitions}, and this convention is used for startup hooks, C library retargeting, and runtime initializations. \ref("https://github.com/lvgl/lv_port_raspberry_pi_pico_mdk/blob/cfa86618e87b9d62afc56db8aabdaa5d192aa67d/project/mdk/wrapper/pico/platform.h#L406"){For example}, RP2040 MDK headers define the following wrapper macros:
 
 \codeblock(cpp){
@@ -95,9 +108,31 @@ Furthermore, armlink supports \tcode{$Sub$$} and \tcode{$Super$$} symbol pattern
 #   define REAL_FUNC(__FUNC)        $Super$$## __FUNC
 }
 
-As with linker-defined \tcode{Image$$...} symbols, these examples do not make $ identifiers portable C++. They do, however, show that $ containing identifiers are a common part of documented embedded toolchain practice rather than merely accidental parser behavior.
+As with linker-defined \tcode{Image$$...} symbols, these examples do not make $ identifiers portable C++. They do, however, show that \tcode{$} containing identifiers are a common part of documented embedded toolchain practice rather than merely accidental parser behavior.
 
-\h3{Macros}
+\h3{Stricter Domains}
+In some domains, such as defense, aerospace, avionics, and other safety or mission-critical systems, conformance to the C++ International Standard may be a contractual requirement. \sup{\ref("JSFAVRules"){[1]}} \sup{\ref("MISRACPP2023"){[2]}} \sup{\ref("AUTOSARCPP14"){[3]}}
+For example, the requirements for the \ref(TRITON) project, as specified in NATO IFB-CO-13859-TRITON (Unclassified), state:
+
+\Bquote{
+    5.5.6 TRITON software will be developed with any variations from the languages or specifications given below as "Preferred Languages":
+
+    C++ [ISO/IEC 14882]
+
+
+    [T1-R1791]
+    TRITON shall comply with the standards and language specifications given in the Description as the Preferred Languages. Any variations from the languages or specifications shall be agreed with the Purchaser
+}
+
+In such environments, using a compiler extension is not merely an engineering portability concern. It can become a compliance issue. Deviations from the contracted obligations may need to be recorded in project coding guidelines, reviewed by QA, justified to the customer or main contractor, and in some cases handled through contract amendments or formal deviation processes. In such stricter domains, the bureaucracy and paperwork required for such changes can easily take months. 
+
+Making the use of \tcode{$} in identifiers conditionally-supported would not make such identifiers portable, nor would it require every implementation to accept them. However, it would change the status of the construct from an unstandardized implementation extension into a construct explicitly recognized by the C++ Standard, when supported by the implementation.
+
+This distinction is useful for stricter environments. A project could specify that it uses C++ as defined by ISO/IEC 14882, together with the conditionally-supported use of \tcode{$} in identifiers on implementations that document support for it. This is easier to audit, easier to encode in project guidelines, and easier to justify than relying on undocumented or folklore implementation behavior.
+
+
+\h3{Additional identifier namespace}
+\h4{Macros}
 
 Another somewhat common use is in macro identifiers. \ref("https://github.com/search?q=%22%23define+%24%22+language%3AC%2B%2B&type=code"){GitHub search} finds more than 5600 uses in code recognized as C++.
 
@@ -134,13 +169,13 @@ $inline(never) int bar(int, char) {
 }
 }
 
-As noted earlier, using $ in any identifiers that survive until the assembler takes over can be problematic with some targets. Since macros are long gone at that point, using dollars in macros is relatively safe. This essentially gives us another identifier namespace that is visually distinct from regular identifiers.
+As noted earlier, using \tcode{$} in any identifiers that survive until the assembler takes over can be problematic with some targets. Since macros are long gone at that point, using dollars in macros is relatively safe. This essentially gives us another identifier namespace that is visually distinct from regular identifiers.
 
 If used consistently only for macros, this has the benefit of making them visually stand out. We can validate consistent use easily by using a custom clang-tidy check (see \ref("https://github.com/tsche/dollar-macro-check"){example implementation}).
 
 Not only does this reduce the chances of name collisions, it also helps when surveying code - after all, macros come with sharp edges.
 
-\h3{Generated code}
+\h4{Generated code}
 In a similar fashion, dollars in identifiers can be useful for generated code.
 
 While there has always been C++ code generators, with the recent adoption of \ref(P2996) and its limited reification features such as \tcode{define_aggregate}, there is an ever increasing need for ways to avoid name collisions stemming from generated/reified code. 
@@ -155,7 +190,7 @@ struct struct_of_arrays_impl {
 
   consteval {
     auto ctx = std::meta::access_context::current();
-    for (std::meta::info member : nonstatic_data_members_of(^^T, std::meta::access_context::unprivileged())) {
+    for (std::meta::info member : nonstatic_data_members_of(^^T, ctx)) {
         auto array_type = substitute(^^std::array, {type_of(member), std::meta::reflect_constant(N)});
         auto mem_descr = data_member_spec(array_type, {.name = identifier_of(member)});
         new_members.push_back(mem_descr);
@@ -186,26 +221,6 @@ struct Particles : struct_of_arrays<Particle, N> {
 }
 
 While this is arguably a naming issue (that could and probably should be \tcode{get_position} instead), these sorts of problems can generally be avoided by uglifying identifiers in generated code. Conditionally allowing dollars gives users a few more options to make those generated names more unique and less likely to collide with user code.
-
-\h3{Stricter Domains}
-In some domains, such as defense, aerospace, avionics, and other safety or mission-critical systems, conformance to the C++ International Standard may be a contractual requirement. \sup{\ref("JSFAVRules"){[1]}} \sup{\ref("MISRACPP2023"){[2]}} \sup{\ref("AUTOSARCPP14"){[3]}}
-For example, the requirements for the \ref(TRITON) project, as specified in NATO IFB-CO-13859-TRITON (Unclassified), state:
-
-\Bquote{
-    5.5.6 TRITON software will be developed with any variations from the languages or specifications given below as "Preferred Languages":
-
-    C++ [ISO/IEC 14882]
-
-
-    [T1-R1791]
-    TRITON shall comply with the standards and language specifications given in the Description as the Preferred Languages. Any variations from the languages or specifications shall be agreed with the Purchaser
-}
-
-In such environments, using a compiler extension is not merely an engineering portability concern. It can become a compliance issue. Deviations from the contracted obligations may need to be recorded in project coding guidelines, reviewed by QA, justified to the customer or main contractor, and in some cases handled through contract amendments or formal deviation processes. In such stricter domains, the bureaucracy and paperwork required for such changes can easily take months. 
-
-Making the use of $ in identifiers conditionally-supported would not make such identifiers portable, nor would it require every implementation to accept them. However, it would change the status of the construct from an unstandardized implementation extension into a construct explicitly recognized by the C++ Standard, when supported by the implementation.
-
-This distinction is useful for stricter environments. A project could specify that it uses C++ as defined by ISO/IEC 14882, together with the conditionally-supported use of $ in identifiers on implementations that document support for it. This is easier to audit, easier to encode in project guidelines, and easier to justify than relying on undocumented or folklore implementation behavior.
 
 \h2{Wording}
 
@@ -264,10 +279,10 @@ In translation phase 4, \grammarterm{identifier} also includes those preprocessi
 
 \Bins{
 \pnum
-The inclusion of $ in \grammarterm{nondigit} is conditionally-supported.
+The inclusion of \tcode{$} in \grammarterm{nondigit} is conditionally-supported.
 
 \note{
-Use of $ anywhere in an identifier is allowed if the implementation supports it.
+Use of \tcode{$} anywhere in an identifier is allowed if the implementation supports it.
 }
 }
 \pnum

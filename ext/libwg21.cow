@@ -173,6 +173,10 @@
   html.dark diff-block h-[data-h^=cmt] {
     color: var(--diff-comment-color);
   }
+
+  h4 {
+    font-size: 115% !important;
+  }
 }
 
 
