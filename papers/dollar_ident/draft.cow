@@ -49,9 +49,9 @@ In theory, we could mandate $ to be valid in identifiers and ask compilers to wo
 
 Aside from aligning with C, there are a few more motivating uses.
 
-\h3{Linker-defined symbols}
+\h3{Linker and toolchain symbol conventions}
 
-Some linkers emit linker-defined symbols with dollars in their identifiers.
+Some embedded toolchains expose $ containing identifiers through linker-defined symbols and custom linker conventions.
 
 One such example is armlink from the \ref("https://developer.arm.com/documentation/dui0803/f/Accessing-and-Managing-Symbols-with-armlink/Linker-defined-symbols"){ARM MDK toolchain}:
 
@@ -86,6 +86,16 @@ However, it seems much cleaner and overall less error-prone (did you notice the 
 
 
 Likewise, if you target RISC-V you may have come across \tcode{__global_pointer$} before. The same argument as before applies, however it will still result in a reserved identifier due to the double underscore.
+
+
+Furthermore, armlink supports \tcode{$Sub$$} and \tcode{$Super$$} symbol patterns for \ref("https://developer.arm.com/documentation/dui0803/f/Accessing-and-Managing-Symbols-with-armlink/Use-of--Super---and--Sub---to-patch-symbol-definitions"){patching existing definitions}, and this convention is used for startup hooks, C library retargeting, and runtime initializations. \ref("https://github.com/lvgl/lv_port_raspberry_pi_pico_mdk/blob/cfa86618e87b9d62afc56db8aabdaa5d192aa67d/project/mdk/wrapper/pico/platform.h#L406"){For example}, RP2040 MDK headers define the following wrapper macros:
+
+\codeblock(cpp){
+#   define WRAPPER_FUNC(__FUNC)     $Sub$$##__FUNC
+#   define REAL_FUNC(__FUNC)        $Super$$## __FUNC
+}
+
+As with linker-defined \tcode{Image$$...} symbols, these examples do not make $ identifiers portable C++. They do, however, show that $ containing identifiers are a common part of documented embedded toolchain practice rather than merely accidental parser behavior.
 
 \h3{Macros}
 
@@ -296,7 +306,7 @@ Thanks to Jan Schultke for the markup language and document generator used for t
 )\
 \bib(
   id = "JSFAVRules",
-  author = "Bjarne Stroustrup",
+  author = "Lockheed Martin",
   title = "Joint Strike Fighter Air Vehicle C++ Coding Standards for the System Development and Demonstration Program",
   link = "https://www.stroustrup.com/JSF-AV-rules.pdf",
 )\
