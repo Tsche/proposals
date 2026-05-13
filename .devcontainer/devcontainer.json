@@ -1,11 +1,17 @@
 {
-  "name": "C++ Proposals - cowel",
+  "name": "C++ Proposals",
   "build": {
-    "dockerfile": "Dockerfile"
+    "dockerfile": "Dockerfile",
+    "args": {
+      "USERNAME": "${localEnv:USER}"
+    }
   },
+  "remoteUser": "${localEnv:USER}",
+  "updateRemoteUserUID": true,
   "customizations": {
     "vscode": {
       "extensions": [
+        "cowel.cowel"
       ]
     }
   }
