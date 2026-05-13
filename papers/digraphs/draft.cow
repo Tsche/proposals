@@ -28,7 +28,7 @@ Original version of the paper.
 
 Digraphs are a complicated solution to a very old problem, which cause more problems
 than they solve in a modern environment. Digraphs also severely limit the design space of C++,
-although as we have seen with \ref(P2996) we are already fine with special-casing our way out
+although as we have seen with \ref("P2996") we are already fine with special-casing our way out
 of this pickle.
 
 This however leads to a rather unfortunate situation. If you need to use a source encoding that requires use of digraphs, you \b{cannot use all of C++26} directly, resulting in a fragmented and needlessly complex language. Some parts you can use if you require certain digraphs, some you don't.
@@ -38,7 +38,7 @@ Since we are most likely going to continue seeing similar problems, this paper p
 \h2{Design Space}
 \h3{Splicers}
 
-Splicers from \ref(P2996) were accepted for C++26 with the proposed syntax \tcode{[: expr :]}. However,
+Splicers from \ref("P2996") were accepted for C++26 with the proposed syntax \tcode{[: expr :]}. However,
 we are not allowed to use digraphs to spell this as \tcode{<:: expr ::>}.
 
 While that seems to be in direct contradiction of the guarantees we're given in \eelis{lex.digraph#2}
@@ -56,9 +56,9 @@ inventing some arbitrary replacement sequence that is expanded to \tcode{[:} dur
 
 \h2{Interpolated string literals}
 The design problems stemming from digraphs do not end there. In some of the recent discussions
-around string interpolation (\ref(P3412), \ref(P3951)) some interesting code was brought up. Consider the following:
+around string interpolation (\ref("P3412"), \ref("P3951")) some interesting code was brought up. Consider the following:
 
-\codeblock(cpp){
+\codeblock("cpp"){
 t"foo \{ bar %> baz"
 }
 
@@ -92,8 +92,8 @@ So, how did we get here?
 \tr{\td{1989}  \td{C89 introduces trigraphs as a workaround}}
 \tr{\td{1995}  \td{C95 introduces digraphs as a less invasive alternative (i.e. \tcode{<:} instead of \tcode{??(})}}
 \tr{\td{1998}  \td{C++98 adopts digraphs from C95}}
-\tr{\td{2011}  \td{\ref(CWG1104) adopted for C++11 to disambiguate qualified template arguments from digraphs}}
-\tr{\td{2017}  \td{Trigraphs removed from C++17 (\ref(N4086))}}
+\tr{\td{2011}  \td{\ref("CWG1104") adopted for C++11 to disambiguate qualified template arguments from digraphs}}
+\tr{\td{2017}  \td{Trigraphs removed from C++17 (\ref("N4086"))}}
 }
 
 \h2{Usage Analysis}
@@ -144,9 +144,9 @@ Some compilers already support disabling digraph support altogether. For instanc
 \h2{Wording}
 
 Make the following changes to the C++ Working Draft.  All wording is relative
-to \ref(N5032), the latest draft at the time of writing.
-\cowel_html_element(h2){Lexical conventions  \stable_ref{lex}}
-\cowel_html_element(h3){Preprocessing tokens \stable_ref{lex.pptoken}}
+to \ref("N5032"), the latest draft at the time of writing.
+\cowel_html_element("h2"){Lexical conventions  \stable_ref{lex}}
+\cowel_html_element("h3"){Preprocessing tokens \stable_ref{lex.pptoken}}
 Modify paragraph 5 as indicated
 
 \Bdiff{
@@ -178,7 +178,7 @@ If the input stream has been parsed into preprocessing tokens up to a given char
     Otherwise, the next preprocessing token is the longest sequence of [...]
 }
 
-\cowel_html_element(h3){Operators and punctuators \stable_ref{lex.operators}}
+\cowel_html_element("h3"){Operators and punctuators \stable_ref{lex.operators}}
 Modify as indicated.
 
 \Bdiff{
@@ -217,7 +217,7 @@ Each \grammarterm{operator-or-punctuator} is converted to a single token in tran
 }
 
 
-\cowel_html_element(h3){Alternative tokens \stable_ref{lex.\del{digraph}\ins{alt}}}
+\cowel_html_element("h3"){Alternative tokens \stable_ref{lex.\del{digraph}\ins{alt}}}
 Rename to [lex.alt] and update all references accordingly.
 
 \Bdiff{
@@ -259,12 +259,12 @@ Nonetheless, those alternative tokens that aren't lexical keywords are colloquia
 }
 }
 
-\cowel_html_element(h2){Preprocessing directives  \stable_ref{cpp}}
-\cowel_html_element(h3){Argument substitution \stable_ref{cpp.subst}}
+\cowel_html_element("h2"){Preprocessing directives  \stable_ref{cpp}}
+\cowel_html_element("h3"){Argument substitution \stable_ref{cpp.subst}}
 Modify Example 1 as indicated.
 \Bdiff{
 \example{
-\codeblock(cpp){
+\codeblock("cpp"){
   #define LPAREN() (
 #define G(Q) 42
 #define F(R, X, ...)  __VA_OPT__(G R X) )
@@ -272,9 +272,9 @@ int x = F(LPAREN(), 0, \del{<:}\ins{[}-);    // replaced by int x = 42;
 }
 }
 }
-\cowel_html_element(h2){Annex C (informative) \stable_ref{diff}}
-\cowel_html_element(h3){C++ and ISO C++ 2026 \stable_ref{diff.cpp26}}
-\cowel_html_element(h3){\eelis{lex} lexical conventions \stable_ref{diff.cpp26.lex}}
+\cowel_html_element("h2"){Annex C (informative) \stable_ref{diff}}
+\cowel_html_element("h3"){C++ and ISO C++ 2026 \stable_ref{diff.cpp26}}
+\cowel_html_element("h3"){\eelis{lex} lexical conventions \stable_ref{diff.cpp26.lex}}
 Add new entry
 \Bdiff{
 \ins{

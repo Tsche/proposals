@@ -1,1 +1,4 @@
-include ../../wg21/Makefile
+all:
+	cowel run draft.cow generated/draft.html
+
+.PHONY: all

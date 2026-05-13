@@ -1,1 +1,4 @@
-cowel run draft.cow generated/draft.html
+all:
+	cowel run draft.cow generated/draft.html
+
+.PHONY: all

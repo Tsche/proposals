@@ -72,7 +72,7 @@ Symbols that contain the character sequence \tcode{$$}, and all other external n
 
 Unfortunately the examples given in armlink's documentation are not valid C++.
 
-\codeblock(cpp){
+\codeblock("cpp"){
 // oops, none of these are valid identifiers
 extern int Image$$ER_ZI$$Base;
 extern int Image$$ER_ZI$$Limit;
@@ -84,7 +84,7 @@ extern int Image$$ER_RW$$Limit;
 
 With GCC and Clang this can also be addressed by explicitly specifying the name used in assembler code (\ref("https://compiler-explorer.com/z/WE8TzTsav"){Compiler Explorer})
 
-\codeblock(cpp){
+\codeblock("cpp"){
 extern int Image_ER_ZI_Base  asm("Image$$ER_ZI$$Base");
 extern int Image_ER_ZI_Limit asm("Image$$ER_ZI$$Limit");
 extern int Image_ER_RO_Base  asm("Image$$ER_RO$$Base");
@@ -101,7 +101,7 @@ Likewise, if you target RISC-V you may have come across \tcode{__global_pointer$
 \h4{Symbol patching}
 Furthermore, armlink supports \tcode{$Sub$$} and \tcode{$Super$$} symbol patterns to allow \ref("https://developer.arm.com/documentation/dui0803/f/Accessing-and-Managing-Symbols-with-armlink/Use-of--Super---and--Sub---to-patch-symbol-definitions"){patching existing definitions}. This feature is commonly used for startup hooks, C library retargeting and other situations where an existing symbol cannot be modified. \ref("https://github.com/lvgl/lv_port_raspberry_pi_pico_mdk/blob/cfa86618e87b9d62afc56db8aabdaa5d192aa67d/project/mdk/wrapper/pico/platform.h#L406"){For example}, RP2040 MDK headers define the following wrapper macros:
 
-\codeblock(cpp){
+\codeblock("cpp"){
 #   define WRAPPER_FUNC(__FUNC)     $Sub$$##__FUNC
 #   define REAL_FUNC(__FUNC)        $Super$$## __FUNC
 }
@@ -110,7 +110,7 @@ As with linker-defined \tcode{Image$$...} symbols, there are still some portabil
 
 \h3{Stricter Domains}
 In some domains (such as defense, aerospace and avionics) that deal with safety or mission-critical systems, conformance to the C++ International Standard may be a contractual requirement. \sup{\ref("JSFAVRules"){[1]}} \sup{\ref("MISRACPP2023"){[2]}} \sup{\ref("AUTOSARCPP14"){[3]}}
-For example, the requirements for the \ref(TRITON) project, as specified in NATO IFB-CO-13859-TRITON (Unclassified), state:
+For example, the requirements for the \ref("TRITON") project, as specified in NATO IFB-CO-13859-TRITON (Unclassified), state:
 
 \Bquote{
     5.5.6 TRITON software will be developed with any variations from the languages or specifications given below as "Preferred Languages":
@@ -136,7 +136,7 @@ Another somewhat common use is in macro identifiers. \ref("https://github.com/se
 
 For example consider
 
-\codeblock(cpp){
+\codeblock("cpp"){
 #if MSVC
 #   define $inline_never  __declspec(noinline)
 #   define $inline_always __forceinline
@@ -176,12 +176,12 @@ Not only does this reduce the chances of name collisions, it also helps when sur
 \h4{Generated code}
 In a similar fashion, dollars in identifiers can be useful for generated code.
 
-While there has always been C++ code generators, with the recent adoption of \ref(P2996) and its limited reification features such as \tcode{define_aggregate}, there is an ever increasing need for ways to avoid name collisions stemming from generated/reified code. 
+While there has always been C++ code generators, with the recent adoption of \ref("P2996") and its limited reification features such as \tcode{define_aggregate}, there is an ever increasing need for ways to avoid name collisions stemming from generated/reified code. 
 
 As a result of that, it's more than likely that we'll continue to see all sorts of creative mangling/uglification schemes - (conditionally) allowing the use of \tcode{$} provides another viable alternative.
 
-For example, consider a simple struct to struct of arrays transformation (adopted from the struct to struct of arrays example in \ref(P2996)):
-\codeblock(cpp){
+For example, consider a simple struct to struct of arrays transformation (adopted from the struct to struct of arrays example in \ref("P2996")):
+\codeblock("cpp"){
 template <typename T, size_t N>
 struct struct_of_arrays_impl {
   struct impl;
@@ -203,7 +203,7 @@ using struct_of_arrays = struct_of_arrays_impl<T, N>::impl;
 }
 
 If we, for some reason, attempt to inherit from this generated type, we might run into collisions.
-\codeblock(cpp){
+\codeblock("cpp"){
 struct Particle {
     vec3 position;
     vec3 velocity;
@@ -223,13 +223,13 @@ While this is arguably a naming issue (that could and probably should be \tcode{
 \h2{Wording}
 
 Make the following changes to the C++ Working Draft. All wording is relative
-to \ref(N5046), the latest draft at the time of writing.
+to \ref("N5046"), the latest draft at the time of writing.
 
 \h3(show_number=false){[lex.name] Identifiers}
 
 Add a new paragraph after \eelis{lex.name#1}, add \tcode{$} to \grammarterm{nondigit}.
 \Bquote{
-\cowel_html_element(h2){Identifiers \stable_ref{lex.name}}
+\cowel_html_element("h2"){Identifiers \stable_ref{lex.name}}
 
 \pre{
 \grammarterm{identifier}:
