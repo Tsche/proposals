@@ -35,7 +35,7 @@ def get_link(item):
     if 'link' in item:
         return item['link']
     if 'file' in item:
-        return '/' + item['file']
+        return './' + item['file']
     return '#'
 
 
