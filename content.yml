@@ -24,6 +24,7 @@ papers:
         link: https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2026/p4234r0.html
 
   - name: Removing digraphs
+    id: D4235
     revisions:
       - id: 0
         build: cowel run papers/digraphs/draft.cow generated/digraphs.html

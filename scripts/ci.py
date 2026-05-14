@@ -57,14 +57,16 @@ def generate_papers(data, published_only=False):
                 continue
             
             id = paper.get('id', '')
+            paper_unpublished = not id or (len(revisions) == 1 and not is_published(revisions[0]))
+
             cls = 'paper'
-            if not id:
+            if paper_unpublished:
                 cls += ' unpublished'
 
             rev_items = []
             for rev in revisions:
                 rev_id = rev.get('id', '?')
-                badge = get_badge("unpublished") if (id and not is_published(rev)) else ''
+                badge = '' if (paper_unpublished or is_published(rev)) else get_badge("unpublished")
                 date = format_date(rev.get('date', 'undated'))
                 rev_items.append(Template(T['revision_item']).substitute(
                     link=get_link(rev),
@@ -77,10 +79,10 @@ def generate_papers(data, published_only=False):
 
             html.append(Template(T['paper']).substitute(
                 cls=cls,
-                paper_id=id or get_badge("unpublished"),
+                paper_id=id,
                 name=paper.get('name', ''),
                 revisions=revisions_html,
-                status=paper.get('status', '')
+                status=paper.get('status', 'unpublished' if paper_unpublished else '')
             ))
     return '\n'.join(html)
 
