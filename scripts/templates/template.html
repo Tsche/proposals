@@ -92,9 +92,92 @@
         .container {
             margin-top: 10px;
         }
+        html.dark-mode body {
+            background: #1e1e1e;
+            color: #e0e0e0;
+        }
+        html.dark-mode h1 {
+            color: #e0e0e0;
+            border-bottom-color: #4a9eff;
+        }
+        html.dark-mode h2, html.dark-mode h3 {
+            color: #d0d0d0;
+        }
+        html.dark-mode .paper, html.dark-mode .issue {
+            background: #2d2d2d;
+            border-left-color: #4a9eff;
+        }
+        html.dark-mode .issue {
+            border-left-color: #4caf50;
+        }
+        html.dark-mode .paper.unpublished, html.dark-mode .issue.unpublished {
+            background: #332200;
+            border-left-color: #ffb84d;
+        }
+        html.dark-mode .paper-id {
+            color: #4a9eff;
+        }
+        html.dark-mode .revision-link {
+            color: #4a9eff;
+        }
+        html.dark-mode .revision-date {
+            color: #a0a0a0;
+        }
+        html.dark-mode .badge.unpublished {
+            background: #ffb84d;
+            color: #1e1e1e;
+        }
+        html.dark-mode .badge.accepted {
+            background: #4caf50;
+            color: #1e1e1e;
+        }
     </style>
 </head>
 <body>
+    <div style="position: relative;">
+        <button id="theme-toggle" style="position: fixed; top: 20px; right: 20px; background: none; border: none; cursor: pointer; font-size: 24px; z-index: 1000;">🌙</button>
+    </div>
+    <script>
+        (function() {
+            const html = document.documentElement;
+            const saved = localStorage.getItem('theme');
+            
+            let isDark;
+            if (saved) {
+                isDark = saved === 'dark';
+            } else {
+                isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            }
+            
+            if (isDark) {
+                html.classList.add('dark-mode');
+                html.classList.remove('light-mode');
+            } else {
+                html.classList.add('light-mode');
+                html.classList.remove('dark-mode');
+            }
+            
+            const updateButton = () => {
+                const toggle = document.getElementById('theme-toggle');
+                if (toggle) {
+                    toggle.textContent = html.classList.contains('dark-mode') ? '☀️' : '🌙';
+                }
+            };
+            
+            document.addEventListener('DOMContentLoaded', () => {
+                updateButton();
+                const toggle = document.getElementById('theme-toggle');
+                if (toggle) {
+                    toggle.addEventListener('click', () => {
+                        html.classList.toggle('dark-mode');
+                        html.classList.toggle('light-mode');
+                        localStorage.setItem('theme', html.classList.contains('dark-mode') ? 'dark' : 'light');
+                        updateButton();
+                    });
+                }
+            });
+        })();
+    </script>
     <h1>${title}</h1>
     <div class="sections">
       <h2>Papers</h2>
