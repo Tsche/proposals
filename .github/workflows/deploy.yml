@@ -19,15 +19,16 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      build:
-        context: .
-        dockerfile: .devcontainer/Dockerfile
-      options: --user root
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Get dependencies
+        run: |
+          apt-get update && apt-get install -y make sudo gawk
+          apt-get install -y curl python3 python3-pip texlive-xetex python3-venv python3-requests pandoc
+          apt-get install -y nodejs npm 
+          npm install --global cowel
 
       - name: Build site
         run: python3 scripts/ci.py
