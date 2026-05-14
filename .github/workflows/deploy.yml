@@ -25,10 +25,10 @@ jobs:
 
       - name: Get dependencies
         run: |
-          apt-get update && apt-get install -y make sudo gawk
-          apt-get install -y curl python3 python3-pip texlive-xetex python3-venv python3-requests pandoc
-          apt-get install -y nodejs npm 
-          npm install --global cowel
+          sudo apt-get update && sudo apt-get install -y make sudo gawk
+          sudo apt-get install -y curl python3 python3-pip texlive-xetex python3-venv python3-requests pandoc
+          sudo apt-get install -y nodejs npm 
+          sudo npm install --global cowel
 
       - name: Build site
         run: python3 scripts/ci.py
