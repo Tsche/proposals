@@ -11,7 +11,8 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "cowel.cowel"
+        "cowel.cowel",
+        "searKing.preview-vscode"
       ]
     }
   }

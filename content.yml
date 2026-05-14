@@ -1,0 +1,49 @@
+papers:
+  - name: Library Support for Expansion Statements
+    id: P1789
+    revisions:
+      - id: 3
+        date: 2025-11-05
+        link: https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p1789r3.pdf
+      - id: 2
+        date: 2025-11-05
+        link: https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p1789r2.pdf
+      - id: 1
+        date: 2025-04-15
+        link: https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2025/p1789r1.pdf
+    status: accepted
+
+  - name: $identifiers
+    id: P4234
+    revisions:
+      - id: 1
+        build: cowel run papers/digraphs/draft.cow generated/dollar_idents.html
+        file: dollar_idents.html
+      - id: 0
+        date: 2026-05-12
+        link: https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2026/p4234r0.html
+
+  - name: Removing digraphs
+    revisions:
+      - id: 0
+        build: cowel run papers/digraphs/draft.cow generated/digraphs.html
+        file: digraphs.html
+
+  - name: "Enum utilities"
+    revisions:
+      - id: 0
+        build: |
+          cd papers/enum_utils
+          make draft.html
+          cp generated/draft.html ../../generated/enum_utils.html
+        file: enum_utils.html
+
+issues:
+  lwg:
+    - name: "`{can_}substitute` specification is ill-formed"
+      link: https://cplusplus.github.io/LWG/issue4316
+      status: accepted
+    - name: "`constant_wrapper` wording problems"
+      link: https://cplusplus.github.io/LWG/issue4500
+      status: accepted
+  cwg:

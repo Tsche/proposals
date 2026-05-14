@@ -18,7 +18,8 @@ RUN if [ "${USERNAME}" != "root" ]; then \
     fi
 
 # Pandoc (markdown papers)
-RUN apt-get install -y python3 python3-pip texlive-xetex
+RUN apt-get install -y curl \
+      python3 python3-pip texlive-xetex python3-venv python3-requests pandoc \
 
 # Cowel
 RUN apt-get install -y nodejs npm 
