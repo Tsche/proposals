@@ -5,7 +5,7 @@
   title = {Removing Digraphs}
 ){
 \dl{
-  \dt{Document number:} \dd{\docnum{P4235}}
+  \dt{Document number:} \dd{\docnum{D4235}}
   \dt{Date:}            \dd{\tt{2026-05-10}}
   \dt{Audience:}        \dd{SG22} \dd{EWG}
   \dt{Project:}         \dd{ISO/IEC 14882 Programming Languages — C++, ISO/IEC JTC1/SC22/WG21}
