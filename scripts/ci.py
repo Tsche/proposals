@@ -17,9 +17,6 @@ T = {
 }
 
 
-def get_badge(kind: str):
-    return f'<span class="badge {kind}">{kind.upper()}</span>'
-
 def format_date(date_str):
     if not date_str:
         return ''
@@ -55,9 +52,10 @@ def generate_papers(data, published_only=False):
 
             if not revisions and published_only:
                 continue
-            
+
             id = paper.get('id', '')
-            paper_unpublished = not id or (len(revisions) == 1 and not is_published(revisions[0]))
+            paper_unpublished = not id or (
+                len(revisions) == 1 and not is_published(revisions[0]))
 
             cls = 'paper'
             if paper_unpublished:
@@ -66,13 +64,13 @@ def generate_papers(data, published_only=False):
             rev_items = []
             for rev in revisions:
                 rev_id = rev.get('id', '?')
-                badge = '' if (paper_unpublished or is_published(rev)) else get_badge("unpublished")
                 date = format_date(rev.get('date', 'undated'))
                 rev_items.append(Template(T['revision_item']).substitute(
                     link=get_link(rev),
                     rev_id=rev_id,
                     date=date,
-                    badge=badge
+                    status='' if (paper_unpublished or is_published(
+                        rev)) else 'unpublished'
                 ))
 
             revisions_html = '\n'.join(rev_items) if rev_items else ''
@@ -82,7 +80,8 @@ def generate_papers(data, published_only=False):
                 paper_id=id,
                 name=paper.get('name', ''),
                 revisions=revisions_html,
-                status=paper.get('status', 'unpublished' if paper_unpublished else '')
+                status=paper.get(
+                    'status', 'unpublished' if paper_unpublished else '')
             ))
     return '\n'.join(html)
 
@@ -92,7 +91,7 @@ def generate_issues(group, data, published_only=False):
     issues = data.get('issues', {})
     if not issues:
         return ""
-    
+
     category_issues = issues.get(group, [])
     if not category_issues:
         return ""
@@ -113,6 +112,7 @@ def generate_issues(group, data, published_only=False):
 
     return '\n'.join(html)
 
+
 def main():
     content_file = ROOT / 'content.yml'
     generated_dir = ROOT / 'generated'
@@ -125,7 +125,7 @@ def main():
         for revision in paper.get('revisions', []):
             if 'build' in revision and 'file' in revision:
                 try:
-                    subprocess.run(revision['build'], shell=True, 
+                    subprocess.run(revision['build'], shell=True,
                                    cwd=ROOT, check=True, capture_output=True)
                 except subprocess.CalledProcessError:
                     pass
@@ -137,7 +137,8 @@ def main():
         papers = generate_papers(data, published_only)
         lwg_issues = generate_issues('lwg', data, published_only)
         cwg_issues = generate_issues('cwg', data, published_only)
-        html = Template(T['primary']).substitute(title=title, papers=papers, lwg=lwg_issues, cwg=cwg_issues)
+        html = Template(T['primary']).substitute(
+            title=title, papers=papers, lwg=lwg_issues, cwg=cwg_issues)
 
         output_path = generated_dir / index_file
         with open(output_path, 'w') as f:
