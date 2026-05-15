@@ -17,7 +17,7 @@ papers:
     id: P4234
     revisions:
       - id: 1
-        build: cowel run papers/digraphs/draft.cow generated/dollar_idents.html
+        build: cowel run papers/dollar_ident/draft.cow generated/dollar_idents.html
         file: dollar_idents.html
       - id: 0
         date: 2026-05-12

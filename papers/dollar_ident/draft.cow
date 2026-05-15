@@ -220,6 +220,77 @@ struct Particles : struct_of_arrays<Particle, N> {
 
 While this is arguably a naming issue (that could and probably should be \tcode{get_position} instead), these sorts of problems can generally be avoided by uglifying identifiers in generated code. Conditionally allowing dollars gives users a few more options to make those generated names more unique and less likely to collide with user code.
 
+\h2{Preprocessing}
+In a recent core reflector discussion it was noted that "$ in identifiers is conditionally supported" can mean multiple things. Essentially we have 3 options:
+\dl{
+  \dt{Option 1}\dd{\tcode{$} is conditionally a \grammarterm{nondigit}.}
+  \dt{Option 2} \dd{\tcode{$} is always a \grammarterm{nondigit}, but conditionally supported in all identifiers.}
+  \dt{Option 3} \dd{\tcode{$} is always a \grammarterm{nondigit}, but conversion of an \grammarterm{identifier} \grammarterm{preprocessing-token} to an \grammarterm{identifier} \grammarterm{token} in lexing phase 6 is conditionally supported if the identifier contains \tcode{$}.}
+}
+
+
+To understand the implications, consider the following code:
+\codeblock("cpp"){
+#define f(x) #x
+#define g(x) f(x)
+#define foo bar
+g(foo$)
+}
+
+\table{
+\thead{\td{Variant}
+  \td{Option #1}
+  \td{Option #2}
+  \td{Option #3}}
+\tr(style="border-bottom: 1px solid var(--table-border-color);"){
+  \td{\tcode{$} supported}
+  \td{✅ \br 
+  expands to \tcode{"foo$"}}
+  \td{✅ \br 
+  expands to \tcode{"foo$"}}
+  \td{✅ \br 
+  expands to \tcode{"foo$"}}}
+
+\tr(style="border-bottom: 1px solid var(--table-border-color);"){
+  \td{\tcode{$} not supported}
+  \td{✅ \br 
+  may expand to \tcode{"foo$"} or \tcode{"bar$"}}
+  \td{❌ rejected \br
+  cannot form a \grammarterm{identifier} \grammarterm{preprocessing-token} \br in lexing phase 3}
+  \td{✅ \br 
+  expands to \tcode{"foo$"}}}
+}
+
+Of course code such as
+\codeblock("cpp"){
+int foo$ = 42;
+}
+will still be rejected if the implementation cannot support $identifiers, regardless of which option we choose.
+
+\table{
+\thead{\td{Variant}
+  \td{Option #1}
+  \td{Option #2}
+  \td{Option #3}}
+\tr(style="border-bottom: 1px solid var(--table-border-color);"){
+  \td{\tcode{$} supported}
+  \td{✅}
+  \td{✅}
+  \td{✅}
+}
+
+\tr(style="border-bottom: 1px solid var(--table-border-color);"){
+  \td{\tcode{$} not supported}
+  \td{❌ rejected \br 
+  lexed as \grammarterm{identifier} \tcode{foo} followed by other \grammarterm{preprocessing-token} \tcode{$} \br
+  \tcode{error: stray '$' in program}}
+  \td{❌ rejected \br
+  cannot form a \grammarterm{identifier} \grammarterm{preprocessing-token} \br in lexing phase 3}
+  \td{❌ rejected \br 
+  cannot convert \grammarterm{identifier} \grammarterm{preprocessing-token} to \grammarterm{identifier} \grammarterm{token} in lexing phase 6}
+}
+}
+
 \h2{Wording}
 
 Make the following changes to the C++ Working Draft. All wording is relative
