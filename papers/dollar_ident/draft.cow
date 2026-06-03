@@ -254,7 +254,7 @@ g(foo$)
 \tr(style="border-bottom: 1px solid var(--table-border-color);"){
   \td{\tcode{$} not supported}
   \td{✅ \br 
-  may expand to \tcode{"foo$"} or \tcode{"bar$"}}
+  expands to \tcode{"bar$"}}
   \td{❌ rejected \br
   cannot form a \grammarterm{identifier} \grammarterm{preprocessing-token} \br in lexing phase 3}
   \td{✅ \br 
@@ -292,7 +292,6 @@ will still be rejected if the implementation cannot support $identifiers, regard
 }
 
 \h2{Wording}
-
 Make the following changes to the C++ Working Draft. All wording is relative
 to \ref("N5046"), the latest draft at the time of writing.
 
