@@ -6,7 +6,7 @@
 ){
 \dl{
   \dt{Document number:} \dd{\docnum{D4234R1}}
-  \dt{Date:}            \dd{\tt{2026-05-13}}
+  \dt{Date:}            \dd{\tt{2026-06-07}}
   \dt{Audience:}        \dd{SG22} \dd{EWG}
   \dt{Project:}         \dd{ISO/IEC 14882 Programming Languages — C++, ISO/IEC JTC1/SC22/WG21}
   \dt{Reply-to:}        \dd{Matthias Wippich <\mail{mfwippich@gmail.com}>}
@@ -22,6 +22,13 @@ This paper proposes making \tcode{$} in identifiers conditionally-supported.
 \make_contents
 
 \h2(listed=false){Revision history}
+
+\h3{R1 June 2026}
+\ul{
+\li{summarized the recent core reflector discussion in a section on preprocessing}
+\li{updated/added wording for all three options}
+\li{some minor corrections}
+}
 
 \h3{R0 May 2026}
 
@@ -221,11 +228,11 @@ struct Particles : struct_of_arrays<Particle, N> {
 While this is arguably a naming issue (that could and probably should be \tcode{get_position} instead), these sorts of problems can generally be avoided by uglifying identifiers in generated code. Conditionally allowing dollars gives users a few more options to make those generated names more unique and less likely to collide with user code.
 
 \h2{Preprocessing}
-In a recent core reflector discussion it was noted that "$ in identifiers is conditionally supported" can mean multiple things. Essentially we have 3 options:
+In a recent \ref("https://lists.isocpp.org/core/2026/05/19552.php"){core reflector discussion} it was noted that "$ in identifiers is conditionally supported" can mean multiple things. Essentially we have 3 options:
 \dl{
   \dt{Option 1}\dd{\tcode{$} is conditionally a \grammarterm{nondigit}.}
-  \dt{Option 2} \dd{\tcode{$} is always a \grammarterm{nondigit}, but conditionally supported in all identifiers.}
-  \dt{Option 3} \dd{\tcode{$} is always a \grammarterm{nondigit}, but conversion of an \grammarterm{identifier} \grammarterm{preprocessing-token} to an \grammarterm{identifier} \grammarterm{token} in lexing phase 6 is conditionally supported if the identifier contains \tcode{$}.}
+  \dt{Option 2} \dd{\tcode{$} is always a \grammarterm{nondigit}, but conditionally supported in identifiers.}
+  \dt{Option 3} \dd{\tcode{$} is always a \grammarterm{nondigit}, but conversion of an \grammarterm{identifier} preprocessing token to an \grammarterm{identifier} token in translation phase 6 is conditionally supported if the identifier contains \tcode{$}.}
 }
 
 
@@ -256,7 +263,7 @@ g(foo$)
   \td{✅ \br 
   expands to \tcode{"bar$"}}
   \td{❌ rejected \br
-  cannot form a \grammarterm{identifier} \grammarterm{preprocessing-token} \br in lexing phase 3}
+  cannot form an \grammarterm{identifier} preprocessing token \br in translation phase 3}
   \td{✅ \br 
   expands to \tcode{"foo$"}}}
 }
@@ -265,7 +272,7 @@ Of course code such as
 \codeblock("cpp"){
 int foo$ = 42;
 }
-will still be rejected if the implementation cannot support $identifiers, regardless of which option we choose.
+will still be rejected if the implementation cannot support $identifiers, regardless of which option we choose - only the diagnostic changes.
 
 \table{
 \thead{\td{Variant}
@@ -282,14 +289,21 @@ will still be rejected if the implementation cannot support $identifiers, regard
 \tr(style="border-bottom: 1px solid var(--table-border-color);"){
   \td{\tcode{$} not supported}
   \td{❌ rejected \br 
-  lexed as \grammarterm{identifier} \tcode{foo} followed by other \grammarterm{preprocessing-token} \tcode{$} \br
-  \tcode{error: stray '$' in program}}
+  lexed as \grammarterm{identifier} \tcode{foo} followed by other preprocessing token \tcode{$} \br\br
+  e.g.\br \tcode{error: stray '$' in program}}
   \td{❌ rejected \br
-  cannot form a \grammarterm{identifier} \grammarterm{preprocessing-token} \br in lexing phase 3}
+  cannot form an \grammarterm{identifier} preprocessing token in translation phase 3 \br\br
+  e.g.\br \tcode{error: identifiers containing '$' are not supported}
+  }
   \td{❌ rejected \br 
-  cannot convert \grammarterm{identifier} \grammarterm{preprocessing-token} to \grammarterm{identifier} \grammarterm{token} in lexing phase 6}
+  cannot convert \grammarterm{identifier} preprocessing token to \grammarterm{identifier} token in translation phase 6\br\br
+  
+  e.g.\br \tcode{error: identifiers containing '$' are not supported}
+  }
 }
 }
+
+An implementation attempt for option 3 can be found at \ref("https://github.com/llvm/llvm-project/pull/200614"){Clang PR #200614}.
 
 \h2{Wording}
 Make the following changes to the C++ Working Draft. All wording is relative
@@ -465,7 +479,7 @@ The identifiers in Table 4 have a special meaning when appearing in a certain co
 \cowel_html_element("h2"){Tokens \stable_ref{lex.token}}
 \cowel_var_set("pnum", 0)
 \pre{
-\grammarterm{token}:
+token:
     \grammarterm{identifier}
     \grammarterm{keyword}
     \grammarterm{literal}
@@ -477,7 +491,7 @@ There are six kinds of tokens: identifiers, keywords, literals, header names, op
 
 \Bins{
 \pnum
-\grammarterm{Identifier} tokens that are converted from \grammarterm{identifier} preprocessing tokens which contain \tcode{$} are conditionally-supported.
+\grammarterm{Identifier} tokens that are converted from \grammarterm{identifier} preprocessing tokens containing \tcode{$} are conditionally-supported.
 }
 }
 
