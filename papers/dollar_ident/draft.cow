@@ -295,11 +295,68 @@ will still be rejected if the implementation cannot support $identifiers, regard
 Make the following changes to the C++ Working Draft. All wording is relative
 to \ref("N5046"), the latest draft at the time of writing.
 
-\h3(show_number=false){[lex.name] Identifiers}
+\h3{Wording Option 1}
+Add a new paragraph after \eelis{lex.name#1}
+\Bquote{
+\cowel_html_element("h2"){Identifiers \stable_ref{lex.name}}
+\cowel_var_set("pnum", 0)
+\pre{
+\grammarterm{identifier}:
+    \grammarterm{identifier-start}
+    \grammarterm{identifier} \grammarterm{identifier-continue}
 
+\grammarterm{identifier-start}:
+    \grammarterm{nondigit}
+    an element of the translation character set with the Unicode property XID_Start
+
+\grammarterm{identifier-continue}:
+    \grammarterm{digit}
+    \grammarterm{nondigit}
+    an element of the translation character set with the Unicode property XID_Continue
+
+\grammarterm{nondigit}: one of
+    a b c d e f g h i j k l m
+    n o p q r s t u v w x y z
+    A B C D E F G H I J K L M
+    N O P Q R S T U V W X Y Z 
+    _ \ins{\i{see below}}
+
+\grammarterm{digit}: one of
+    0 1 2 3 4 5 6 7 8 9
+}
+
+\note{
+The character properties XID_Start and XID_Continue are described by UAX #44 of the Unicode Standard.
+}
+
+\pnum
+The program is ill-formed if an \grammarterm{identifier} does not conform to Normalization Form C as specified in the Unicode Standard.
+
+\note{
+Identifiers are case-sensitive.
+}
+
+\note{
+[uaxid] compares the requirements of UAX #31 of the Unicode Standard with the C++ rules for identifiers.
+}
+
+\note{
+In translation phase 4, \grammarterm{identifier} also includes those preprocessing-tokens (\eelis{lex.pptoken}) differentiated as keywords (\eelis{lex.key}) in the later translation phase 7 (\eelis{lex.token}).
+}
+
+\Bins{
+\pnum
+It is implementation-defined whether \tcode{$} is included in \grammarterm{nondigit}.
+}
+\pnum
+The identifiers in Table 4 have a special meaning when appearing in a certain context. [...]
+}
+
+\h3{Wording Option 2}
 Add a new paragraph after \eelis{lex.name#1}, add \tcode{$} to \grammarterm{nondigit}.
 \Bquote{
 \cowel_html_element("h2"){Identifiers \stable_ref{lex.name}}
+\cowel_var_set("pnum", 0)
 
 \pre{
 \grammarterm{identifier}:
@@ -347,19 +404,87 @@ In translation phase 4, \grammarterm{identifier} also includes those preprocessi
 
 \Bins{
 \pnum
-The inclusion of \tcode{$} in \grammarterm{nondigit} is conditionally-supported.
-
-\note{
-Use of \tcode{$} anywhere in an identifier is allowed if the implementation supports it.
-}
+Identifiers that contain \tcode{$} are conditionally-supported.
 }
 \pnum
 The identifiers in Table 4 have a special meaning when appearing in a certain context. [...]
-
 }
+\h3{Wording Option 3}
+Add \tcode{$} to \grammarterm{nondigit} in \eelis{lex.name}. Add new paragraph to \eelis{lex.token}.
+\Bquote{
+\cowel_html_element("h2"){Identifiers \stable_ref{lex.name}}
+\cowel_var_set("pnum", 0)
+
+\pre{
+\grammarterm{identifier}:
+    \grammarterm{identifier-start}
+    \grammarterm{identifier} \grammarterm{identifier-continue}
+
+\grammarterm{identifier-start}:
+    \grammarterm{nondigit}
+    an element of the translation character set with the Unicode property XID_Start
+
+\grammarterm{identifier-continue}:
+    \grammarterm{digit}
+    \grammarterm{nondigit}
+    an element of the translation character set with the Unicode property XID_Continue
+
+\grammarterm{nondigit}: one of
+    a b c d e f g h i j k l m
+    n o p q r s t u v w x y z
+    A B C D E F G H I J K L M
+    N O P Q R S T U V W X Y Z 
+    _ \ins{$}
+
+\grammarterm{digit}: one of
+    0 1 2 3 4 5 6 7 8 9
+}
+
+\note{
+The character properties XID_Start and XID_Continue are described by UAX #44 of the Unicode Standard.
+}
+
+\pnum
+The program is ill-formed if an \grammarterm{identifier} does not conform to Normalization Form C as specified in the Unicode Standard.
+
+\note{
+Identifiers are case-sensitive.
+}
+
+\note{
+[uaxid] compares the requirements of UAX #31 of the Unicode Standard with the C++ rules for identifiers.
+}
+
+\note{
+In translation phase 4, \grammarterm{identifier} also includes those preprocessing-tokens (\eelis{lex.pptoken}) differentiated as keywords (\eelis{lex.key}) in the later translation phase 7 (\eelis{lex.token}).
+}
+
+\pnum
+The identifiers in Table 4 have a special meaning when appearing in a certain context. [...]
+
+\cowel_html_element("h2"){Tokens \stable_ref{lex.token}}
+\cowel_var_set("pnum", 0)
+\pre{
+\grammarterm{token}:
+    \grammarterm{identifier}
+    \grammarterm{keyword}
+    \grammarterm{literal}
+    \grammarterm{header-name}
+    \grammarterm{operator-or-punctuator}
+}
+\pnum
+There are six kinds of tokens: identifiers, keywords, literals, header names, operators, and other separators.
+
+\Bins{
+\pnum
+\grammarterm{Identifier} tokens that are converted from \grammarterm{identifier} preprocessing tokens which contain \tcode{$} are conditionally-supported.
+}
+}
+
+
 \h2{Acknowledgements}
 
-Thanks to Jan Schultke for the markup language and document generator used for this paper and thanks to all the awesome people who gave feedback on this proposal.
+Massive thanks to Brian Bi for continued feedback and help with the wording of this paper. Thanks to Jan Schultke for the markup language and document generator used for this paper and thanks to all the other awesome people who gave feedback on this proposal.
 
 \hr
 \h2{References}
