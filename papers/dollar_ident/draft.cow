@@ -5,9 +5,9 @@
   title = {\tcode{$identifiers}}
 ){
 \dl{
-  \dt{Document number:} \dd{\docnum{D4234R1}}
+  \dt{Document number:} \dd{\docnum{P4234R1}}
   \dt{Date:}            \dd{\tt{2026-06-07}}
-  \dt{Audience:}        \dd{SG22} \dd{EWG}
+  \dt{Audience:}        \dd{EWG} \dd{SG16} \dd{SG22}
   \dt{Project:}         \dd{ISO/IEC 14882 Programming Languages — C++, ISO/IEC JTC1/SC22/WG21}
   \dt{Reply-to:}        \dd{Matthias Wippich <\mail{mfwippich@gmail.com}>}
   \dt{Co-authors:}      \dd{Murat Can Çağrı <\mail{cancagri.dev@gmail.com}>}
@@ -46,7 +46,7 @@ Amongst many other compilers this is supported by \ref("https://learn.microsoft.
 
 In recent years, C has made quite a few changes to what they consider an identifier. The original rules allowed any implementation-defined characters, the revised ones did not (see \ref("WG14 N2836")). To address this, \ref("WG14 N3145") introduced a carve-out to allow \tcode{$} anywhere in identifiers as an implementation extension.
 
-In C++ however, the situation is different. The C++ standard does not acknowledge \tcode{$} in identifiers at all. As a result, the use of \tcode{$} in identifiers pedantically renders your code ill-formed. In practice, however, almost all implementations support it as a non-standard extension.
+In C++ however, the situation is different. The C++ standard does not acknowledge \tcode{$} in identifiers at all. As a result, the use of \tcode{$} in identifiers pedantically renders your code ill-formed. In practice, however, almost all implementations support it as a non-standard extension, which was a conforming extension until C++26. It effectively became a non-conforming extension through the addition of \tcode{$} to the basic character set (see \ref("P2558")).
 
 \h2{Proposed change}
 
@@ -64,7 +64,9 @@ However, dollar signs in identifiers are not supported on a few target machines,
 
 Examples of such targets are \ref("https://github.com/gcc-mirror/gcc/blob/master/gcc/config/rs6000/xcoff.h#L57"){RS/6000}, \ref("https://github.com/gcc-mirror/gcc/blob/master/gcc/config/avr/avr.h#L480"){AVR}, and \ref("https://github.com/gcc-mirror/gcc/blob/master/gcc/config/mmix/mmix.h#L792"){MMIX}.
 
-In theory, we could mandate \tcode{$} to be valid in identifiers and ask compilers to work around such problematic targets in some way or another. However, that's a rather big ask - especially given the popularity and history of this extension, making stronger support guarantees than C \i{and} asking for more than what implementations have been supporting for decades does not seem wise.
+In theory, we could mandate \tcode{$} to be valid in identifiers and ask compilers to work around such problematic targets in some way or another. 
+
+However, that's a rather big ask - especially given the popularity and history of this extension, making vastly stronger support guarantees than C \i{and} asking for more than what implementations have been supporting for decades does not seem wise. Regardless, we have an opportunity to improve the status quo here.
 
 \h2{Additional Motivation}
 \h3{Linker and toolchain symbol conventions}
@@ -302,6 +304,8 @@ will still be rejected if the implementation cannot support $identifiers, regard
   }
 }
 }
+
+The authors prefer option 3 as it is the least user-hostile option. Unlike the other options, this gets us consistent preprocessing behavior independent of the target's capabilities rather than a silent change in meaning or a hard error.
 
 An implementation attempt for option 3 can be found at \ref("https://github.com/llvm/llvm-project/pull/200614"){Clang PR #200614}.
 
@@ -554,4 +558,9 @@ Massive thanks to Brian Bi for continued feedback and help with the wording of t
   title = "RISC-V ABIs Specification",
   link = "https://lists.riscv.org/g/tech-psabi/attachment/61/0/riscv-abi.pdf"
 )\
+\bib(
+  id = "P2558",
+  title = "Add @, $, and ` to the basic character set",
+  link = "https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p2558r2.html"
+)
 \make_bib
