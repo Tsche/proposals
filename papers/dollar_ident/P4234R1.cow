@@ -5,7 +5,7 @@
   title = {\tcode{$identifiers}}
 ){
 \dl{
-  \dt{Document number:} \dd{\docnum{D4234R2}}
+  \dt{Document number:} \dd{\docnum{P4234R1}}
   \dt{Date:}            \dd{\tt{2026-06-07}}
   \dt{Audience:}        \dd{EWG} \dd{SG16} \dd{SG22}
   \dt{Project:}         \dd{ISO/IEC 14882 Programming Languages — C++, ISO/IEC JTC1/SC22/WG21}
@@ -22,12 +22,6 @@ This paper proposes making \tcode{$} in identifiers conditionally-supported.
 \make_contents
 
 \h2(listed=false){Revision history}
-\h3{R2 July 2026}
-\ul{
-\li{added implementation overview}
-\li{added other approaches}
-\li{removed "Why not allow $ in identifiers unconditionally?" section, as it is now covered in "Other approaches"}
-}
 
 \h3{R1 June 2026}
 \ul{
@@ -56,9 +50,23 @@ In C++ however, the situation is different. The C++ standard does not acknowledg
 
 \h2{Proposed change}
 
-To align with C and implementation reality, this paper proposes making the use of \tcode{$} in identifiers conditionally-supported or supported. Conditionally-supported would not make \tcode{$} in identifiers portable, but it would at least make them explicitly recognized by the standard when supported by the implementation.
+To align with C and implementation reality, this paper proposes making the use of \tcode{$} in identifiers conditionally-supported. This would not make \tcode{$} in identifiers portable, but it would at least make them explicitly recognized by the standard when supported by the implementation.
 
 \ref("WG14 N3145") mentions that during discussion it was noted that allowing \tcode{$} in identifiers is a massive syntactic land-grab. However, due to the popularity of this extension, it seems unrealistic that we can ever use \tcode{$} for anything that would conflict with \tcode{$identifiers}.
+
+\h3{Why not allow it unconditionally?}
+
+GCC notes in its \ref("https://gcc.gnu.org/onlinedocs/gcc/Dollar-Signs.html"){documentation}:
+
+\Bquote{
+However, dollar signs in identifiers are not supported on a few target machines, typically because the target assembler does not allow them.
+}
+
+Examples of such targets are \ref("https://github.com/gcc-mirror/gcc/blob/master/gcc/config/rs6000/xcoff.h#L57"){RS/6000}, \ref("https://github.com/gcc-mirror/gcc/blob/master/gcc/config/avr/avr.h#L480"){AVR}, and \ref("https://github.com/gcc-mirror/gcc/blob/master/gcc/config/mmix/mmix.h#L792"){MMIX}.
+
+In theory, we could mandate \tcode{$} to be valid in identifiers and ask compilers to work around such problematic targets in some way or another. 
+
+However, that's a rather big ask - especially given the popularity and history of this extension, making vastly stronger support guarantees than C \i{and} asking for more than what implementations have been supporting for decades does not seem wise. Regardless, we have an opportunity to improve the status quo here.
 
 \h2{Additional Motivation}
 \h3{Linker and toolchain symbol conventions}
@@ -168,7 +176,7 @@ $inline(never) int bar(int, char) {
 }
 }
 
-Using \tcode{$} in any identifiers that survive until the assembler takes over might be problematic with some targets. Since macros are long gone at that point, using dollars in macros is relatively safe. This essentially gives us another identifier namespace that is visually distinct from regular identifiers.
+As noted earlier, using \tcode{$} in any identifiers that survive until the assembler takes over can be problematic with some targets. Since macros are long gone at that point, using dollars in macros is relatively safe. This essentially gives us another identifier namespace that is visually distinct from regular identifiers.
 
 If used consistently only for macros, this has the benefit of making them visually stand out. We can validate consistent use easily by using a custom clang-tidy check (see \ref("https://github.com/tsche/dollar-macro-check"){example implementation}).
 
@@ -301,97 +309,11 @@ The authors prefer option 3 as it is the least user-hostile option. Unlike the o
 
 An implementation attempt for option 3 can be found at \ref("https://github.com/llvm/llvm-project/pull/200614"){Clang PR #200614}.
 
-\h2{Other approaches}
-\: \h3{Reject after phase 3 but before phase 6}
-\h3{Revert the changes to the basic character set}
-Since making \tcode{$} in identifiers a non-conforming extension was an unintended consequence of \ref("P2558"), another approach would be to simply revert adding \tcode{$} to the basic character set or explicitly exclude it in \eelis{lex.pptoken#1}.
-
-Both of these approaches would revert the status of this extension to a conforming extension. However, this seems strictly worse than any of the other options - for the reasons outlined in \ref("#stricter-domains"), acknowledging extensions as conditionally supported is preferable to leaving them as unstandardized implementation extensions. Therefore, this paper does not propose such a change.
-
-\h3{Allow \tcode{$} in identifiers unconditionally}
-GCC notes in its \ref("https://gcc.gnu.org/onlinedocs/gcc/Dollar-Signs.html"){documentation}:
-
-\Bquote{
-However, dollar signs in identifiers are not supported on a few target machines, typically because the target assembler does not allow them.
-}
-
-Examples of such targets are \ref("https://github.com/gcc-mirror/gcc/blob/master/gcc/config/rs6000/xcoff.h#L57"){RS/6000}, \ref("https://github.com/gcc-mirror/gcc/blob/master/gcc/config/avr/avr.h#L480"){AVR}, and \ref("https://github.com/gcc-mirror/gcc/blob/master/gcc/config/mmix/mmix.h#L792"){MMIX}.
-
-Despite the existence of GCC target configurations that do not allow dollars in identifiers by default, one could argue that we should simply mandate \tcode{$} to be valid in identifiers and ask compilers to work around such problematic targets in some way or another. In principle, this should be no different to handling arbitrary Unicode characters in identifiers.
-
-As demonstrated by Clang, some targets excluded by GCC (such as RS/6000) have no fundamental issue with \tcode{$} in identifiers (see \ref("https://godbolt.org/z/5eMKWKaEs"){Compiler Explorer}). For AVR clang also supports \tcode{$} in identifiers by default (see \ref("https://godbolt.org/z/ecr5zG11b"){Compiler Explorer}).
-
-
-
-\h2{Implementation status}
-In the following table "opt-out behavior" refers to the preprocessing result of a program
-\codeblock("cpp"){
-#define f(x) #x
-#define g(x) f(x)
-#define foo bar
-g(foo$)
-}
-with support for dollars in identifiers disabled (explicitly or implicitly).
-\br\br
-
-\table{
-\tr{
-  \td{Compiler}
-  \td{Default}
-  \td{CLI Option}
-  \td{Opt-Out Behavior}}
-\tr{
-  \td{Clang}
-  \td{✅ allowed}
-  \td{\tcode{-f[no-]dollars-in-identifiers}}
-  \td{\tcode{"bar$"}}
-}
-\tr{
-  \td{GCC}
-  \td{✅ allowed}
-  \td{\tcode{-f[no-]dollars-in-identifiers}}
-  \td{\tcode{"bar$"}}
-}
-\tr{
-  \td{MSVC}
-  \td{✅ allowed}
-  \td{\tcode{/Za} (only opt-out, disables all MS extensions)}
-  \td{\tcode{"bar$"}}
-}
-\tr{
-  \td{EDG}
-  \td{❌ not allowed}
-  \td{\tcode{--dollar} (only opt-in)}
-  \td{\tcode{"bar$"}}
-}
-\tr{
-  \td{nvc++}
-  \td{\ref("https://docs.nvidia.com/hpc-sdk/compilers/hpc-compilers-ref-guide/index.html#optk-allow-dollar-in-id-chars"){documented} as not allowed\br
-  \ref("https://godbolt.org/z/1bKzT3obx"){tested} as allowed}
-  \td{\tcode{-optk_allow_dollar_in_id_chars} (only opt-in)}
-  \td{\ref("https://godbolt.org/z/1bKzT3obx"){N/A}}
-}
-\tr{
-  \td{icx}
-  \td{✅ allowed}
-  \td{\tcode{-f[no-]dollars-in-identifiers}}
-  \td{\tcode{"bar$"}}
-}
-\tr{
-  \td{AOCC}
-  \td{✅ allowed}
-  \td{\tcode{-f[no-]dollars-in-identifiers}}
-  \td{\tcode{"bar$"}}
-}
-}
-
-All tested compilers except for NVC++ (which does not seem to have an opt-out), the observed behavior when opting out matches wording option 1. An overview can be found on \ref("https://godbolt.org/z/99sbb7hrT"){Compiler Explorer}.
-
 \h2{Wording}
 Make the following changes to the C++ Working Draft. All wording is relative
 to \ref("N5046"), the latest draft at the time of writing.
 
-\h3{Wording Option 1 - conditionally consider \tcode{$} a \grammarterm{nondigit}}
+\h3{Wording Option 1}
 Add a new paragraph after \eelis{lex.name#1}
 \Bquote{
 \cowel_html_element("h2"){Identifiers \stable_ref{lex.name}}
@@ -448,7 +370,7 @@ It is implementation-defined whether \tcode{$} is included in \grammarterm{nondi
 The identifiers in Table 4 have a special meaning when appearing in a certain context. [...]
 }
 
-\h3{Wording Option 2 - reject in phase 3}
+\h3{Wording Option 2}
 Add a new paragraph after \eelis{lex.name#1}, add \tcode{$} to \grammarterm{nondigit}.
 \Bquote{
 \cowel_html_element("h2"){Identifiers \stable_ref{lex.name}}
@@ -505,8 +427,7 @@ Identifiers that contain \tcode{$} are conditionally-supported.
 \pnum
 The identifiers in Table 4 have a special meaning when appearing in a certain context. [...]
 }
-
-\h3{Wording Option 3 - reject in phase 6}
+\h3{Wording Option 3}
 Add \tcode{$} to \grammarterm{nondigit} in \eelis{lex.name}. Add new paragraph to \eelis{lex.token}.
 \Bquote{
 \cowel_html_element("h2"){Identifiers \stable_ref{lex.name}}
@@ -578,36 +499,6 @@ There are six kinds of tokens: identifiers, keywords, literals, header names, op
 }
 }
 
-\h3{Wording Option 4 - allow unconditionally}
-Modify \grammarterm{nondigit} in \eelis{lex.name} as follows
-\Bquote{
-\cowel_html_element("h2"){Identifiers \stable_ref{lex.name}}
-\cowel_var_set("pnum", 0)
-\pre{
-\grammarterm{identifier}:
-    \grammarterm{identifier-start}
-    \grammarterm{identifier} \grammarterm{identifier-continue}
-
-\grammarterm{identifier-start}:
-    \grammarterm{nondigit}
-    an element of the translation character set with the Unicode property XID_Start
-
-\grammarterm{identifier-continue}:
-    \grammarterm{digit}
-    \grammarterm{nondigit}
-    an element of the translation character set with the Unicode property XID_Continue
-
-\grammarterm{nondigit}: one of
-    a b c d e f g h i j k l m
-    n o p q r s t u v w x y z
-    A B C D E F G H I J K L M
-    N O P Q R S T U V W X Y Z 
-    _ \ins{$}
-
-\grammarterm{digit}: one of
-    0 1 2 3 4 5 6 7 8 9
-}
-}
 
 \h2{Acknowledgements}
 
