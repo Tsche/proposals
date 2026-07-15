@@ -6,7 +6,7 @@
 ){
 \dl{
   \dt{Document number:} \dd{\docnum{P4234R2}}
-  \dt{Date:}            \dd{\tt{2026-06-07}}
+  \dt{Date:}            \dd{\tt{2026-07-15}}
   \dt{Audience:}        \dd{EWG} \dd{SG22}
   \dt{Project:}         \dd{ISO/IEC 14882 Programming Languages — C++, ISO/IEC JTC1/SC22/WG21}
   \dt{Reply-to:}        \dd{Matthias Wippich <\mail{mfwippich@gmail.com}>}
