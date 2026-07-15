@@ -7,7 +7,7 @@
 \dl{
   \dt{Document number:} \dd{\docnum{D4234R2}}
   \dt{Date:}            \dd{\tt{2026-06-07}}
-  \dt{Audience:}        \dd{EWG} \dd{SG16} \dd{SG22}
+  \dt{Audience:}        \dd{EWG} \dd{SG22}
   \dt{Project:}         \dd{ISO/IEC 14882 Programming Languages — C++, ISO/IEC JTC1/SC22/WG21}
   \dt{Reply-to:}        \dd{Matthias Wippich <\mail{mfwippich@gmail.com}>}
   \dt{Co-authors:}      \dd{Murat Can Çağrı <\mail{cancagri.dev@gmail.com}>}
@@ -27,6 +27,8 @@ This paper proposes making \tcode{$} in identifiers conditionally-supported.
 \li{added implementation overview}
 \li{added other approaches}
 \li{removed "Why not allow $ in identifiers unconditionally?" section, as it is now covered in "Other approaches"}
+\li{Removed wording for option 2, as it is no longer considered}
+\li{Incorporated feedback from SG16}
 }
 
 \h3{R1 June 2026}
@@ -48,11 +50,29 @@ One of the oldest and most widely supported extensions to C++ is allowing \tcode
 }
 Amongst many other compilers this is supported by \ref("https://learn.microsoft.com/en-us/cpp/cpp/identifiers-cpp?view=msvc-170#:~:text=The%20dollar%20sign%20%24%20is%20a%20valid%20identifier%20character%20in%20the%20Microsoft%20C%2B%2B%20compiler%20%28MSVC%29%2E"){MSVC}, \ref("https://gcc.gnu.org/onlinedocs/gcc/Dollar-Signs.html"){GCC} (going back to at least \ref("https://godbolt.org/z/Gf53hv7s5"){GCC 1.27}!), Clang, EDG (might need opt-in), icx and nvc++ (see \ref("https://compiler-explorer.com/z/bxKEMx54o"){Compiler Explorer}). Some of these implementations make it configurable, for example GCC and Clang both have \ref("https://clang.llvm.org/docs/ClangCommandLineReference.html#cmdoption-clang-fdollars-in-identifiers"){\tcode{-f[no-]dollars-in-identifiers}} to enable or disable this feature (which defaults to enable).
 
+Attempts to standardize $ in identifiers in some form or another date back to at least 1987. The minutes of the 19th X3J11 meeting (\ref("WG14 N034") page 20) note:
+\Bquote{\
+\b{49. $ in Identifiers}
+
+Peyton (87-220) requested that we permit $ in identifiers, and make all such identifiers reserved to the implementor.
+
+Straw vote:\br
+5 permit $ in reserved identifiers\br
+lots no
+}
+
+In 1992 it was clarified that supporting use of \tcode{$} in identifiers as a conforming extension is permissable (\ref("X3J11/91-008") page 56).
+\Bquote{
+May a standard conforming implementation make characters in its character set that are not in the required source character set identifier characters?
+
+Answer: Yes.
+}
+
 \br
 
-In recent years, C has made quite a few changes to what they consider an identifier. The original rules allowed any implementation-defined characters, the revised ones did not (see \ref("WG14 N2836")). To address this, \ref("WG14 N3145") introduced a carve-out to allow \tcode{$} anywhere in identifiers as an implementation extension.
+In recent years, C has made quite a few changes to what they consider an identifier. The original rules allowed any implementation-defined characters, the revised ones did not (see \ref("WG14 N2836")). To address this, \ref("WG14 N3145") introduced a carve-out to once again allow \tcode{$} anywhere in identifiers as a conforming extension.
 
-In C++ however, the situation is different. The C++ standard does not acknowledge \tcode{$} in identifiers at all. As a result, the use of \tcode{$} in identifiers pedantically renders your code ill-formed. In practice, however, almost all implementations support it as a non-standard extension, which was a conforming extension until C++26. It effectively became a non-conforming extension through the addition of \tcode{$} to the basic character set (see \ref("P2558")).
+In C++, the situation is slightly different. The C++ standard does not acknowledge \tcode{$} in identifiers at all. As a result, the use of \tcode{$} in identifiers pedantically renders your code ill-formed. In practice, however, almost all implementations support it as a non-standard extension, which was a conforming extension until C++26. It effectively became a non-conforming extension through the addition of \tcode{$} to the basic character set (see \ref("P2558")).
 
 \h2{Proposed change}
 
@@ -297,7 +317,7 @@ will still be rejected if the implementation cannot support $identifiers, regard
 }
 }
 
-The authors prefer option 3 as it is the least user-hostile option. Unlike the other options, this gets us consistent preprocessing behavior independent of the target's capabilities rather than a silent change in meaning or a hard error.
+The authors prefer option 3 over options 1 and 2, as it is the least user-hostile option. Unlike the other options, this gets us consistent preprocessing behavior independent of the target's capabilities rather than a silent change in meaning or a hard error. This also simplifies tooling such as syntax highlighters greatly as they no longer have to be aware of target capabilities in order to tokenize correctly.
 
 An implementation attempt for option 3 can be found at \ref("https://github.com/llvm/llvm-project/pull/200614"){Clang PR #200614}.
 
@@ -321,7 +341,30 @@ Despite the existence of GCC target configurations that do not allow dollars in 
 
 As demonstrated by Clang, some targets excluded by GCC (such as RS/6000) have no fundamental issue with \tcode{$} in identifiers (see \ref("https://godbolt.org/z/5eMKWKaEs"){Compiler Explorer}). For AVR clang also supports \tcode{$} in identifiers by default (see \ref("https://godbolt.org/z/ecr5zG11b"){Compiler Explorer}).
 
+This essentially changes the choice of whether the opt-out or the opt-in is the conforming option. To recap:
+\table{
+\thead{
+  \td{Option}
+  \td{Opt-in is conforming}
+  \td{Opt-out is conforming}}
 
+\tr{
+  \td{Status Quo pre-C++26}
+  \td{✅}
+  \td{✅}}
+
+\tr{
+  \td{Status Quo C++26}
+  \td{❌}
+  \td{✅}}
+
+\tr{
+  \td{Allow \tcode{$} in identifiers unconditionally}
+  \td{✅}
+  \td{❌}}
+}
+
+Since almost all compilers support \tcode{$} in identifiers in C++ mode by default, this would imply next to no changes to implementations if they wish to remain conforming. Due to the ubiquity of this extension, this approach would also match user expectations most closely. Therefore, the authors support this option over all other considered ones.
 
 \h2{Implementation status}
 In the following table "opt-out behavior" refers to the preprocessing result of a program
@@ -387,6 +430,10 @@ with support for dollars in identifiers disabled (explicitly or implicitly).
 
 All tested compilers except for NVC++ (which does not seem to have an opt-out), the observed behavior when opting out matches wording option 1. An overview can be found on \ref("https://godbolt.org/z/99sbb7hrT"){Compiler Explorer}.
 
+\h2{Opt-out usage}
+
+
+
 \h2{Wording}
 Make the following changes to the C++ Working Draft. All wording is relative
 to \ref("N5046"), the latest draft at the time of writing.
@@ -443,64 +490,6 @@ In translation phase 4, \grammarterm{identifier} also includes those preprocessi
 \Bins{
 \pnum
 It is implementation-defined whether \tcode{$} is included in \grammarterm{nondigit}.
-}
-\pnum
-The identifiers in Table 4 have a special meaning when appearing in a certain context. [...]
-}
-
-\h3{Wording Option 2 - reject in phase 3}
-Add a new paragraph after \eelis{lex.name#1}, add \tcode{$} to \grammarterm{nondigit}.
-\Bquote{
-\cowel_html_element("h2"){Identifiers \stable_ref{lex.name}}
-\cowel_var_set("pnum", 0)
-
-\pre{
-\grammarterm{identifier}:
-    \grammarterm{identifier-start}
-    \grammarterm{identifier} \grammarterm{identifier-continue}
-
-\grammarterm{identifier-start}:
-    \grammarterm{nondigit}
-    an element of the translation character set with the Unicode property XID_Start
-
-\grammarterm{identifier-continue}:
-    \grammarterm{digit}
-    \grammarterm{nondigit}
-    an element of the translation character set with the Unicode property XID_Continue
-
-\grammarterm{nondigit}: one of
-    a b c d e f g h i j k l m
-    n o p q r s t u v w x y z
-    A B C D E F G H I J K L M
-    N O P Q R S T U V W X Y Z 
-    _ \ins{$}
-
-\grammarterm{digit}: one of
-    0 1 2 3 4 5 6 7 8 9
-}
-
-\note{
-The character properties XID_Start and XID_Continue are described by UAX #44 of the Unicode Standard.
-}
-
-\pnum
-The program is ill-formed if an \grammarterm{identifier} does not conform to Normalization Form C as specified in the Unicode Standard.
-
-\note{
-Identifiers are case-sensitive.
-}
-
-\note{
-[uaxid] compares the requirements of UAX #31 of the Unicode Standard with the C++ rules for identifiers.
-}
-
-\note{
-In translation phase 4, \grammarterm{identifier} also includes those preprocessing-tokens (\eelis{lex.pptoken}) differentiated as keywords (\eelis{lex.key}) in the later translation phase 7 (\eelis{lex.token}).
-}
-
-\Bins{
-\pnum
-Identifiers that contain \tcode{$} are conditionally-supported.
 }
 \pnum
 The identifiers in Table 4 have a special meaning when appearing in a certain context. [...]
@@ -671,5 +660,15 @@ Massive thanks to Brian Bi for continued feedback and help with the wording of t
   id = "P2558",
   title = "Add @, $, and ` to the basic character set",
   link = "https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p2558r2.html"
+)
+\bib(
+  id = "X3J11/91-008",
+  title = "Defect Report #027",
+  link = "https://www.open-std.org/jtc1/sc22/wg14/www/docs/n289.pdf"
+)
+\bib(
+  id = "WG14 N034",
+  title = "X3J11 Meeting No. 19",
+  link = "https://www.open-std.org/jtc1/sc22/wg14/www/docs/n034.pdf"
 )
 \make_bib
