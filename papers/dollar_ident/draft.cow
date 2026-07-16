@@ -464,9 +464,9 @@ These game decompilation projects appear to share related build infrastructure a
 
 These projects do however preprocess assembly sources with a C++ preprocessor. GCC and Clang support this with the language mode \tcode{-x assembler-with-cpp}, which has \ref("https://github.com/Tsche/llvm-project/blob/3b36c2d642778249dd6f15249a827be979fafbb7/clang/include/clang/Options/Options.td#L2306"){different defaults} than the C and C++ language modes. In this mode, \tcode{$} is not treated as a \grammarterm{nondigit} by default.
 
-Reliance on this behavior is not limited to game decompilation projects. For example, the Linux kernel uses \ref("https://github.com/torvalds/linux/blob/58717b2a1365d06c8c64b72aa948541b53fe31eb/arch/x86/platform/pvh/head.S#L73"){\tcode{$rva(1b)}} in preprocessed assembly, where \tcode{$} must remain separate for the \tcode{rva} macro to be expanded. At the same time, the kernel relies on \tcode{$} being valid in identifiers in C mode for declarations such as \ref("https://github.com/torvalds/linux/blob/58717b2a1365d06c8c64b72aa948541b53fe31eb/arch/parisc/kernel/parisc_ksyms.c#L47-L69"){\tcode{$global$}} and \tcode{$$divI}.
+Reliance on this behavior is not limited to game decompilation projects. For example, the Linux kernel uses \ref("https://github.com/torvalds/linux/blob/58717b2a1365d06c8c64b72aa948541b53fe31eb/arch/x86/platform/pvh/head.S#L73"){\tcode{$rva(1b)}} in preprocessed assembly sources, where \tcode{$} must remain separate for the \tcode{rva} macro to be expanded. At the same time, the kernel relies on \tcode{$} being valid in identifiers in C mode for declarations such as \ref("https://github.com/torvalds/linux/blob/58717b2a1365d06c8c64b72aa948541b53fe31eb/arch/parisc/kernel/parisc_ksyms.c#L47-L69"){\tcode{$global$}} and \tcode{$$divI}.
 
-The inspected uses therefore provide evidence for preserving assembly-specific preprocessing behavior, but do not demonstrate a need for an opt-out from \tcode{$} identifiers in C++ mode.
+The inspected uses therefore provide evidence for preserving assembly-specific preprocessing behavior, but do not demonstrate a need to opt-out of \tcode{$}identifiers in C++ mode.
 
 
 
