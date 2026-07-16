@@ -62,7 +62,7 @@ Straw vote:\br
 lots no
 }
 
-In 1992 it was clarified that supporting use of \tcode{$} in identifiers as a conforming extension is permissable (\ref("X3J11/91-008") page 56).
+In 1992 it was clarified that supporting use of \tcode{$} in identifiers as a conforming extension is permissible (\ref("X3J11/91-008") page 56).
 \Bquote{
 May a standard conforming implementation make characters in its character set that are not in the required source character set identifier characters?
 
