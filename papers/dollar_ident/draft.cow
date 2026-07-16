@@ -317,8 +317,10 @@ will still be rejected if the implementation cannot support $identifiers, regard
   }
 }
 }
+\br
+Among the conditional approaches, the authors prefer option 3 over options 1 and 2, as it is the least user-hostile option. 
 
-The authors prefer option 3 over options 1 and 2, as it is the least user-hostile option. Unlike the other options, this gets us consistent preprocessing behavior independent of the target's capabilities rather than a silent change in meaning or a hard error. This also simplifies tooling such as syntax highlighters greatly as they no longer have to be aware of target capabilities in order to tokenize correctly.
+Unlike the other options, this gets us consistent preprocessing behavior independent of the target's capabilities rather than a silent change in meaning or a hard error. This also simplifies tooling such as syntax highlighters greatly as they no longer have to be aware of target capabilities in order to tokenize correctly.
 
 An implementation attempt for option 3 can be found at \ref("https://github.com/llvm/llvm-project/pull/200614"){Clang PR #200614}.
 
@@ -365,7 +367,7 @@ This essentially changes the choice of whether the opt-out or the opt-in is the 
   \td{❌}}
 }
 
-Since almost all compilers support \tcode{$} in identifiers in C++ mode by default, this would imply next to no changes to implementations if they wish to remain conforming. Due to the ubiquity of this extension, this approach would also match user expectations most closely. Therefore, the authors support this option over all other considered ones.
+Since almost all compilers support \tcode{$} in identifiers in C++ mode by default, this would imply next to no changes to implementations if they wish to remain conforming. Due to the ubiquity of this extension, this approach would also match user expectations most closely. For these reasons, and based on the SG16 review, the authors support this option over all other considered ones.
 
 \h2{Implementation status}
 In the following table "opt-out behavior" refers to the preprocessing result of a program
@@ -434,20 +436,37 @@ With all tested compilers except for NVC++ (which does not seem to have an opt-o
 \h2{Opt-out usage}
 Since most compilers support \tcode{$} in identifiers by default, we should see lots of use of the opt-out if this extension causes problems for users. However, GitHub code search does not verify this.
 
-A search for \tcode{-fno-dollars-in-identifiers} in CMake files yields \ref("https://github.com/search?q=-fno-dollars-in-identifiers+language%3Acmake&type=code"){only 26 results} at the time of writing. This includes mostly old forks of eclipse-omr and eclipse-openj9. Both projects have since removed the opt-out upstream (\ref("https://github.com/eclipse-openj9/openj9/commit/629dc649f288e836552f0c154f2c3c42465076b2"){OpenJ9} and \ref("https://github.com/eclipse-omr/omr/commit/669724355dc2cd311a6e2ac600b020685e01b76d"){OMR}), because it apparently \ref("https://github.com/phracker/MacOSX-SDKs/blob/041600eda65c6a668f66cb7d56b7d1da3e8bcc93/MacOSX10.9.sdk/usr/include/c%2B%2B/4.2.1/bits/os_defines.h#L85"){caused issues} as both commits note:
+\h3{CMake}
+A search for \tcode{-fno-dollars-in-identifiers} in CMake files yields \ref("https://github.com/search?q=-fno-dollars-in-identifiers+language%3Acmake&type=code"){only 26 results} at the time of writing. This includes mostly old forks of eclipse-omr and eclipse-openj9. Both projects have since removed the opt-out upstream (\ref("https://github.com/eclipse-openj9/openj9/commit/629dc649f288e836552f0c154f2c3c42465076b2"){OpenJ9} and \ref("https://github.com/eclipse-omr/omr/commit/669724355dc2cd311a6e2ac600b020685e01b76d"){OMR}), because it caused issues as both commits note:
 \Bquote{
 Apple patches libstdc++v3 with additional support for dtrace. These
 dtrace symbols use dollar signs identifiers, and are incompatible with
 the compile option -fno-dollars-in-identifiers.
 }
 
-\br
+In particular, several patched headers (ie \ref("https://github.com/apple-oss-distributions/libstdcxx/blob/dad66dd62ed2aa2162c2c53778ff94336f49db95/include/c%2B%2B/4.2.1/bits/os_defines.h#L53-L97"){\tcode{bits/os_defines.h}}) contain declarations such as:
 
-A search for \tcode{-fno-dollars-in-identifiers} in Makefiles yields \ref("https://github.com/search?q=-fno-dollars-in-identifiers+language%3AMakefile+&type=code"){only 187 results} at the time of writing. Aside from numerous old forks of OpenJ9 and OMR, a lot of these results are decompiled games (ie \ref("https://github.com/CLeSeducteur/oot"){CLeSeducteur/oot}, \ref("https://github.com/mzxrules/mm"){mzxrules/mm}, \ref("https://github.com/LLONSIT/Wave-Race-64"){LLONSIT/Wave-Race-64} and \ref("https://github.com/Lrs121/animalforest"){Lrs121/animalforest}). 
+\codeblock("cpp"){
+extern void
+__dtrace_probe$cxa_runtime$cxa_exception_rethrow$v1(void);
 
-It's not entirely clear why whichever decompilation tool was used added those options - none of those projects use \tcode{$} outside of comments and string literals in C or C++ code.
+extern void
+__dtrace_probe$cxa_runtime$cxa_exception_throw$v1$766f6964202a(void *);
+}
 
-They do however assume that \tcode{$} is not a nondigit for assembly preprocessing. While this is a different language mode (\tcode{-x assembler-with-cpp} with clang and gcc), this is a somewhat common thing to rely on. For instance the linux kernel also relies on \tcode{$} not being treated as nondigit for assembly preprocessing (ie \ref("https://github.com/torvalds/linux/blob/58717b2a1365d06c8c64b72aa948541b53fe31eb/arch/x86/platform/pvh/head.S#L73"){arch/x86/platform/pvh/head.S}) but does require \tcode{$} to be valid in identifiers in C mode (ie \ref("https://github.com/torvalds/linux/blob/58717b2a1365d06c8c64b72aa948541b53fe31eb/arch/parisc/kernel/parisc_ksyms.c#L47-L69"){arch/parisc/kernel/parisc_ksyms.c}).
+These declarations are incompatible with \tcode{-fno-dollars-in-identifiers}.
+
+\h3{Makefiles}
+
+A search for \tcode{-fno-dollars-in-identifiers} in Makefiles yields \ref("https://github.com/search?q=-fno-dollars-in-identifiers+language%3AMakefile+&type=code"){only 187 results} at the time of writing. Aside from numerous old forks of OpenJ9 and OMR, many of these results are game decompilation projects (ie \ref("https://github.com/CLeSeducteur/oot"){CLeSeducteur/oot}, \ref("https://github.com/mzxrules/mm"){mzxrules/mm}, \ref("https://github.com/LLONSIT/Wave-Race-64"){LLONSIT/Wave-Race-64} and \ref("https://github.com/Lrs121/animalforest"){Lrs121/animalforest}). 
+
+These game decompilation projects appear to share related build infrastructure and might have been generated by the same decompilation tool. It is not entirely clear why that tool added \tcode{-fno-dollars-in-identifiers} to the build options, as none of the inspected projects rely on \tcode{$} being tokenized separately from an adjacent identifier in any C or C++ translation units.
+
+These projects do however preprocess assembly sources with a C++ preprocessor. GCC and Clang support this with the language mode \tcode{-x assembler-with-cpp}, which has \ref("https://github.com/Tsche/llvm-project/blob/3b36c2d642778249dd6f15249a827be979fafbb7/clang/include/clang/Options/Options.td#L2306"){different defaults} than the C and C++ language modes. In this mode, \tcode{$} is not treated as a \grammarterm{nondigit} by default.
+
+Reliance on this behavior is not limited to game decompilation projects. For example, the Linux kernel uses \ref("https://github.com/torvalds/linux/blob/58717b2a1365d06c8c64b72aa948541b53fe31eb/arch/x86/platform/pvh/head.S#L73"){\tcode{$rva(1b)}} in preprocessed assembly, where \tcode{$} must remain separate for the \tcode{rva} macro to be expanded. At the same time, the kernel relies on \tcode{$} being valid in identifiers in C mode for declarations such as \ref("https://github.com/torvalds/linux/blob/58717b2a1365d06c8c64b72aa948541b53fe31eb/arch/parisc/kernel/parisc_ksyms.c#L47-L69"){\tcode{$global$}} and \tcode{$$divI}.
+
+The inspected uses therefore provide evidence for preserving assembly-specific preprocessing behavior, but do not demonstrate a need for an opt-out from \tcode{$} identifiers in C++ mode.
 
 
 
