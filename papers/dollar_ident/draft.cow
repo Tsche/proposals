@@ -466,7 +466,7 @@ These projects do however preprocess assembly sources with a C++ preprocessor. G
 
 Reliance on this behavior is not limited to game decompilation projects. For example, the Linux kernel uses \ref("https://github.com/torvalds/linux/blob/58717b2a1365d06c8c64b72aa948541b53fe31eb/arch/x86/platform/pvh/head.S#L73"){\tcode{$rva(1b)}} in preprocessed assembly sources, where \tcode{$} must remain separate for the \tcode{rva} macro to be expanded. At the same time, the kernel relies on \tcode{$} being valid in identifiers in C mode for declarations such as \ref("https://github.com/torvalds/linux/blob/58717b2a1365d06c8c64b72aa948541b53fe31eb/arch/parisc/kernel/parisc_ksyms.c#L47-L69"){\tcode{$global$}} and \tcode{$$divI}.
 
-The inspected uses therefore provide evidence for preserving assembly-specific preprocessing behavior, but do not demonstrate a need to opt-out of \tcode{$}identifiers in C++ mode.
+The inspected uses therefore provide evidence for preserving assembly-specific preprocessing behavior, but do not demonstrate a need to opt-out of \tcode{$} identifiers in C++ mode.
 
 
 
