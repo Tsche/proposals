@@ -887,13 +887,11 @@ Modify Table 3
 }
 
 Remove footnote 10
-\Bdiff{
-\del{
+\Bdel{
 \footnote{
 These include “digraphs” and additional reserved words.
 The term “digraph” (token consisting of two characters) is not perfectly descriptive, since one of the alternative preprocessing-tokens is %:%: and of course several primary tokens contain two characters.
 Nonetheless, those alternative tokens that aren't lexical keywords are colloquially known as “digraphs”.
-}
 }
 }
 
@@ -914,14 +912,14 @@ int x = F(LPAREN(), 0, \del{<:}\ins{[}-);    // replaced by int x = 42;
 \cowel_html_element("h3"){C++ and ISO C++ 2026 \stable_ref{diff.cpp26}}
 \cowel_html_element("h3"){\eelis{lex} lexical conventions \stable_ref{diff.cpp26.lex}}
 Add new entry
-\Bdiff{
+\Bins{
 \ins{
-\p{\ins{\b{Affected subclauses:} \eelis{lex.pptoken} and \eelis{lex.alt}}}
-\p{\ins{\b{Change:} The "digraph" tokens \tcode{<%}, \tcode{%>}, \tcode{<:}, \tcode{:>}, \tcode{%:} and \tcode{%:%:} are no longer usable as alternative representations of other tokens.}}
-\p{\ins{\b{Rationale:} Resolves fragmentation of the language, opens up design space and simplifies the language.}}
-\p{\ins{\b{Effect on original feature:} 
+\p{\b{Affected subclauses:} \eelis{lex.pptoken} and \eelis{lex.alt}}
+\p{\b{Change:} The "digraph" tokens \tcode{<%}, \tcode{%>}, \tcode{<:}, \tcode{:>}, \tcode{%:} and \tcode{%:%:} are no longer usable as alternative representations of other tokens.}
+\p{\b{Rationale:} Resolves fragmentation of the language, opens up design space and simplifies the language.}
+\p{\b{Effect on original feature:} 
 Valid C++ 2026 code that uses the digraphs \tcode{<%}, \tcode{%>}, \tcode{<:}, \tcode{:>}, \tcode{%:} and \tcode{%:%:} is ill-formed in this revision of C++.
-The meaning of these token sequences may change in future versions of C++.}}
+The meaning of these token sequences may change in future versions of C++.}
 }
 }
 
