@@ -1,0 +1,54 @@
+\: digraph -> replacement
+
+\cowel_macro("digraph"){
+  \cowel_html_element("div", (class="digraph")){
+    \cowel_html_element("code", (class="digraph-source")){\cowel_put{0}}
+    \cowel_html_element("span", (class="digraph-arrow")){→}
+    \cowel_html_element("code", (class="digraph-replacement")){\cowel_put{1}}
+  }
+}
+
+\cowel_macro("digraphs"){
+  \cowel_html_element(
+    "div",
+    (
+      class = "digraphs",
+      style = "--digraph-columns: \cowel_put(else="6"){columns}"
+    )
+  ){
+    \cowel_put
+  }
+}
+\style{
+.digraphs {
+  display: grid;
+  grid-template-columns:
+    repeat(var(--digraph-columns), minmax(0, 1fr));
+  gap: .45em;
+  margin: 1em 0;
+}
+
+.digraph {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: .6em;
+
+  padding: .5em .7em;
+  border-radius: .4em;
+  background: var(--deep-background-color);
+}
+
+.digraph code {
+  padding: 0;
+  background: none;
+  text-align: center;
+  white-space: nowrap;
+  font-size: 1.05em;
+}
+
+.digraph-arrow {
+  opacity: .5;
+  font-family: var(--sans-serif-family);
+}
+}

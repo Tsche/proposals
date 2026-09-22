@@ -1,0 +1,204 @@
+\style{
+  :root {
+    --timeline-axis: 0.75rem;
+    --timeline-gutter: 2.75rem;
+    --timeline-line: #b8bec8;
+    --timeline-accent: #4776c5;
+    --timeline-page-bg: #ffffff;
+    --timeline-card-bg: #f8f9fb;
+    --timeline-card-border: #d5d9e0;
+    --timeline-muted: #5f6368;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --timeline-line: #59616d;
+      --timeline-accent: #8ab4f8;
+      --timeline-page-bg: #202124;
+      --timeline-card-bg: #292a2d;
+      --timeline-card-border: #4b4f55;
+      --timeline-muted: #bdc1c6;
+    }
+  }
+
+  html.light {
+    --timeline-line: #b8bec8;
+    --timeline-accent: #4776c5;
+    --timeline-page-bg: #ffffff;
+    --timeline-card-bg: #f8f9fb;
+    --timeline-card-border: #d5d9e0;
+    --timeline-muted: #5f6368;
+  }
+
+  html.dark {
+    --timeline-line: #59616d;
+    --timeline-accent: #8ab4f8;
+    --timeline-page-bg: #202124;
+    --timeline-card-bg: #292a2d;
+    --timeline-card-border: #4b4f55;
+    --timeline-muted: #bdc1c6;
+  }
+
+  .timeline {
+    position: relative;
+    margin: 2rem 0;
+    padding-left: var(--timeline-gutter);
+  }
+
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: var(--timeline-axis);
+    top: 0.75rem;
+    bottom: 0.75rem;
+    width: 2px;
+    background: var(--timeline-line);
+  }
+
+  .timeline-year {
+    position: relative;
+    margin: 0 0 2rem 0;
+  }
+
+  .timeline-year:last-child {
+    margin-bottom: 0;
+  }
+
+  .timeline-year-heading {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 1.5rem;
+    margin: 0 0 0.8rem 0;
+  }
+
+  .timeline-year-marker {
+    position: absolute;
+    left: calc(var(--timeline-axis) - var(--timeline-gutter) - 0.75rem);
+    width: 1.5rem;
+    height: 1.5rem;
+    box-sizing: border-box;
+    border: 3px solid var(--timeline-page-bg);
+    border-radius: 50%;
+    background: var(--timeline-accent);
+  }
+
+  .timeline-year-label {
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .timeline-event {
+    position: relative;
+    margin: 0 0 1rem 0;
+  }
+
+  .timeline-event:last-child {
+    margin-bottom: 0;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: calc(var(--timeline-axis) - var(--timeline-gutter) - 0.45rem);
+    top: 1.05rem;
+    width: 0.9rem;
+    height: 0.9rem;
+    box-sizing: border-box;
+    border: 3px solid var(--timeline-accent);
+    border-radius: 50%;
+    background: var(--timeline-page-bg);
+  }
+
+  .timeline-card {
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--timeline-card-border);
+    border-radius: 0.55rem;
+    background: var(--timeline-card-bg);
+    break-inside: avoid;
+  }
+
+  .timeline-card-header {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    column-gap: 0.75rem;
+    row-gap: 0.2rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .timeline-date {
+    flex: 0 1 auto;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--timeline-accent);
+  }
+
+  .timeline-title {
+    flex: 1 1 12rem;
+    min-width: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  .timeline-source {
+    flex: 0 0 auto;
+    margin-left: auto;
+    font-size: 0.85rem;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .timeline-source:empty {
+    display: none;
+  }
+
+  .timeline-body {
+    color: inherit;
+  }
+
+  .timeline-body > :first-child {
+    margin-top: 0;
+  }
+
+  .timeline-body > :last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 36rem) {
+    .timeline {
+      --timeline-gutter: 2.25rem;
+    }
+
+    .timeline-card-header {
+      column-gap: 0.55rem;
+    }
+
+    .timeline-title {
+      flex-basis: 100%;
+    }
+
+    .timeline-source {
+      margin-left: 0;
+    }
+  }
+
+  @media print {
+    .timeline-card {
+      background: transparent;
+    }
+  }
+}
+
+\cowel_actions{
+  \: Wrap one or more timeline_year groups.
+  \cowel_macro("timeline"){\div(class="timeline"){\cowel_put}}
+
+  \: Group events by canonical year. The year is both displayed and emitted
+  \: as data-year for machine-readable grouping/styling if desired.
+  \cowel_macro("timeline_year"){\div(class="timeline-year","data-year"=cowel_put{year}){\div(class="timeline-year-heading"){\div(class="timeline-year-marker"){}\div(class="timeline-year-label"){\cowel_put{year}}}\div(class="timeline-year-events"){\cowel_put}}}
+
+  \: One event. date and title are required. source is optional COWEL content.
+  \: The body is optional as well.
+  \cowel_macro("timeline_event"){\div(class="timeline-event"){\div(class="timeline-dot"){}\div(class="timeline-card"){\div(class="timeline-card-header"){\div(class="timeline-date"){\cowel_put{date}}\div(class="timeline-title"){\cowel_put{title}}\div(class="timeline-source"){\cowel_put(else={}){source}}}\div(class="timeline-body"){\cowel_paragraphs{\cowel_put(else={})}}}}}
+}

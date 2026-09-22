@@ -1,0 +1,18 @@
+```cowel
+\style{
+.compact-list {
+  columns: 12em;
+  column-gap: 1.5em;
+  margin-block: .5em 1em;
+}
+
+.compact-list li {
+  break-inside: avoid;
+}
+}
+
+\cowel_macro("compact_list"){
+  \cowel_html_element("ul", (class="compact-list")){
+    \cowel_put
+  }
+}
