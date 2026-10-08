@@ -9,9 +9,9 @@
   title = {Removing Digraphs}
 ){
 \dl{
-  \dt{Document number:} \dd{\docnum{D4235}}
+  \dt{Document number:} \dd{\docnum{P4235R0}}
   \dt{Date:}            \dd{\tt{2026-09-22}}
-  \dt{Audience:}        \dd{SG22} \dd{EWG}
+  \dt{Audience:}        \dd{SG16} \dd{SG22} \dd{EWG}
   \dt{Project:}         \dd{ISO/IEC 14882 Programming Languages — C++, ISO/IEC JTC1/SC22/WG21}
   \dt{Reply-to:}        \dd{Matthias Wippich <\mail{mfwippich@gmail.com}>}
 }
@@ -21,6 +21,8 @@
 \Babstract{
 This paper proposes removal of digraphs.
 }
+
+\make_contents 
 
 \h2(listed=false){Revision history}
 
@@ -88,12 +90,12 @@ The relevant part of ISO/IEC 8859 for the Danish language is ISO/IEC 8859-1, whi
 
 ECMA-94 fully solves the described issue by using the 8th bit in an 8-bit byte to allow for another 96 printable characters, which includes everything that was potentially missing in some ISO 646 variants.
 
-Interestingly, \ref("ISO-IR-027") even lacks \tcode{:}, making two of the digraphs we eventually ended up with unusable. 
+Interestingly, \ref("ISO-IR-027") even lacks \tcode{:}, making four of the digraphs we eventually ended up with unusable. 
 While it is explicitly based on ISO 646, ISO-IR-027 is not a true variant - some of the added letters are mapped to code points which are invariant in ISO 646. 
 However, this shows that even for its original purpose, digraphs are more of a band-aid than a real solution.
 
 \h3{Timeline}
-So, how did we get here? Unfortunately not a lot of documents from the early days survived. However, the publically available X3J11, X3J16, WG14 and WG21 documents allow reconstructing roughly this timeline (please reach out if you have corrections or additional information!):
+So, how did we get here? Unfortunately not a lot of documents from the early days survived. However, the publicly available X3J11, X3J16, WG14 and WG21 documents allow reconstructing roughly this timeline (please reach out if you have corrections or additional information!):
 
 \timeline{
 
@@ -132,7 +134,7 @@ So, how did we get here? Unfortunately not a lot of documents from the early day
     ){
       Trigraphs have been added to the X3J11 ANSI C standard. 
       
-      Unfortunately no minutes of the actual meeting where it was voted in seems to have survived. However, the March edition of BYTE magazine notes:
+      Unfortunately no minutes of the actual meeting where it was voted in seem to have survived. However, the March edition of BYTE magazine notes:
 \Bquote{
 To make C easier to use internationally and to promote a wider use of C as an international language, the committee chose to address the problem of the "overused" ASCII character set within the Information Bulletin by defining a group of trigraph character sequences to act as operator equivalents.
 }
@@ -170,7 +172,7 @@ Straw vote:
       title="Simonsen and Stroustrup, A European Representation for ISO C (Revised N023)",
       source={\ref("WG14/N052")}
     ){
-      A paper proposing digraphs is published by Simonsen and Stroustrup. The proposed digraphs in this paper are:
+      A paper proposing digraphs is published by Simonsen and Stroustrup. The relevant proposed alternative tokens in this paper are:
       \Bquote{
         \digraphs(columns=3){
           \digraph("(:", "{")
@@ -217,11 +219,11 @@ Straw vote:
       title="X3J11 Meeting No. 21",
       source={\ref("X3J11/88-155") pages 4-6}
     ){
-      Plauger reports that Denmark objected strongly to the failure of X3J11 to adopt any form of digraphs and that he is authorized to submit the final X3J11 draft directly for registration as a DIS only if both the (unrelated) UK and Denmark NBs do not object to its content.
+      Plauger reports that Denmark objected strongly to the failure of X3J11 to adopt any form of digraphs and that he is authorized to submit the final X3J11 draft directly for registration as a DIS only if both the UK and Denmark NBs do not object to its content.
 
       Several arguments against the digraph proposal are raised, notably:
       \Bquote{
-        Plum observed that people were at liberty to define various kinds of macros to change the syntactic sugar that sweetens C. He felt that X3J11 should take no stand on a particular set. He also oserved that the proposed extensions did not solve the problem of representing punctuation readably within string literals, and di not solve the problem of writing declarations such as \tcode{a[]} (since \tcode{x!()} is presumably invalid.)
+        Plum observed that people were at liberty to define various kinds of macros to change the syntactic sugar that sweetens C. He felt that X3J11 should take no stand on a particular set. He also observed that the proposed extensions did not solve the problem of representing punctuation readably within string literals, and do not solve the problem of writing declarations such as \tcode{a[]} (since \tcode{x!()} is presumably invalid.)
 
         Plum asked that X3J11 respectfully say no to the request from WG14. He also urged the Danish members of WG14 to reconsider their opposition to the draft as it stands.
       }
@@ -311,7 +313,7 @@ spellings be recognized in translation phase 5 NOT phase 1.]
     ){
       Digraphs and the requests from WG21 are discussed again. 
 
-      Notably, the digraph \tcode{<>} was pointed out as superflous and conflicting with another X3J11.1 proposal and may cause problems for other extensions. 
+      Notably, the digraph \tcode{<>} was pointed out as superfluous and conflicting with another X3J11.1 proposal and may cause problems for other extensions. 
       Similar issues are raised about \tcode{%%}, which additionally seemed to conflict with the language C*.
       It's also pointed out that WG21 failed to include \tcode{%%%%} as a replacement for \tcode{##}.
 
@@ -361,7 +363,7 @@ Straw vote:
 At the same meeting it was once again clarified that the Danish C Panel insisted on reinstating \tcode{<>}. Several NBs expressed their positions:
 \Bquote{Jones the Only said that the UK now favors macros, but no digraphs because they might change existing code.}
 \Bquote{Jaeschke reported that the US now opposes any digraph solution, because the proposals keep changing.}
-\Bquote{Noda said that Japan wants to spport the Danish proposal from an international standpoint, but doesn't want to delay the normative addendum. He asked whether the proposal can be made optional instead of part of the C Standard. Simonsen replied that Denmark wants digraphs to be mandatory.}
+\Bquote{Noda said that Japan wants to support the Danish proposal from an international standpoint, but doesn't want to delay the normative addendum. He asked whether the proposal can be made optional instead of part of the C Standard. Simonsen replied that Denmark wants digraphs to be mandatory.}
 \Bquote{Plauger suggested that Denmark make one more try to draft a proposal that can achieve consensus. If they fail to do so by the Dec '92 meeting, however, they must face the serious possibility that the normative addendum will be voted out for balloting without a digraph proposal.}
 }
 
@@ -380,13 +382,13 @@ At the same meeting it was once again clarified that the Danish C Panel insisted
     date="November 13, 1992",
     title="Danish Contribution to Normative Addendum"
 ){
-  A paper by Keld Simonsen entiteld "Danish Contribution to Normative Addendum" is published as WG14/N240. Unfortunately the paper itself does not seem to have survived.
+  A paper by Keld Simonsen titled "Danish Contribution to Normative Addendum" is published as WG14/N240. Unfortunately the paper itself does not seem to have survived.
 }
 \timeline_event(
     date="December 9, 1992",
     title="Revised Danish Contribution to Normative Addendum"
 ){
-  A paper by Cordensen entiteld "Revised Danish Contribution to Normative Addendum" is published as WG14/N247. Unfortunately the paper itself does not seem to have survived.
+  A paper by Cordsen titled "Revised Danish Contribution to Normative Addendum" is published as WG14/N247. Unfortunately the paper itself does not seem to have survived.
 
   It is likely that N247 contained the version that eventually got voted into the C standard. Unfortunately no meeting notes around that time remain either, however around this time the mentions of the Danish proposals stops.
 }
@@ -395,7 +397,7 @@ At the same meeting it was once again clarified that the Danish C Panel insisted
   \timeline_year(year="1993"){
     \timeline_event(
       date="December 1-3, 1993",
-      title="WG14/X3J11 Metting in Hawaii",
+      title="WG14/X3J11 Meeting in Hawaii",
       source={\ref("WG14/N321") page 5}
     ){
       Representatives of the UK and Netherlands NBs make it known that they are not happy with digraphs and intend to vote \b{"no"} on the proposed draft amendment.
@@ -459,7 +461,7 @@ UK: No with comments. Digraphs are problem.
 \timeline_year(year="2010"){
   \timeline_event(
       date="March 2010",
-      title="CWG decides not to deprecate trigraphs",
+      title="Global-scope template arguments vs the <: digraph",
       source={\ref("CWG1104")}
     ){
       Bjarne's prediction did not hold - people did end up minding having to add a space before \tcode{::} now and then.
@@ -566,6 +568,49 @@ Result: 20-4-3 (rejected)
 }
 }
 
+\h2{Design Space}
+\h3{Splicers}
+
+Splicers from \ref("P2996") were accepted for C++26 with the proposed syntax \tcode{[: expr :]}. However,
+we are not allowed to use digraphs to spell this as \tcode{<:: expr ::>}.
+
+While that seems to be in direct contradiction of the guarantees we're given in \eelis{lex.digraph#2}
+\Bquote{
+In all respects of the language, each alternative token behaves the same, respectively, as its primary token, except for its spelling.
+}
+
+it actually isn't. The tokens \tcode{[:} and \tcode{:]} are distinct preprocessing tokens rather than being 
+composed from \tcode{[} and \tcode{:} (or \tcode{:} and \tcode{]} respectively). Therefore it doesn't matter whether \tcode{<:} is a valid
+alternative spelling for \tcode{[} - the splicer syntax does not contain \tcode{[} tokens.
+
+Unfortunately that doesn't exactly help if your source encoding does not have square brackets. In such
+cases you cannot use this language feature directly - you'd have to find some workaround (such as 
+inventing some arbitrary replacement sequence that is expanded to \tcode{[:} during or after transcoding).
+
+\h3{Interpolated string literals}
+The design problems stemming from digraphs do not end there. In some of the recent discussions around the proposed string interpolation feature (\ref("P3412"), \ref("P3951")) some interesting code was brought up. Consider the following:
+
+\codeblock("cpp"){
+t"foo \{ bar %> baz"
+}
+
+In an interpolated string literal, the interpolated expression field is wrapped in curly braces. To parse
+an interpolated string literal you must therefore switch between regular string literal parsing and expression parsing as soon
+as you see a field introducer (\tcode{\{}). 
+
+However, once you parse the interpolated expression things get a little strange. 
+\tcode{%>} is an alternative spelling of \tcode{\}}. We haven't yet returned back to literal parsing, so this would yield the correct token. So, should we be able to signify the end of the interpolation field with \tcode{%>}?
+
+Since allowing anything but literal \tcode{\}} to terminate a interpolation field seems extremely surprising and will most likely not match user expectations, we are once again looking for a workaround because of digraphs.
+
+To make matters worse, there is another ambiguity. Consider an interpolated literal:
+\codeblock("cpp"){
+t"foo \{ bar :>5\}"
+}
+
+In this example, is \tcode{:>} the digraph for \tcode{]} or is it the start of the format specifiers of that field? In a non-interpolated format literal, \tcode{"{:>5}"} would be a valid format specifier.
+
+
 \h2{Affected encodings}
 
 A common way to support arbitrary source encodings is by normalizing the source code through iconv. Therefore, we are typically limited by what iconv supports. Note that iconv also supports several translation character sets that are irrelevant for our purposes. The codec names in this chapter are the primary/canonical names used by iconv rather than necessarily actual codec names.
@@ -577,8 +622,7 @@ In a similar fashion, other characters that have meaning in C++ can be checked. 
 On a somewhat recent Arch Linux system, this gives us the following support matrix: \ref("https://docs.google.com/spreadsheets/d/1tnh3WvorsBhX2Sb5elvBVXTy-PCo7CHkvx7D0pBso6A/edit?usp=sharing"){View on Google Sheets}
 
 \p{
-The following 39 codecs require digraphs, but are also missing the
-\tcode{\\} character:
+Out of 278 considered encodings, the following 39 codecs require digraphs, but are also missing the \tcode{\\} character:
 }
 
 \compact_list{
@@ -641,7 +685,7 @@ The following 9 codecs require digraphs and are otherwise fully usable:
 
 \p{
 We can narrow that list down even further. The most interesting digraph is \tcode{%:}, since it can be used to spell \tcode{#pragma}. 
-Some compilers already have pragmas to specify the source encoding - for example, the IBM z/OS XL compilers support \tcode{#pragma filetag}(\tref("https://www.ibm.com/docs/en/zos/3.1.0?topic=descriptions-pragma-filetag"){documentation}) for this purpose.
+Some compilers already have pragmas to specify the source encoding - for example, the IBM z/OS XL compilers support \tcode{#pragma filetag} (\ref("https://www.ibm.com/docs/en/zos/3.2.0?topic=descriptions-pragma-filetag"){documentation}) for this purpose.
 }
 
 \p{
@@ -671,6 +715,8 @@ If we only have to retain a digraph for \tcode{#}, this narrows our list of affe
 
 While this isn't a huge list, it proves the point that there are still encodings that require digraphs. However, the question remains whether there is any actual use of any of these in practice.
 
+Fortunately those are all rather obscure encodings by today's standards.
+
 \h2{Usage Analysis}
 So, are people still using digraphs? Are they targeting somewhat modern C++ versions?
 
@@ -681,7 +727,7 @@ Surprisingly, we can actually find quite a lot of code that uses digraphs. For e
 However, if you take a closer look at those results, you'll quickly notice that aside from a bunch of false positives most of them fall into one of three categories:
 \ol{
 \li{Compiler test code and other lexer test code}
-\li{Demo code, examples and excercises}
+\li{Demo code, examples and exercises}
 \li{Inconsistent use of digraphs and the tokens they replace, possibly for obfuscation purposes}
 }
 
@@ -692,50 +738,6 @@ For the other digraphs the situation is similar. \tcode{%:%:} yields \ref("https
 For the promising \tcode{%:pragma} we get \ref("https://github.com/search?q=%25%3Apragma+NOT+is%3Afork+language%3AC%2B%2B&type=code&p=1"){107 results}, most if not all of which are inconsistent. For \tcode{%:pragma filetag} we get \ref("https://github.com/search?q=%25%3Apragma+filetag+NOT+is%3Afork&type=code"){0 results} (even for the trigraph spelling we at least get \ref("https://github.com/search?q=%3F%3F%3Dpragma+filetag+NOT+is%3Afork&type=code"){106 results}).
 
 For the digraphs \tcode{<:}, \tcode{:>}, \tcode{<%} and \tcode{%>} a code search yields \b{a lot} more results, but they seem to be almost exclusively false positives - usually because they appear in string literals or comments. Furthermore, \tcode{<:} yields especially bad results due to qualified template arguments being spelled as \tcode{templ<::arg>} (without space after <).
-
-
-\h2{Design Space}
-\h3{Splicers}
-
-Splicers from \ref("P2996") were accepted for C++26 with the proposed syntax \tcode{[: expr :]}. However,
-we are not allowed to use digraphs to spell this as \tcode{<:: expr ::>}.
-
-While that seems to be in direct contradiction of the guarantees we're given in \eelis{lex.digraph#2}
-\Bquote{
-In all respects of the language, each alternative token behaves the same, respectively, as its primary token, except for its spelling.
-}
-
-it actually isn't. The tokens \tcode{[:} and \tcode{:]} are distinct preprocessing tokens rather than being 
-composed from \tcode{[} and \tcode{:} (or \tcode{:} and \tcode{]} respectively). Therefore it doesn't matter whether \tcode{<:} is a valid
-alternative spelling for \tcode{[} - the splicer syntax does not contain \tcode{[} tokens.
-
-Unfortunately that doesn't exactly help if your source encoding does not have square brackets. In such
-cases you cannot use this language feature directly - you'd have to find some workaround (such as 
-inventing some arbitrary replacement sequence that is expanded to \tcode{[:} during or after transcoding).
-
-\h2{Interpolated string literals}
-The design problems stemming from digraphs do not end there. In some of the recent discussions around string interpolation (\ref("P3412"), \ref("P3951")) some interesting code was brought up. Consider the following:
-
-\codeblock("cpp"){
-t"foo \{ bar %> baz"
-}
-
-In an interpolated string literal, the interpolated expression field is wrapped in curly braces. To parse
-an interpolated string literal you must therefore switch between regular string literal parsing and expression parsing as soon
-as you see a field introducer (\tcode{\{}). 
-
-However, once you parse the interpolated expression things get a little strange. 
-\tcode{%>} is an alternative spelling of \tcode{\}}. We haven't yet returned back to literal parsing, so this would yield the correct token. So, should we be able to signify the end of the interpolation field with \tcode{%>}?
-
-Since allowing anything but literal \tcode{\}} to terminate a interpolation field seems extremely surprising and will most likely not match user expectations, we are once again looking to disallow digraphs in this context.
-
-To make matters worse, there is another ambiguity. Consider an interpolated literal:
-\codeblock("cpp"){
-t"foo \{ bar :>\}"
-}
-
-In this example, is \tcode{:>} the digraph for \tcode{]} or is it the start of the format specifiers of that field?
-
 
 \h2{Compatibility}
 At the time of writing almost all major compilers still support trigraphs as an extension. For instance:
@@ -762,14 +764,19 @@ In \ref("WG14/N3116") Rajan Bhakta confirms this:
   Theoretically the \tcode{#} is the only one we need, to engage the \tcode{pragma}.
 }
 
-Given this constraint, there are two alternatives that should be considered:
+While we could retain or reintroduce some standard way of spelling this, there is another alternative. MSVC, GCC and Clang all explicitly support the \tcode{_Pragma("...")} spelling. With this spelling no use of \tcode{#} is required whatsoever.
+
+Either way, this gives us some additional options that need to be considered.
 
 \h3{Partially remove digraphs}
 Instead of removing all digraphs, we could remove all digraphs except for \tcode{%:} (and possibly \tcode{%:%:}). This would allow users to spell \tcode{#pragma} as \tcode{%:pragma}.
 
 This option seems feasible since \tcode{%:} is relatively harmless - it does not conflict with any other language features in the way \tcode{<:} or \tcode{%>} do and we could still get rid of those.
 
-However, it's not clear whether a tiny amount of actual usage of this feature warrants keeping it around for another couple of decades. The usage analysis in \ref("#usage-analysis") shows that being able to spell \tcode{%:pragma filetag} is largely a theoretical concern as compilers still have opt-in support for trigraphs.
+However, it's not clear whether a tiny amount of actual usage of this feature warrants keeping it around for another couple of decades, especially given that there are alternatives. 
+
+Furthermore, the usage analysis in \ref("#usage-analysis") shows that being able to spell \tcode{%:pragma filetag} is largely a theoretical concern as compilers still have opt-in support for trigraphs.
+
 
 \h3{Partially reintroduce trigraphs}
 
@@ -778,6 +785,12 @@ Since most if not all code that actually uses \tcode{#pragma filetag} with an en
 As with the other options, this mostly is up to whether the C and C++ committees feel like supporting such encodings is worth the effort. 
 
 It also seems rather unlikely that either language is going to reuse \tcode{??=} for any other purposes anytime soon, meaning that this is a conforming extension either way. If compilers want to keep supporting this, they absolutely can.
+
+\h3{Deprecate digraphs first}
+
+It seems highly unlikely that deprecation is actually meaningful in this case. 
+
+Users that still rely on encodings that require digraphs are likely not going to be able to update their code regardless of deprecation warnings or not. This would just delay removal and is not pursued at this point.
 
 \h2{Wording}
 
@@ -914,11 +927,11 @@ int x = F(LPAREN(), 0, \del{<:}\ins{[}-);    // replaced by int x = 42;
 Add new entry
 \Bins{
 \ins{
-\p{\b{Affected subclauses:} \eelis{lex.pptoken} and \eelis{lex.alt}}
+\p{\b{Affected subclauses:} \eelis{lex.pptoken}, \eelis{lex.operators} and \eelis{lex.alt}}
 \p{\b{Change:} The "digraph" tokens \tcode{<%}, \tcode{%>}, \tcode{<:}, \tcode{:>}, \tcode{%:} and \tcode{%:%:} are no longer usable as alternative representations of other tokens.}
 \p{\b{Rationale:} Resolves fragmentation of the language, opens up design space and simplifies the language.}
 \p{\b{Effect on original feature:} 
-Valid C++ 2026 code that uses the digraphs \tcode{<%}, \tcode{%>}, \tcode{<:}, \tcode{:>}, \tcode{%:} and \tcode{%:%:} is ill-formed in this revision of C++.
+  Valid C++ 2026 code that uses the digraphs \tcode{<%}, \tcode{%>}, \tcode{<:}, \tcode{:>}, \tcode{%:} and \tcode{%:%:} may become ill-formed or have different meaning in this version of C++. The character sequences \tcode{<%}, \tcode{%>}, \tcode{<:}, \tcode{:>}, \tcode{%:} and \tcode{%:%:} are no longer recognized as single preprocessing tokens. Occurrences within comments and literals are unaffected.
 The meaning of these token sequences may change in future versions of C++.}
 }
 }
@@ -1012,7 +1025,7 @@ Thanks to Jan Schultke for the markup language and document generator used for t
 )\
 \bib(
   id = "WG14/N321",
-  title = "WG14/X3J11 Metting in Hawaii",
+  title = "WG14/X3J11 Meeting in Hawaii",
   link = "https://www.open-std.org/jtc1/sc22/wg14/www/docs/n321.pdf"
 )\
 \bib(
@@ -1027,7 +1040,7 @@ Thanks to Jan Schultke for the markup language and document generator used for t
 )\
 \bib(
   id = "WG14/N052",
-  title = "Simonsen and Stroustrop, A European Representation for ISO C (Revised N023)",
+  title = "Simonsen and Stroustrup, A European Representation for ISO C (Revised N023)",
   link = "https://www.open-std.org/jtc1/sc22/wg14/www/docs/n052.pdf"
 )\
 \bib(
