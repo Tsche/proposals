@@ -9,8 +9,8 @@
   title = {Removing Digraphs}
 ){
 \dl{
-  \dt{Document number:} \dd{\docnum{P4235R0}}
-  \dt{Date:}            \dd{\tt{2026-09-22}}
+  \dt{Document number:} \dd{\docnum{D4235R1}}
+  \dt{Date:}            \dd{\tt{2026-10-9}}
   \dt{Audience:}        \dd{SG16} \dd{SG22} \dd{EWG}
   \dt{Project:}         \dd{ISO/IEC 14882 Programming Languages — C++, ISO/IEC JTC1/SC22/WG21}
   \dt{Reply-to:}        \dd{Matthias Wippich <\mail{mfwippich@gmail.com}>}
@@ -25,6 +25,13 @@ This paper proposes removal of digraphs.
 \make_contents 
 
 \h2(listed=false){Revision history}
+
+\h3{R1 October 2026}
+\ul{
+  \li{Redid iconv analysis as there were some issues with deduplication of encodings in the previous version.}
+  \li{Added released standards and a reference to N033 to the timeline.}
+  \li{Clarified _Pragma usability and other alternatives.}
+}
 
 \h3{R0 September 2026}
 
@@ -148,6 +155,8 @@ To make C easier to use internationally and to promote a wider use of C as an in
       A WG14 proposal for digraphs as alternative to trigraphs is published by Tøndering. 
 
       WG14's \ref("https://www.open-std.org/jtc1/sc22/wg14/www/wg14_document_log.htm"){document log} lists this document, however the paper itself does not seem to have survived.
+
+      However, its contents are quoted in \ref("WG14/N033") on page 2.
     }
     \timeline_event(
       date="December 11, 1987",
@@ -241,7 +250,11 @@ Straw vote:
       Due to this poll outcome digraphs were not adopted for C89.
     }
   }
-
+  \timeline_year(year="1989"){
+    \timeline_event(date="December, 1989", title="C89 is published"){
+      In this version of C trigraphs are supported but digraphs are not.
+    }
+  }
   \timeline_year(year="1990"){
     \timeline_event(
       date="November 26, 1990",
@@ -412,7 +425,23 @@ UK: No with comments. Digraphs are problem.
 }
     }
   }
+  \timeline_year(year="1995"){
+    \timeline_event(
+      date="March, 1995",
+      title="C95 is published",
+    ){
+      This version of C includes trigraphs and digraphs.
+    }
+  }
 
+  \timeline_year(year="1998"){
+    \timeline_event(
+      date="September, 1998",
+      title="C++98 is published",
+    ){
+      This version of C++ includes trigraphs and digraphs.
+    }
+  }
 \timeline_year(year="2009"){
   \timeline_event(
       date="March 3, 2009",
@@ -619,69 +648,117 @@ To figure out whether a particular encoding needs digraphs, we can check whether
 
 In a similar fashion, other characters that have meaning in C++ can be checked. For example, if an encoding does not support \tcode{:}, several digraphs are not usable either. As mentioned before, one such encoding is LATIN-GREEK-1 (\ref("ISO-IR-027")).
 
-On a somewhat recent Arch Linux system, this gives us the following support matrix: \ref("https://docs.google.com/spreadsheets/d/1tnh3WvorsBhX2Sb5elvBVXTy-PCo7CHkvx7D0pBso6A/edit?usp=sharing"){View on Google Sheets}
+On a somewhat recent Arch Linux system, this gives us the following support matrix: \ref("https://docs.google.com/spreadsheets/d/10GTvVdC4mMrzSERlNCYJjwx2Ml85IJ9RYXDu9HmNbYo/edit?usp=sharing"){View on Google Sheets}
+
+Out of 279 considered encodings, 200 can encode the everything in the basic character set. However, 16 cannot even encode at least one character in the ranges \tcode{a-z}, \tcode{A-Z} or \tcode{0-9}. These are mostly replacement character sets and special purpose encodings (e.g. for Braille or OCR purposes) and are therefore disregarded for the purposes of this document.
 
 \p{
-Out of 278 considered encodings, the following 39 codecs require digraphs, but are also missing the \tcode{\\} character:
+Out of the remaining 263 considered encodings, the following \b{49 encodings} lack at least one character for which we have a digraph:
 }
 
 \compact_list{
-  \li{EBCDIC-FI-SE}
-  \li{EBCDIC-FR}
-  \li{EBCDIC-IT}
-  \li{EBCDIC-PT}
-  \li{ISO 646 ES}
-  \li{GREEK7-OLD}
-  \li{IBM423}
-  \li{IBM4517}
-  \li{ISO 646 IT}
-  \li{NF_Z_62-010}
-  \li{NF_Z_62-010_1973}
-  \li{NS_4551-2}
-  \li{CSA_Z243.4-1985-1}
-  \li{CSA_Z243.4-1985-2}
-  \li{DIN_66003}
-  \li{DS_2089}
-  \li{EBCDIC-AT-DE}
-  \li{EBCDIC-CA-FR}
-  \li{EBCDIC-IS-FRISS}
-  \li{ISO 646 ES2}
-  \li{IBM16804}
-  \li{IBM274}
-  \li{IBM281}
-  \li{IBM290}
-  \li{IBM420}
-  \li{IBM4899}
-  \li{IBM803}
-  \li{ISO_5427}
-  \li{JIS_C6229-1984-B}
-  \li{JUS_I.B1.002}
-  \li{MSZ_7795.3}
-  \li{NATS-SEFI}
-  \li{NC_NC00-10}
-  \li{NS_4551-1}
-  \li{ISO 646 PT}
-  \li{ISO 646 PT2}
-  \li{SEN_850200_B}
-  \li{SEN_850200_C}
-  \li{T.61-8BIT}
+\li{ISO646-CA}
+\li{ISO646-CA2}
+\li{ISO646-CU}
+\li{ISO646-DE}
+\li{ISO646-DK}
+\li{ISO646-ES}
+\li{ISO646-ES2}
+\li{ISO646-FI}
+\li{ISO646-FR}
+\li{ISO646-FR1}
+\li{ISO646-GB}
+\li{ISO646-HU}
+\li{ISO646-IT}
+\li{ISO646-JP-OCR-B}
+\li{ISO646-NO2}
+\li{ISO646-NO}
+\li{ISO646-PT}
+\li{ISO646-PT2}
+\li{ISO646-SE2}
+\li{ISO646-YU}
+
+\li{EBCDIC-AT-DE}
+\li{EBCDIC-AT-DE-A}
+\li{EBCDIC-CA-FR}
+\li{EBCDIC-DK-NO}
+\li{EBCDIC-DK-NO-A}
+\li{EBCDIC-ES-A}
+\li{EBCDIC-ES}
+\li{EBCDIC-ES-S}
+\li{EBCDIC-FI-SE}
+\li{EBCDIC-FI-SE-A}
+\li{EBCDIC-FR}
+\li{EBCDIC-IS-FRISS}
+\li{EBCDIC-IT}
+\li{EBCDIC-UK}
+\li{EBCDIC-US}
+\li{EBCDIC-PT}
+
+\li{IBM274}
+\li{IBM275}
+\li{IBM281}
+\li{IBM420}
+\li{IBM423}
+\li{IBM880}
+\li{IBM4517}
+\li{IBM16804}
+
+\li{NATS-DANO}
+\li{NATS-SEFI}
+\li{Latin-greek-1}
+\li{INIS}
+\li{T.61-8bit}
 }
 
 \p{
-The following 9 codecs require digraphs and are otherwise fully usable:
+While these are not the only encodings that cannot represent \tcode{\\} directly, the following \b{40 encodings} out of those 49 also cannot represent \tcode{\\} directly:
+}
+\compact_list{
+\li{ISO646-CA}
+\li{ISO646-CA2}
+\li{ISO646-CU}
+\li{ISO646-DE}
+\li{ISO646-DK}
+\li{ISO646-ES}
+\li{ISO646-ES2}
+\li{ISO646-FI}
+\li{ISO646-FR}
+\li{ISO646-FR1}
+\li{ISO646-HU}
+\li{ISO646-IT}
+\li{ISO646-JP-OCR-B}
+\li{ISO646-NO2}
+\li{ISO646-NO}
+\li{ISO646-PT}
+\li{ISO646-PT2}
+\li{ISO646-SE2}
+\li{ISO646-YU}
+\li{EBCDIC-AT-DE}
+\li{EBCDIC-CA-FR}
+\li{EBCDIC-DK-NO-A}
+\li{EBCDIC-ES-A}
+\li{EBCDIC-FI-SE}
+\li{EBCDIC-FI-SE-A}
+\li{EBCDIC-FR}
+\li{EBCDIC-IS-FRISS}
+\li{EBCDIC-IT}
+\li{EBCDIC-PT}
+\li{IBM274}
+\li{IBM281}
+\li{IBM420}
+\li{IBM423}
+\li{IBM4517}
+\li{IBM16804}
+\li{NATS-DANO}
+\li{NATS-SEFI}
+\li{Latin-greek-1}
+\li{INIS}
+\li{T.61-8bit}
 }
 
-\compact_list{
-  \li{BS_4730}
-  \li{EBCDIC-ES}
-  \li{EBCDIC-ES-S}
-  \li{IBM275}
-  \li{LATIN-GREEK}
-  \li{EBCDIC-DK-NO}
-  \li{EBCDIC-UK}
-  \li{EBCDIC-US}
-  \li{IBM880}
-}
+For those, digraphs help but do not provide a complete solution either.
+
 
 \p{
 We can narrow that list down even further. The most interesting digraph is \tcode{%:}, since it can be used to spell \tcode{#pragma}. 
@@ -689,32 +766,55 @@ Some compilers already have pragmas to specify the source encoding - for example
 }
 
 \p{
-If we only have to retain a digraph for \tcode{#}, this narrows our list of affected codecs down to the following 17 codecs:
+If we only have to retain a digraph for \tcode{#}, this narrows the 49 plausible encodings down to the following \b{22}:
 }
 
 \compact_list{
+  \li{EBCDIC-AT-DE-A}
+  \li{EBCDIC-DK-NO-A}
+  \li{EBCDIC-ES}
+  \li{EBCDIC-ES-A}
+  \li{EBCDIC-ES-S}
   \li{EBCDIC-FI-SE}
+  \li{EBCDIC-FI-SE-A}
   \li{EBCDIC-FR}
   \li{EBCDIC-IT}
   \li{EBCDIC-PT}
-  \li{ISO 646 ES}
-  \li{GREEK7-OLD}
+  \li{ISO646-ES}
+  \li{ISO646-FR}
+  \li{ISO646-FR1}
+  \li{ISO646-GB}
+  \li{ISO646-IT}
+  \li{ISO646-NO2}
+  \li{IBM275}
   \li{IBM423}
   \li{IBM4517}
-  \li{ISO 646 IT}
-  \li{NF_Z_62-010}
-  \li{NF_Z_62-010_1973}
-  \li{NS_4551-2}
-  \li{BS_4730}
+  \li{NATS-DANO}
+  \li{Latin-greek-1}
+  \li{INIS}
+}
+
+Since some compilers support pragmas such as \tcode{#pragma filetag("...")}, these encodings are especially interesting. For these encodings, digraphs allow us to write code in an encoding-agnostic way by using \tcode{%:pragma filetag("...")} instead of \tcode{#pragma filetag("...")}.
+This is especially useful for shared headers.
+
+\p{
+  Out of the 49 plausible encodings, only \b{8} have replacements for all characters that currently have meaning in C++. This includes the alternative operators \tcode{and}, \tcode{or} and so on.
+}
+\compact_list{
+  \li{ISO646-GB}
+  \li{IBM275}
+  \li{IBM880}
+  \li{EBCDIC-UK}
+  \li{EBCDIC-US}
   \li{EBCDIC-ES}
   \li{EBCDIC-ES-S}
-  \li{IBM275}
-  \li{LATIN-GREEK}
+  \li{EBCDIC-DK-NO}
 }
 
 
-While this isn't a huge list, it proves the point that there are still encodings that require digraphs. However, the question remains whether there is any actual use of any of these in practice.
+While this isn't a huge list, it proves the point that there are still encodings that require digraphs.
 
+However, the question remains whether there is any actual use of any of these in practice. 
 Fortunately those are all rather obscure encodings by today's standards.
 
 \h2{Usage Analysis}
@@ -757,23 +857,48 @@ Some compilers already support disabling digraph support altogether. For instanc
 
 \h2{Alternatives to full digraph removal}
 
-As mentioned before, compilers that have pragmas such as \tcode{#pragma filetag} only really need some way of spelling \tcode{#}.
+As mentioned before, compilers that have pragmas such as \tcode{#pragma filetag("encoding")} only really need some way of spelling that.
 
 In \ref("WG14/N3116") Rajan Bhakta confirms this:
 \Bquote{
   Theoretically the \tcode{#} is the only one we need, to engage the \tcode{pragma}.
 }
 
-While we could retain or reintroduce some standard way of spelling this, there is another alternative. MSVC, GCC and Clang all explicitly support the \tcode{_Pragma("...")} spelling. With this spelling no use of \tcode{#} is required whatsoever.
+Since there are several ways to spell \tcode{#pragma}, there are multiple avenues to explore. 
+The \ref("https://docs.google.com/spreadsheets/d/10GTvVdC4mMrzSERlNCYJjwx2Ml85IJ9RYXDu9HmNbYo/edit?usp=sharing"){Google Sheet} from \ref("#affected-encodings") compares the different spellings across encodings in the "Pragma Analysis" sheet
 
-Either way, this gives us some additional options that need to be considered.
+\h3{Use \tcode{_Pragma("...")} where available}
+
+In C99 and C++11 \tcode{_Pragma} was standardized as an alternative to \tcode{#pragma}.
+With this spelling \tcode{#} is not directly required. 
+
+However, if the pragma's argument is a string literal, the \tcode{#} or \tcode{\\} characters are still required to escape the argument properly. 
+Unfortunately that is the case for the \tcode{filetag} pragma, therefore this is not a complete solution either.
+
+As demonstrated in the "Pragma Analysis" sheet, this is not a purely theoretical concern.
+For example, the following encodings can represent both \tcode{??=pragma filetag("IBM-1047")} and \tcode{%:pragma filetag("IBM-1047")}, but neither one of \tcode{_Pragma("filetag(\\\"IBM-1047\\\")")} and \tcode{#pragma filetag("IBM-1047")}:
+
+\compact_list{
+  \li{EBCDIC-FI-SE}
+  \li{EBCDIC-FR}
+  \li{EBCDIC-IT}
+  \li{EBCDIC-PT}
+  \li{ISO646-ES}
+  \li{ISO646-FR}
+  \li{ISO646-FR1}
+  \li{ISO646-IT}
+  \li{ISO646-NO2}
+  \li{IBM4517}
+  \li{IBM423}
+}
+
 
 \h3{Partially remove digraphs}
 Instead of removing all digraphs, we could remove all digraphs except for \tcode{%:} (and possibly \tcode{%:%:}). This would allow users to spell \tcode{#pragma} as \tcode{%:pragma}.
 
 This option seems feasible since \tcode{%:} is relatively harmless - it does not conflict with any other language features in the way \tcode{<:} or \tcode{%>} do and we could still get rid of those.
 
-However, it's not clear whether a tiny amount of actual usage of this feature warrants keeping it around for another couple of decades, especially given that there are alternatives. 
+However, it's not clear whether a tiny amount of actual usage of this feature warrants keeping it around for another couple of decades, especially given that there are other alternatives. 
 
 Furthermore, the usage analysis in \ref("#usage-analysis") shows that being able to spell \tcode{%:pragma filetag} is largely a theoretical concern as compilers still have opt-in support for trigraphs.
 
@@ -786,9 +911,20 @@ As with the other options, this mostly is up to whether the C and C++ committees
 
 It also seems rather unlikely that either language is going to reuse \tcode{??=} for any other purposes anytime soon, meaning that this is a conforming extension either way. If compilers want to keep supporting this, they absolutely can.
 
+\h3{Introduce another alternative spelling for \tcode{#pragma}}
+
+Instead of keeping \tcode{%:} around or reintroducing \tcode{??=}, it might also be viable to just introduce another spelling for \tcode{#pragma} that does not require stringifaction of the arguments.
+
+Particularly interesting for this is that \tcode{??=} may still be supported as a conforming extension. 
+Therefore, implementations may already conformingly parse \tcode{??=pragma} as a single token representing a valid \tcode{#pragma} directive, regardless of whether they support trigraphs fully or not.
+
+However, since such pragmas are often wrapped in macro guards, the same may have to be applied to other preprocessor diretives as well.
+
+Since this does not necessarily require any changes to the standard (as it is doable as conforming extension), this is not pursued at this point.
+
 \h3{Deprecate digraphs first}
 
-It seems highly unlikely that deprecation is actually meaningful in this case. 
+It seems highly unlikely that deprecation is actually meaningful in this case.
 
 Users that still rely on encodings that require digraphs are likely not going to be able to update their code regardless of deprecation warnings or not. This would just delay removal and is not pursued at this point.
 
@@ -1118,4 +1254,15 @@ Thanks to Jan Schultke for the markup language and document generator used for t
   title = "IBM comment on preparing for a Trigraph-adverse future in C++17",
   link = "https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2014/n4210.pdf"
 )\
+\bib(
+  id = "WG14/N033",
+  title = "Remarks to X3J11 from ISO WG14",
+  link = "https://www.open-std.org/jtc1/sc22/wg14/www/docs/n033.pdf"
+)\
 \make_bib
+
+\h2{Appendix A: Tables of affected encodings}
+\h3{Basic Character Set representability}
+TODO
+\h3{#pragma analysis}
+TODO
