@@ -1,0 +1,130 @@
+\: Included before the annex tables. Preserve cell text as metadata so CSS can
+\: reproduce the spreadsheet's conditional formatting without editing data rows.
+\cowel_macro("td"){
+  \cowel_html_element("td", ("data-value"="\cowel_put")){\cowel_put}
+}
+
+\cowel_macro("encoding_table"){
+  \cowel_html_element("div", (
+    class="encoding-table-scroll", tabindex="0", role="region",
+    "aria-label"="\cowel_put{label}"
+  )){
+    \table(class="encoding-table \cowel_put(else=""){class}"){\cowel_put}
+  }
+}
+
+\style{
+.encoding-table-scroll {
+  max-width: 100%;
+  min-width: 0;
+  max-height: 70vh;
+  max-height: 70dvh;
+  overflow: scroll;
+  scrollbar-gutter: stable;
+  scrollbar-width: auto;
+  scrollbar-color: #687787 #edf1f5;
+  margin-block: 1em 2em;
+  border: 1px solid #89939e;
+  border-radius: .35em;
+  isolation: isolate;
+}
+
+\: Explicit dimensions keep Chromium/WebKit scrollbars from using hidden overlays.
+.encoding-table-scroll::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+
+.encoding-table-scroll::-webkit-scrollbar-track,
+.encoding-table-scroll::-webkit-scrollbar-corner {
+  background: #edf1f5;
+}
+
+.encoding-table-scroll::-webkit-scrollbar-thumb {
+  background: #687787;
+  border: 3px solid #edf1f5;
+  border-radius: 7px;
+}
+
+.encoding-table-scroll::-webkit-scrollbar-thumb:hover {
+  background: #465565;
+}
+
+.encoding-table-scroll:focus-visible {
+  outline: 2px solid #3975ba;
+  outline-offset: 2px;
+}
+
+.encoding-table {
+  width: max-content;
+  min-width: 100%;
+  margin: 0;
+  border: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: .85em;
+  line-height: 1.4;
+  color: #202a35;
+  background: #fff;
+}
+
+.encoding-table :is(th, td) {
+  padding: .45em .7em;
+  white-space: nowrap;
+  text-align: center;
+  border: 0;
+  border-right: 1px solid #d1d7de;
+  border-bottom: 1px solid #d1d7de;
+}
+
+.encoding-table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  font-weight: 700;
+  background: #dce6f1;
+  box-shadow: 0 1px #89939e;
+}
+
+.encoding-table :is(th, td):first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  text-align: left;
+  background: #f1f4f8;
+  box-shadow: 1px 0 #89939e;
+}
+
+.encoding-table th:first-child {
+  z-index: 3;
+  background: #dce6f1;
+}
+
+.encoding-table td:is([data-value="yes"], [data-value="TRUE"]),
+.pragma-analysis td:nth-child(2)[data-value="None"],
+.pragma-analysis td:nth-child(8)[data-value="Not needed"] {
+  background: #d9ead3;
+}
+
+.encoding-table td:is([data-value="no"], [data-value="FALSE"]),
+.pragma-analysis td:nth-child(8):is([data-value="Insufficient"], [data-value="Cannot spell all digraphs"]) {
+  background: #f4cccc;
+}
+
+.pragma-analysis td:nth-child(2):not([data-value="None"]) {
+  background: #fce5b1;
+}
+
+@media print {
+  .encoding-table-scroll {
+    max-height: none;
+    overflow: visible;
+    border: 0;
+  }
+  .encoding-table :is(th, td) {
+    position: static;
+    box-shadow: none;
+    print-color-adjust: exact;
+  }
+}
+}

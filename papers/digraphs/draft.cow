@@ -9,11 +9,11 @@
   title = {Removing Digraphs}
 ){
 \dl{
-  \dt{Document number:} \dd{\docnum{D4235R1}}
+  \dt{Document number:} \dd{\docnum{P4235R1}}
   \dt{Date:}            \dd{\tt{2026-10-9}}
-  \dt{Audience:}        \dd{SG16} \dd{SG22} \dd{EWG}
+  \dt{Audience:}        \dd{EWG} \dd{CWG}
   \dt{Project:}         \dd{ISO/IEC 14882 Programming Languages — C++, ISO/IEC JTC1/SC22/WG21}
-  \dt{Reply-to:}        \dd{Matthias Wippich <\mail{mfwippich@gmail.com}>}
+  \dt{Reply-to:}        \dd{Matthias Wippich <\mail{wippich@ieee.org}>}
 }
 \hr
 }
@@ -546,7 +546,14 @@ Sutter declared consensus, motion approved.
     🎉 Trigraphs are removed from C++.
   }
 }
-
+\timeline_year(year="2017"){
+  \timeline_event(
+    date="December, 2017",
+    title="C++17 is published"
+  ){
+    This version of C++ does not include trigraphs anymore, but still includes digraphs.
+  }
+}
 \timeline_year(year="2022"){
   \timeline_event(
       date="March 2, 2022",
@@ -565,7 +572,7 @@ Sutter declared consensus, motion approved.
 
       A poll is taken:
 \codeblock("text"){
-  ^Straw poll: Does WG14 want N2940 (removing trigraphs) into C23?
+  Straw poll: Does WG14 want N2940 (removing trigraphs) into C23?
     10/6/2. (adopted)
   N2940 (removing trigraphs) goes into C23.
 
@@ -594,6 +601,14 @@ US18-050, US17-051, US16-052?
 Result: 20-4-3 (rejected)
 }
     }
+}
+\timeline_year(year="2024"){
+  \timeline_event(
+    date="October, 2024",
+    title="C23 is published"
+  ){
+    This version of C does not include trigraphs anymore, but still includes digraphs.
+  }
 }
 }
 
@@ -1261,8 +1276,570 @@ Thanks to Jan Schultke for the markup language and document generator used for t
 )\
 \make_bib
 
-\h2{Appendix A: Tables of affected encodings}
+\cowel_include("encoding_tables.cow")
+
+\h2{Appendix: Tables of affected encodings}
 \h3{Basic Character Set representability}
-TODO
+\encoding_table(label="Basic Character Set representability"){
+  \tr{\th(scope="col"){Encoding} \th(scope="col"){0-9} \th(scope="col"){A-Z} \th(scope="col"){a-z} \th(scope="col"){HT/VT/FF/LF} \th(scope="col"){space} \th(scope="col"){()} \th(scope="col"){[]} \th(scope="col"){\{\}} \th(scope="col"){<>} \th(scope="col"){/} \th(scope="col"){#} \th(scope="col"){!} \th(scope="col"){"} \th(scope="col"){$} \th(scope="col"){%} \th(scope="col"){&} \th(scope="col"){'} \th(scope="col"){*} \th(scope="col"){+} \th(scope="col"){,} \th(scope="col"){-} \th(scope="col"){.} \th(scope="col"){:} \th(scope="col"){;} \th(scope="col"){=} \th(scope="col"){?} \th(scope="col"){@} \th(scope="col"){\\} \th(scope="col"){^} \th(scope="col"){_} \th(scope="col"){`} \th(scope="col"){|} \th(scope="col"){~}}
+\tr{\td{BRF} \td{no} \td{no} \td{no} \td{yes} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no}}
+\tr{\td{ISO-11548-1} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no}}
+\tr{\td{INIS-8} \td{no} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no}}
+\tr{\td{INIS-cyrillic} \td{no} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no}}
+\tr{\td{ISO_5428:1980} \td{no} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{yes} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no}}
+\tr{\td{ISO_2033-1983} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no}}
+\tr{\td{ISO_5427:1981} \td{no} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{yes} \td{no} \td{no} \td{no}}
+\tr{\td{greek7-old} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{yes}}
+\tr{\td{ISO_5427} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no}}
+\tr{\td{ASMO_449} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{no}}
+\tr{\td{greek-ccitt} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{no}}
+\tr{\td{greek7} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no}}
+\tr{\td{IBM290} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{no}}
+\tr{\td{IBM4899} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{no} \td{yes} \td{no}}
+\tr{\td{IBM803} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{no} \td{yes} \td{no}}
+\tr{\td{latin-greek} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no}}
+\tr{\td{EBCDIC-AT-DE-A} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{yes} \td{no} \td{yes} \td{no}}
+\tr{\td{EBCDIC-DK-NO-A} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{yes} \td{no} \td{yes} \td{no}}
+\tr{\td{EBCDIC-ES-A} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{no} \td{yes} \td{no}}
+\tr{\td{EBCDIC-FI-SE} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{no} \td{no}}
+\tr{\td{EBCDIC-FI-SE-A} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{yes} \td{no} \td{yes} \td{no}}
+\tr{\td{EBCDIC-FR} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no}}
+\tr{\td{EBCDIC-IT} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{no} \td{no}}
+\tr{\td{IBM275} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes}}
+\tr{\td{IBM4517} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{no} \td{no}}
+\tr{\td{ISO646-ES} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{yes}}
+\tr{\td{ISO646-FR} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{no} \td{no}}
+\tr{\td{ISO646-FR1} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no}}
+\tr{\td{ISO646-IT} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{no} \td{no}}
+\tr{\td{ISO646-NO2} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{no}}
+\tr{\td{NATS-DANO} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{yes} \td{no} \td{no} \td{no}}
+\tr{\td{EBCDIC-AT-DE} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no}}
+\tr{\td{EBCDIC-CA-FR} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no}}
+\tr{\td{EBCDIC-DK-NO} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no}}
+\tr{\td{IBM16804} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{no} \td{yes} \td{no}}
+\tr{\td{IBM420} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{no} \td{yes} \td{no}}
+\tr{\td{ISO646-CA} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{yes} \td{no} \td{no} \td{no}}
+\tr{\td{ISO646-CA2} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{yes} \td{no} \td{no} \td{no}}
+\tr{\td{ISO646-DE} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no}}
+\tr{\td{ISO646-DK} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{yes}}
+\tr{\td{ISO646-ES2} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{no}}
+\tr{\td{ISO646-FI} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no}}
+\tr{\td{ISO646-HU} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{no} \td{no}}
+\tr{\td{ISO646-NO} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no}}
+\tr{\td{ISO646-PT} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no}}
+\tr{\td{ISO646-PT2} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{yes}}
+\tr{\td{ISO646-SE2} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{yes} \td{no} \td{no} \td{no}}
+\tr{\td{ISO646-YU} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{yes} \td{no} \td{no} \td{no}}
+\tr{\td{NATS-SEFI} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{yes} \td{no} \td{no} \td{no}}
+\tr{\td{EBCDIC-ES} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{no}}
+\tr{\td{EBCDIC-ES-S} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{no}}
+\tr{\td{Latin-greek-1} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{no} \td{no} \td{yes} \td{yes} \td{no}}
+\tr{\td{EBCDIC-UK} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{no}}
+\tr{\td{EBCDIC-US} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM281} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{no}}
+\tr{\td{ISO646-JP-OCR-B} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{no}}
+\tr{\td{EBCDIC-PT} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no}}
+\tr{\td{IBM423} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no}}
+\tr{\td{INIS} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{no} \td{no} \td{no} \td{yes} \td{no}}
+\tr{\td{EBCDIC-IS-FRISS} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{no} \td{yes} \td{no} \td{yes} \td{no}}
+\tr{\td{IBM274} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{yes} \td{no} \td{no}}
+\tr{\td{IBM880} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{no}}
+\tr{\td{ISO646-CU} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{yes} \td{no} \td{no}}
+\tr{\td{T.61-8bit} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{no} \td{yes} \td{no} \td{yes} \td{no}}
+\tr{\td{ISO646-GB} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no}}
+\tr{\td{ANSI_X3.110-1983} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ARMSCII-8} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{Big5} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{Big5-HKSCS} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{CP10007} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{CP1125} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{CP737} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{CP770} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{CP771} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{CP772} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{CP773} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{CP774} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{CSN_369103} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{CWI} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{DEC-MCS} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ECMA-cyrillic} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{EUC-JISX0213} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{EUC-JP} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{EUC-JP-MS} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{EUC-KR} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{EUC-TW} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{GB18030} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{GB2312} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{GBK} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{GEORGIAN-ACADEMY} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{GEORGIAN-PS} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{GOST_19768-74} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{HP-GREEK8} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{hp-roman8} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{HP-ROMAN9} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{HP-THAI8} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{HP-TURKISH8} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM037} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM038} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes}}
+\tr{\td{IBM1004} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1008} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1025} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1026} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1046} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1047} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1097} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1112} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1122} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1123} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1124} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1129} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1130} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1132} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1133} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1137} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1140} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1141} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1142} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1143} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1144} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1145} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1146} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1147} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1148} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1149} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1153} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1154} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1155} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1156} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1157} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1158} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1160} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1161} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1162} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1163} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1164} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1166} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1167} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM12712} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1364} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1371} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1388} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1390} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM1399} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM256} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM273} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM277} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM278} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM280} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM284} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM285} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM297} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM424} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM437} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM4909} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM4971} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM500} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM5347} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM775} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM850} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM851} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM852} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM855} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM856} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM857} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM858} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM860} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM861} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM862} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM863} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM864} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM865} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM866} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM866NAV} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM868} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM869} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM870} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM871} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM875} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes}}
+\tr{\td{IBM891} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM901} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM902} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM903} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM9030} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM904} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM905} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM9066} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM918} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM921} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM922} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM930} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{no}}
+\tr{\td{IBM932} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM933} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM935} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM937} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM939} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{no}}
+\tr{\td{IBM943} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IBM9448} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{IEC_P27-1} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISIRI-3342} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-10646-UCS-2} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-2022-CN} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-2022-CN-EXT} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-2022-JP} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-2022-JP-2} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-2022-JP-3} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-2022-KR} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-8859-1} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-8859-10} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-8859-11} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-8859-13} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-8859-14} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-8859-15} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-8859-16} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-8859-2} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-8859-3} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-8859-4} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-8859-5} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-8859-6} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-8859-7} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-8859-8} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-8859-9} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-8859-9E} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-IR-197} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO-IR-209} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{iso-ir-90} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO646-CN} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no}}
+\tr{\td{ISO646-JP} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{no}}
+\tr{\td{ISO646-KR} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO_10367-box} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{ISO_6937} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{JOHAB} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{KOI-8} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{KOI8-R} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{KOI8-RU} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{KOI8-T} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{KOI8-U} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{KZ-1048} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{MAC-CENTRALEUROPE} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{MAC-IS} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{MAC-SAMI} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{MAC-UK} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{macintosh} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{MIK} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{PTCP154} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{Shift_JIS} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{no}}
+\tr{\td{Shift_JISX0213} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{no} \td{yes} \td{yes} \td{yes} \td{yes} \td{no}}
+\tr{\td{TCVN5712-1} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{TIS-620} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{TSCII} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{UCS-2BE} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{UCS-2LE} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{UCS-4BE} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{UCS-4LE} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{UHC} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{US-ASCII} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{UTF-16} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{UTF-16BE} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{UTF-16LE} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{UTF-32} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{UTF-32BE} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{UTF-32LE} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{UTF-7} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{UTF-7-IMAP} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{UTF-8} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{VISCII} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{WIN-SAMI-2} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{windows-1250} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{windows-1251} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{windows-1252} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{windows-1253} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{windows-1254} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{windows-1255} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{windows-1256} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{windows-1257} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{windows-1258} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{Windows-31J} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+\tr{\td{windows-874} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes} \td{yes}}
+}
 \h3{#pragma analysis}
-TODO
+\encoding_table(label="#pragma analysis", class="pragma-analysis"){
+\tr{\th(scope="col"){Encoding} \th(scope="col"){Needs digraphs} \th(scope="col"){Digraphs spellable} \th(scope="col"){#pragma filetag("IBM-1047")} \th(scope="col"){_Pragma("filetag(\"IBM-1047\")")} \th(scope="col"){??=pragma filetag("IBM-1047")} \th(scope="col"){%:pragma filetag("IBM-1047")} \th(scope="col"){Do digraphs help?} \th(scope="col"){Still missing after digraph substitution}}
+\tr{\td{BRF} \td{[], {}, #} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Cannot spell all digraphs} \td{0-9, A-Z, a-z, space, (), <>, /, !, ", $, %, &, ', *, +, ,, -, ., :, ;, =, ?, @, \\, ^, _, `, |, ~}}
+\tr{\td{ISO-11548-1} \td{[], {}, #} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Cannot spell all digraphs} \td{0-9, A-Z, a-z, HT/VT/FF/LF, space, (), <>, /, !, ", $, %, &, ', *, +, ,, -, ., :, ;, =, ?, @, \\, ^, _, `, |, ~}}
+\tr{\td{INIS-8} \td{[], {}, #} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Cannot spell all digraphs} \td{0-9, A-Z, a-z, (), <>, /, !, ", $, %, &, ', *, +, ,, -, ., :, ;, =, ?, @, \\, ^, _, `, |, ~}}
+\tr{\td{INIS-cyrillic} \td{[], {}, #} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Cannot spell all digraphs} \td{0-9, A-Z, a-z, (), <>, /, !, ", $, %, &, ', *, +, ,, -, ., :, ;, =, ?, @, \\, ^, _, `, |, ~}}
+\tr{\td{ISO_5428:1980} \td{[], {}, #} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Cannot spell all digraphs} \td{0-9, A-Z, a-z, (), <>, /, !, ", $, %, &, ', *, +, ,, -, ., :, =, ?, @, \\, ^, _, `, |, ~}}
+\tr{\td{ISO_2033-1983} \td{[], {}, #} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Cannot spell all digraphs} \td{A-Z, a-z, (), <>, /, !, ", $, %, &, ', *, +, ,, -, ., :, ;, =, ?, @, \\, ^, _, `, |, ~}}
+\tr{\td{ISO_5427:1981} \td{{}, #} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Cannot spell all digraphs} \td{0-9, A-Z, a-z, (), <>, /, !, ", $, %, &, ', *, +, ,, -, ., :, ;, =, ?, @, \\, ^, `, |, ~}}
+\tr{\td{Latin-greek-1} \td{[], #} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Cannot spell all digraphs} \td{!, $, :, ?, @, \\, ^, _, ~}}
+\tr{\td{greek7-old} \td{[], {}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Insufficient} \td{A-Z, a-z, @, \\, ^, |}}
+\tr{\td{ISO_5427} \td{[], {}} \td{TRUE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Insufficient} \td{A-Z, a-z, $, @, \\, ^, _, `, |, ~}}
+\tr{\td{IBM290} \td{[], {}} \td{TRUE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Insufficient} \td{a-z, \\, ^, ~}}
+\tr{\td{IBM4899} \td{[], {}} \td{TRUE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Insufficient} \td{a-z, &, \\, ^, `, ~}}
+\tr{\td{IBM803} \td{[], {}} \td{TRUE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Insufficient} \td{a-z, &, \\, ^, `, ~}}
+\tr{\td{latin-greek} \td{#} \td{TRUE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Insufficient} \td{a-z, ~}}
+\tr{\td{EBCDIC-AT-DE-A} \td{[], {}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Insufficient} \td{!, ", $, @, \\, ^, `, ~}}
+\tr{\td{EBCDIC-DK-NO-A} \td{[], {}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Insufficient} \td{!, ", $, @, \\, ^, `, ~}}
+\tr{\td{EBCDIC-ES-A} \td{[], {}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Insufficient} \td{", $, \\, ^, `, ~}}
+\tr{\td{EBCDIC-FI-SE} \td{[], {}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{$, @, \\, `, |, ~}}
+\tr{\td{EBCDIC-FI-SE-A} \td{[], {}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Insufficient} \td{!, ", $, @, \\, ^, `, ~}}
+\tr{\td{EBCDIC-FR} \td{[], {}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, |, ~}}
+\tr{\td{EBCDIC-IT} \td{[], {}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, `, |, ~}}
+\tr{\td{IBM275} \td{[], {}, #} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, `, |}}
+\tr{\td{IBM4517} \td{[], {}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, `, |, ~}}
+\tr{\td{ISO646-ES} \td{[], {}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, |}}
+\tr{\td{ISO646-FR} \td{[], {}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, `, |, ~}}
+\tr{\td{ISO646-FR1} \td{[], {}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, |, ~}}
+\tr{\td{ISO646-IT} \td{[], {}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, `, |, ~}}
+\tr{\td{ISO646-NO2} \td{[], {}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{\\, ~}}
+\tr{\td{NATS-DANO} \td{[], {}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Insufficient} \td{", @, \\, ^, `, |, ~}}
+\tr{\td{EBCDIC-ES} \td{[], #} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{$, ^, ~}}
+\tr{\td{EBCDIC-ES-S} \td{[], #} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{^, ~}}
+\tr{\td{EBCDIC-PT} \td{{}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, |, ~}}
+\tr{\td{IBM423} \td{{}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, |, ~}}
+\tr{\td{INIS} \td{{}, #} \td{TRUE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{Insufficient} \td{!, ", &, ?, @, \\, ^, _, `, ~}}
+\tr{\td{ISO646-GB} \td{#} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{~}}
+\tr{\td{ASMO_449} \td{None} \td{TRUE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{No effect} \td{A-Z, a-z, $, ,, ;, ?, `, ~}}
+\tr{\td{greek-ccitt} \td{None} \td{TRUE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{No effect} \td{A-Z, a-z, $, `, ~}}
+\tr{\td{greek7} \td{None} \td{TRUE} \td{FALSE} \td{FALSE} \td{FALSE} \td{FALSE} \td{No effect} \td{A-Z, a-z, $, ~}}
+\tr{\td{EBCDIC-AT-DE} \td{[], {}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, |, ~}}
+\tr{\td{EBCDIC-CA-FR} \td{[], {}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{\\, |, ~}}
+\tr{\td{EBCDIC-DK-NO} \td{[], {}} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{$, @, |, ~}}
+\tr{\td{IBM16804} \td{[], {}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{\\, ^, `, ~}}
+\tr{\td{IBM420} \td{[], {}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{\\, ^, `, ~}}
+\tr{\td{ISO646-CA} \td{[], {}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, ^, `, |, ~}}
+\tr{\td{ISO646-CA2} \td{[], {}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, ^, `, |, ~}}
+\tr{\td{ISO646-DE} \td{[], {}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, |, ~}}
+\tr{\td{ISO646-DK} \td{[], {}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{\\, |}}
+\tr{\td{ISO646-ES2} \td{[], {}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, ^, |, ~}}
+\tr{\td{ISO646-FI} \td{[], {}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{$, \\, |, ~}}
+\tr{\td{ISO646-HU} \td{[], {}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{$, @, \\, `, |, ~}}
+\tr{\td{ISO646-NO} \td{[], {}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{\\, |, ~}}
+\tr{\td{ISO646-PT} \td{[], {}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, |, ~}}
+\tr{\td{ISO646-PT2} \td{[], {}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, |}}
+\tr{\td{ISO646-SE2} \td{[], {}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{$, @, \\, ^, `, |, ~}}
+\tr{\td{ISO646-YU} \td{[], {}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, ^, `, |, ~}}
+\tr{\td{NATS-SEFI} \td{[], {}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, ^, `, |, ~}}
+\tr{\td{EBCDIC-UK} \td{[]} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{^, ~}}
+\tr{\td{EBCDIC-US} \td{[]} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{^}}
+\tr{\td{IBM281} \td{[]} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{\\, ^, ~}}
+\tr{\td{ISO646-JP-OCR-B} \td{[]} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{\\, `, ~}}
+\tr{\td{EBCDIC-IS-FRISS} \td{{}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, ^, `, ~}}
+\tr{\td{IBM274} \td{{}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{@, \\, |, ~}}
+\tr{\td{IBM880} \td{{}} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{`, |, ~}}
+\tr{\td{ISO646-CU} \td{{}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{$, \\, ^, |, ~}}
+\tr{\td{T.61-8bit} \td{{}} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{Insufficient} \td{\\, ^, `, ~}}
+\tr{\td{IBM864} \td{None} \td{FALSE} \td{TRUE} \td{TRUE} \td{TRUE} \td{FALSE} \td{No effect} \td{%}}
+\tr{\td{IBM038} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{No effect} \td{|}}
+\tr{\td{IBM1097} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{No effect} \td{^}}
+\tr{\td{IBM1371} \td{None} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{No effect} \td{\\}}
+\tr{\td{IBM875} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{No effect} \td{|}}
+\tr{\td{IBM930} \td{None} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{No effect} \td{\\, ~}}
+\tr{\td{IBM939} \td{None} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{No effect} \td{\\, ~}}
+\tr{\td{ISO646-CN} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{No effect} \td{$, ~}}
+\tr{\td{ISO646-JP} \td{None} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{No effect} \td{\\, ~}}
+\tr{\td{ISO646-KR} \td{None} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{No effect} \td{\\}}
+\tr{\td{JOHAB} \td{None} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{No effect} \td{\\}}
+\tr{\td{Shift_JIS} \td{None} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{No effect} \td{\\, ~}}
+\tr{\td{Shift_JISX0213} \td{None} \td{TRUE} \td{TRUE} \td{FALSE} \td{TRUE} \td{TRUE} \td{No effect} \td{\\, ~}}
+\tr{\td{ANSI_X3.110-1983} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ARMSCII-8} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{Big5} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{Big5-HKSCS} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{CP10007} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{CP1125} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{CP737} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{CP770} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{CP771} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{CP772} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{CP773} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{CP774} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{CSN_369103} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{CWI} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{DEC-MCS} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ECMA-cyrillic} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{EUC-JISX0213} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{EUC-JP} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{EUC-JP-MS} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{EUC-KR} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{EUC-TW} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{GB18030} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{GB2312} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{GBK} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{GEORGIAN-ACADEMY} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{GEORGIAN-PS} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{GOST_19768-74} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{HP-GREEK8} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{hp-roman8} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{HP-ROMAN9} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{HP-THAI8} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{HP-TURKISH8} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM037} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1004} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1008} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1025} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1026} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1046} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1047} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1112} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1122} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1123} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1124} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1129} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1130} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1132} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1133} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1137} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1140} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1141} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1142} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1143} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1144} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1145} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1146} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1147} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1148} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1149} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1153} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1154} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1155} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1156} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1157} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1158} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1160} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1161} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1162} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1163} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1164} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1166} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1167} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM12712} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1364} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1388} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1390} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM1399} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM256} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM273} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM277} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM278} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM280} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM284} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM285} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM297} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM424} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM437} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM4909} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM4971} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM500} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM5347} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM775} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM850} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM851} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM852} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM855} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM856} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM857} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM858} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM860} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM861} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM862} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM863} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM865} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM866} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM866NAV} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM868} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM869} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM870} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM871} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM891} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM901} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM902} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM903} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM9030} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM904} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM905} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM9066} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM918} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM921} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM922} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM932} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM933} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM935} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM937} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM943} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IBM9448} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{IEC_P27-1} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISIRI-3342} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-10646-UCS-2} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-2022-CN} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-2022-CN-EXT} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-2022-JP} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-2022-JP-2} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-2022-JP-3} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-2022-KR} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-8859-1} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-8859-10} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-8859-11} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-8859-13} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-8859-14} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-8859-15} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-8859-16} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-8859-2} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-8859-3} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-8859-4} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-8859-5} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-8859-6} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-8859-7} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-8859-8} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-8859-9} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-8859-9E} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-IR-197} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO-IR-209} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{iso-ir-90} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO_10367-box} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{ISO_6937} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{KOI-8} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{KOI8-R} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{KOI8-RU} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{KOI8-T} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{KOI8-U} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{KZ-1048} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{MAC-CENTRALEUROPE} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{MAC-IS} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{MAC-SAMI} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{MAC-UK} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{macintosh} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{MIK} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{PTCP154} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{TCVN5712-1} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{TIS-620} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{TSCII} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{UCS-2BE} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{UCS-2LE} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{UCS-4BE} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{UCS-4LE} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{UHC} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{US-ASCII} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{UTF-16} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{UTF-16BE} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{UTF-16LE} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{UTF-32} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{UTF-32BE} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{UTF-32LE} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{UTF-7} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{UTF-7-IMAP} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{UTF-8} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{VISCII} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{WIN-SAMI-2} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{windows-1250} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{windows-1251} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{windows-1252} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{windows-1253} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{windows-1254} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{windows-1255} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{windows-1256} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{windows-1257} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{windows-1258} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{Windows-31J} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+\tr{\td{windows-874} \td{None} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{TRUE} \td{Not needed} \td{None}}
+}
