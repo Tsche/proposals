@@ -28,9 +28,9 @@ This paper proposes removal of digraphs.
 
 \h3{R1 October 2026}
 \ul{
-  \li{Redid iconv analysis as there were some issues with deduplication of encodings in the previous version.}
-  \li{Added released standards and a reference to N033 to the timeline.}
-  \li{Clarified _Pragma usability and other alternatives.}
+  \li{Redid iconv analysis as there were some issues with deduplication of encodings in the previous version}
+  \li{Added released standards and a reference to N033 to the timeline}
+  \li{Clarified _Pragma usability and other alternatives}
 }
 
 \h3{R0 September 2026}
@@ -1279,6 +1279,10 @@ Thanks to Jan Schultke for the markup language and document generator used for t
 \cowel_include("encoding_tables.cow")
 
 \h2{Appendix: Tables of affected encodings}
+This is an export of the Google sheet in the \ref("#affected-encodings") section.
+
+Please do note that these tables include codecs that are not plausible source encodings. For example BRF is a special-purpose encoding for braille.
+
 \h3{Basic Character Set representability}
 \encoding_table(label="Basic Character Set representability"){
   \tr{\th(scope="col"){Encoding} \th(scope="col"){0-9} \th(scope="col"){A-Z} \th(scope="col"){a-z} \th(scope="col"){HT/VT/FF/LF} \th(scope="col"){space} \th(scope="col"){()} \th(scope="col"){[]} \th(scope="col"){\{\}} \th(scope="col"){<>} \th(scope="col"){/} \th(scope="col"){#} \th(scope="col"){!} \th(scope="col"){"} \th(scope="col"){$} \th(scope="col"){%} \th(scope="col"){&} \th(scope="col"){'} \th(scope="col"){*} \th(scope="col"){+} \th(scope="col"){,} \th(scope="col"){-} \th(scope="col"){.} \th(scope="col"){:} \th(scope="col"){;} \th(scope="col"){=} \th(scope="col"){?} \th(scope="col"){@} \th(scope="col"){\\} \th(scope="col"){^} \th(scope="col"){_} \th(scope="col"){`} \th(scope="col"){|} \th(scope="col"){~}}
