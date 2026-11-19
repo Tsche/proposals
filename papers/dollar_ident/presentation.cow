@@ -1,0 +1,411 @@
+\: cowel 0.10.2
+\cowel_include("../../ext/libwg21.cow")
+\cowel_include("../../ext/libslides.cow")
+
+\cowel_macro("footsep"){\'EM SPACE'|\'EM SPACE'}
+
+\cowel_macro("slidefoot"){
+Matthias Wippich, Murat Can Çağrı
+\footsep
+Slides for P4234
+\'EM DASH'
+\tcode{$identifiers}
+\footsep
+Búzios 2026
+\footsep
+Slide \(slidenum)
+}
+
+\style{
+section>h1 {
+  margin-top: calc(0.15 * var(--sw)) !important;
+  line-height: 0.8;
+  font-size: 450%;
+  text-align: center;
+}
+
+#docnum {
+  font-family: var(--sans-serif-family);
+  font-size: 40%;
+  font-weight: normal;
+}
+
+li>ul {
+  margin-top: 0;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+.striped tr:nth-child(even) td {
+  background-color: var(--deep-background-color);
+}
+
+#tony-table {
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  table-layout: fixed;
+}
+#tony-table td {
+  background-color: var(--deep-background-color);
+  width: 50%;
+}
+#tony-table code-block {
+  margin: 0.25em auto;
+  width: fit-content;
+}
+section math {
+  font-size: 100%;
+}
+
+ol ol,
+ol ul,
+ul ol,
+ul ul {
+  margin: 0;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+}
+\cowel_macro("nowrap"){
+    \cowel_html_element("span", (class="nowrap")){\cowel_put}}
+
+\wg21_head(
+    title = {Slides for P4234 \br \tcode{$identifiers}}
+){
+\dl{
+    \dt{Document number:} \dd{\docnum{DXXXXR0}}
+    \dt{Date:}            \dd{\tt{2026-11-19}}
+    \dt{Audience:}        \dd{SG22}
+    \dt{Project:}         \dd{ISO/IEC 14882 Programming Languages — C++, ISO/IEC JTC1/SC22/WG21}
+    \dt{Reply-To:}        \dd{Matthias Wippich <\mail{wippich@ieee.org}>}
+    \dt{Co-Authors:}      \dd{Murat Can Çağrı <\mail{cancagri.dev@gmail.com}>}
+}
+\hr
+\slide_controls
+}
+
+\slide{
+\cowel_html_element("h1"){\tcode{$identifiers}\br
+\span(id="docnum"){P4234R2}}
+}
+
+\slide{
+\slideh{Introduction}
+
+P4234 proposes to conditionally or unconditionally allow the use of the dollar sign (\tcode{$}) in identifiers in C++.
+A version of this proposal for C is planned.
+
+\ul{
+    \li{$identifiers is one of the most widely supported extensions to C and C++ and is supported by all major compilers}
+    \li{It has been supported for decades and predates standardization of both C and C++}
+    \li{It is widely used in practice and required by some tooling, e.g. for linker-defined symbols}
+    \li{In C++26 we accidentally made this extension non-conforming}
+}
+}
+
+\slide{
+\slideh{Motivation \'EM DASH' Linker defined symbols}
+
+One such example is armlink from the \ref("https://developer.arm.com/documentation/dui0803/f/Accessing-and-Managing-Symbols-with-armlink/Linker-defined-symbols"){ARM MDK toolchain}:
+
+\Bquote{
+Symbols that contain the character sequence \tcode{$$}, and all other external names containing the sequence \tcode{$$}, are names reserved by ARM.
+}
+
+\codeblock("cpp"){
+// oops, none of these are valid identifiers in conforming C++ impls
+extern int Image$$ER_ZI$$Base;
+extern int Image$$ER_ZI$$Limit;
+extern int Image$$ER_RO$$Base;
+extern int Image$$ER_RO$$Limit;
+extern int Image$$ER_RW$$Base;
+extern int Image$$ER_RW$$Limit;
+}
+}
+
+\slide{
+\slideh{Motivation \'EM DASH' Linker defined symbols}
+Workarounds are possible with some implementations, but are error prone and inherently non-portable
+
+\br\br
+
+For example GCC and Clang allow overriding the symbol name with \tcode{asm}:
+\codeblock("cpp"){
+extern int Image_ER_ZI_Base  asm("Image$$ER_ZI$$Base");
+extern int Image_ER_ZI_Limit asm("Image$$ER_ZI$$Limit");
+extern int Image_ER_RO_Base  asm("Image$$ER_RO$$Base");
+extern int Image_ER_RO_Limit asm("Image$$ER_RW$$Limit");
+extern int Image_ER_RW_Base  asm("Image$$ER_RW$$Base");
+extern int Image_ER_RW_Limit asm("Image$$ER_RW$$Limit");
+}
+}
+
+\slide{
+\slideh{Motivation \'EM DASH' Symbol patching}
+Some tooling supports patching existing definitions. This is commonly used for startup hooks.
+
+\br
+
+For example, armlink supports the \tcode{$Sub$$} and \tcode{$Super$$} prefixes to patch existing definitions.
+
+\br
+
+\codeblock("cpp"){
+#   define WRAPPER_FUNC(__FUNC)     $Sub$$##__FUNC
+#   define REAL_FUNC(__FUNC)        $Super$$## __FUNC
+}
+
+Convenience macros for this appear in RP2040 MDK headers. 
+While this is currently conditionally fine in C, it is not conforming in C++26
+}
+
+\slide{
+\slideh{Motivation \'EM DASH' Identifier namespacing}
+Despite the myriad of available characters for identifiers, people do like using what their keyboards offer.
+The dollar sign is one of those characters.
+
+\codeblock("cpp"){
+#define $inline_never      [[gnu::noinline]]
+#define $inline($$option)  $inline_##$$option
+#define $template          template for (auto _ : "")
+$inline(never) int bar(int, char) {
+    $template {
+        constexpr auto ctx = std::meta::current_function();
+        constexpr auto [... Idx] = 
+            std::make_index_sequence<parameters_of(ctx).size()>{};
+        return ([:variable_of(parameters_of(ctx)[Idx]):] + ... + 0);
+    }
+}
+}
+}
+
+
+
+\slide{
+\slideh{Motivation \'EM DASH' Stricter domains}
+For example, NATO IFB-CO-13859-TRITON states:
+\Bquote{
+    5.5.6 TRITON software will be developed with any variations from the languages or specifications given below as "Preferred Languages":
+
+    C++ [ISO/IEC 14882]
+
+
+    [T1-R1791]
+    TRITON shall comply with the standards and language specifications given in the Description as the Preferred Languages. 
+    \b{Any variations from the languages or specifications shall be agreed with the Purchaser}
+}
+}
+
+\slide{
+\slideh{Allowing unconditionally \'EM DASH' Teachability}
+
+Leaving \tcode{$identifiers} conditionally supported (either by actually saying so or by omission) is less than ideal for teaching and learning purposes.
+
+\codeblock("cpp"){
+#define foo$bar 3
+int main(){
+    return foo$bar;
+}
+}
+Is this a valid program?
+
+\br
+
+This question is not possible to answer without knowing details of the implementation.
+Experience shows people assume this is fine, even though it is currently non-portable.
+}
+
+\slide{
+\slideh{Allowing unconditionally \'EM DASH' Consistency}
+\codeblock("cpp"){
+#define f(x) #x
+#define g(x) f(x)
+#define foo bar
+g(foo$)
+}
+
+With conditional support for \tcode{$identifiers}, this program expands to either one of
+\ul{
+    \li{\tcode{"bar$"} if dollar identifiers are \b{not} supported}
+    \li{\tcode{"foo$"} if dollar identifiers are supported}
+} 
+
+This is a silent change in behavior and can lead to subtle bugs
+}
+
+\slide{
+\slideh{Allowing unconditionally \'EM DASH' Impl Reality}
+
+\table{
+\tr{
+    \th{Compiler}
+    \th{Default}
+    \th{CLI option}
+}
+\tr{
+    \td{Clang}
+    \td{✅ allowed}
+    \td{\tcode{-f[no-]dollars-in-identifiers}}
+}
+\tr{
+    \td{GCC}
+    \td{✅ allowed}
+    \td{\tcode{-f[no-]dollars-in-identifiers}}
+}
+\tr{
+    \td{MSVC}
+    \td{✅ allowed}
+    \td{\tcode{/Za} (disables all MS extensions)}
+}
+\tr{
+    \td{nvc++}
+    \td{✅ allowed}
+    \td{\nowrap{\tcode{-optk_allow_dollar_in_id_chars}}}
+}
+\tr{
+    \td{icx}
+    \td{✅ allowed}
+    \td{\tcode{-f[no-]dollars-in-identifiers}}
+}
+\tr{
+    \td{AOCC}
+    \td{✅ allowed}
+    \td{\tcode{-f[no-]dollars-in-identifiers}}
+}
+\tr{
+    \td{\cowel_html_element("span", (class="nowrap")){Fujitsu BS2000 C/C++}}
+    \td{✅ allowed}
+    \td{\tcode{-K [no_]dollar}}
+}
+\tr{
+    \td{EDG}
+    \td{\nowrap{❌ not allowed}}
+    \td{\tcode{--dollar}}
+}
+\tr{
+    \td{TASKING TriCore}
+    \td{\nowrap{❌ not allowed}}
+    \td{\tcode{--dollar}}
+}
+}
+}
+
+\slide{
+\slideh{Allowing unconditionally \'EM DASH' Impl Reality}
+
+\table{
+\tr{
+    \th{Compiler}
+    \th{Default}
+    \th{CLI option}
+}
+\tr{
+    \td{SDCC}
+    \td{\nowrap{❌ not allowed}}
+    \td{\tcode{-f[no-]dollars-in-identifiers}}
+}
+\tr{
+    \td{CompCert}
+    \td{✅ allowed*}
+    \td{\nowrap{\tcode{-Werror=dollar-in-identifier-extension}}}
+}
+\tr{
+    \td{TinyCC}
+    \td{✅ allowed}
+    \td{\tcode{-fno-dollars-in-identifiers}}
+}
+\tr{
+    \td{TinyCC}
+    \td{✅ allowed}
+    \td{\tcode{-fno-dollars-in-identifiers}}
+}
+\tr{
+    \td{chibicc}
+    \td{✅ allowed}
+    \td{❌ no opt-out}
+}
+\tr{
+    \td{\nowrap{TI C28x C/C++}}
+    \td{✅ allowed}
+    \td{not documented}
+}
+\tr{
+    \td{\nowrap{TI MSP430 C/C++}}
+    \td{✅ allowed}
+    \td{not documented}
+}
+\tr{
+    \td{\nowrap{TI C7000 C/C++}}
+    \td{✅ allowed}
+    \td{not documented}
+}
+}
+\footnote{a single \tcode{$} is not supported in CompCert, all other positions are}
+}
+
+
+\slide{
+    \slideh{Allowing unconditionally \'EM DASH' Historic Impls}
+\table{
+\tr{
+    \th{Compiler}
+    \th{Default}
+    \th{Note}
+}
+\tr{
+    \td{6065 cc65}
+    \td{\nowrap{❌ not allowed}}
+    \td{Legacy platform}
+}
+\tr{
+    \td{\nowrap{Unix V4 C}}
+    \td{\nowrap{❌ not allowed}}
+    \td{1972}
+}
+\tr{
+    \td{Decus C}
+    \td{✅ allowed}
+    \td{1979}
+}
+\tr{
+    \td{\nowrap{VAX-11 C 1.0}}
+    \td{✅ allowed}
+    \td{1982}
+}
+\tr{
+    \td{\nowrap{Microsoft C 2.03}}
+    \td{✅ allowed}
+    \td{1984, removed in 3.0}
+}
+\tr{
+    \td{\nowrap{Borland Turbo C}}
+    \td{✅ allowed}
+    \td{1987, removed in 3.0}
+}
+\tr{
+    \td{\nowrap{HP C/HP-UX}}
+    \td{✅ allowed}
+    \td{2004}
+}
+\tr{
+    \td{\nowrap{DEC C++}}
+    \td{✅ allowed}
+    \td{1997}
+}
+\tr{
+    \td{\nowrap{cfront}}
+    \td{✅ conditionally allowed}
+    \td{1987, required for apollo C}
+}
+\tr{
+    \td{\nowrap{Apollo C}}
+    \td{✅ allowed}
+    \td{1988, not as first character}
+}
+}
+}

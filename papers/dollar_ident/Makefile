@@ -1,4 +1,7 @@
 all:
 	cowel run draft.cow generated/draft.html
 
-.PHONY: all
+presentation:
+	cowel run presentation.cow generated/presentation.html
+
+.PHONY: all presentation
